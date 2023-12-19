@@ -7,30 +7,34 @@
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
-            @include('layouts.navigation')
+    <body>
+        <div class="flex h-screen">
 
-            <!-- Page Heading -->
-            @if (isset($header))
-                <header class="bg-white shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endif
-
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
+    <!-- Sidebar -->
+    <div class="flex flex-col w-64 bg-gray-100 shadow-lg">
+        <div class="flex items-center justify-center h-20">
+            <h1><a href="{{ route('home') }}"><img src="{{ asset('images/bakerista_logo_200px.png') }}" alt="bakerista" width="175px"></a></h1>
         </div>
-    </body>
+        @include('commons.leftnav')
+        
+    </div>
+    
+    {{--ライトコンテンツ--}}
+    <div class="flex-1 flex flex-col overflow-hidden">
+        
+        {{--ナビゲーションバー--}}
+        @include('commons.navbar')
+
+        {{--メインコンテンツ --}}
+        @include('commons.error_messages')
+        
+        @yield('content')
+    </div>
+
+</div>
+
+</body>
 </html>
