@@ -1,4 +1,4 @@
-<header class="mb-4 bg-gray-100">
+<header class="bg-base-100">
     <nav class="navbar flex flex-row-reverse">
         <div class="flex-none">
             <form method="POST" action="{{ route('logout') }}">

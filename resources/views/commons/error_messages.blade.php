@@ -1,4 +1,3 @@
-<p>error_messages.blade.php</p>
 @if (count($errors) > 0)
 
     @foreach ($errors->all() as $error)
