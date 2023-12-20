@@ -1,4 +1,4 @@
-<header class="bg-base-100">
+<header>
     <nav class="navbar flex flex-row-reverse">
         <div class="flex-none">
             <form method="POST" action="{{ route('logout') }}">
@@ -22,6 +22,15 @@
                     </ul>
                 </div>
             </form>
+        </div>
+        <div class="flex-none">
+            <div>
+                <input type="radio" name="theme" class="theme-controller radio radio-primary" aria-label="デフォルト" value="emerald" checked/>
+                <input type="radio" name="theme" class="theme-controller radio radio-primary" aria-label="カップケーキ" value="cupcake"/>
+                <input type="radio" name="theme" class="theme-controller radio radio-primary" aria-label="レトロ" value="retro"/>
+                <input type="radio" name="theme" class="theme-controller radio radio-primary" aria-label="レモネード" value="lemonade"/>
+                <input type="radio" name="theme" class="theme-controller radio radio-primary" aria-label="バレンタイン" value="valentine"/>
+            </div>
         </div>
     </nav>
 </header>

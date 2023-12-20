@@ -16,6 +16,20 @@
                 </label>
                 <input type="text" name="name" class="input input-bordered w-full">
             </div>
+            
+            <div class="form-control my-4">
+                <label for="first_name" class="label">
+                    <span class="label-text">名</span>
+                </label>
+                <input type="text" name="first_name" class="input input-bordered w-full">
+            </div>
+
+            <div class="form-control my-4">
+                <label for="phone" class="label">
+                    <span class="label-text">電話番号</span>
+                </label>
+                <input type="text" name="phone" class="input input-bordered w-full">
+            </div>
 
             <div class="form-control my-4">
                 <label for="email" class="label">
