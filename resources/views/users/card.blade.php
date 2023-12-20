@@ -6,8 +6,7 @@
     <p>電話番号：{{ $user->phone }}</p>
     <p>Eメール：{{ $user->email }}</p>
     <div class="card-actions justify-end">
-      <button class="btn btn-primary">修正</button>
-      <button class="btn btn-danger">ユーザー削除</button>
+      @include('commons.user_edit_del_button')
     </div>
   </div>
 </div>

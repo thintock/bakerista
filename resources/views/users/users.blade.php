@@ -16,7 +16,7 @@
     <tbody>
       <!-- row 1 -->
       @foreach ($users as $user)
-      <tr>
+      <tr @class(['bg-base-200' => Auth::id() == $user->id])>
         <th>{{ $user->id }}</th>
         <td><img src="{{ asset('images/bakema_gray.png') }}" alt="prof" width="50px"></td>
         <td>{{ $user->name }}</td>
