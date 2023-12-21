@@ -11,19 +11,16 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     
     </head>
-    <body class="theme-light">
-        <div class="flex h-screen">
-            <!-- Sidebar -->
-            <div class="flex flex-col w-64 shadow-lg">
-                <div class="flex items-center justify-center h-20">
-                    <h1><a href="{{ route('home') }}"><img src="{{ asset('images/bakerista_logo_200px.png') }}" alt="bakerista" width="175px"></a></h1>
-                </div>
+    <body>
+        <div class="md:grid md:grid-cols-12 md:gap-4 h-screen">
+            <!-- レフトナビゲーション -->
+            <div class="md:col-span-3 lg:col-span-2 text-center shadow-lg">
                 @include('commons.leftnav')
             </div>
             {{--ライトコンテンツ--}}
-            <div class="flex-1 flex flex-col overflow-hidden">
+            <div class="md:col-span-9 lg:col-span-10 text-center">
         
-                {{--ナビゲーションバー--}}
+                {{--トップナビゲーションバー--}}
                 @include('commons.navbar')
                 <div class="m-6">
                     {{--メインコンテンツ --}}
