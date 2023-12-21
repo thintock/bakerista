@@ -25,7 +25,7 @@
         </div>
         <div class="flex-none">
             <div>
-                <input type="radio" name="theme" class="theme-controller radio radio-primary" aria-label="デフォルト" value="emerald" checked/>
+                <input type="radio" name="theme" class="theme-controller radio radio-primary" aria-label="エメラルド" value="emerald"/>
                 <input type="radio" name="theme" class="theme-controller radio radio-primary" aria-label="カップケーキ" value="cupcake"/>
                 <input type="radio" name="theme" class="theme-controller radio radio-primary" aria-label="レトロ" value="retro"/>
                 <input type="radio" name="theme" class="theme-controller radio radio-primary" aria-label="レモネード" value="lemonade"/>

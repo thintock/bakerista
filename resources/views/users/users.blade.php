@@ -21,7 +21,7 @@
         </div>
 
         <div>
-          <div class="text-center font-bold text-indigo-500 md:text-lg">{{ $user->name }}&nbsp;{{ $user->first_name }}</div>
+          <div class="text-center font-bold text-base-600 md:text-lg">{{ $user->name }}&nbsp;{{ $user->first_name }}</div>
           <p class="mb-3 text-center text-sm text-base-500 md:mb-4 md:text-base">{{ $user->email }}<br>{{ $user->phone }}</p>
 
           <!-- social - start -->

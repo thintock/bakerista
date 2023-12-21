@@ -9,12 +9,13 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
-    
+        @include('commons.theme_controller')
     </head>
     <body>
+        
         <div class="md:grid md:grid-cols-12 md:gap-4 h-screen">
             <!-- レフトナビゲーション -->
-            <div class="md:col-span-3 lg:col-span-2 text-center shadow-lg">
+            <div class="md:col-span-3 lg:col-span-2 text-center shadow-lg bg-base-200">
                 @include('commons.leftnav')
             </div>
             {{--ライトコンテンツ--}}
@@ -24,7 +25,7 @@
                 @include('commons.navbar')
                 <div class="m-6">
                     {{--メインコンテンツ --}}
-                    @include('commons.error_messages')
+                    @include('commons.messages')
                 
                     @yield('content')
                 </div>
