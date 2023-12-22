@@ -13,6 +13,10 @@
         <!--検索可能なセレクトボックス-->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <link href="https://cdn.jsdelivr.net/npm/select2/dist/css/select2.min.css" rel="stylesheet" />
+        <!--日付ピッカー用-->
+        <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet" />
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
     </head>
     <body>
         
@@ -39,6 +43,13 @@
         <script>
         $(document).ready(function() {
             $('.select-search').select2({width:'100%'});
+        });
+        //日付ピッカー
+        flatpickr("#datePicker", {
+            altInput: true,
+            altFormat: "Y年m月d日", // 表示上の日付形式
+            dateFormat : 'Ymd', // 20210524の形式で表示
+            defaultDate : new Date()
         });
         </script>
     </body>

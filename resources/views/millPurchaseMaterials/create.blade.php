@@ -6,6 +6,13 @@
         <form action="{{ route('millPurchaseMaterials.store') }}" method="POST">
             @csrf
 
+            <div class="form-control">
+                <label class="label" for="arrival_date">
+                    <span class="label-text">入荷日<span class="text-accent">(YYYY MM DD)</span></span>
+                </label>
+                <input type="text" id="datePicker" name="arrival_date" value="{{ date("Ymd"); }}" class="input input-bordered" required>
+            </div>
+            
             {{-- 原材料の選択 --}}
             <div class="form-control">
                 <label class="label" for="materials_id">

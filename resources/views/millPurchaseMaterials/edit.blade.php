@@ -16,6 +16,14 @@
             </div>
 
             <div class="form-control">
+                <label class="label" for="arrival_date">
+                    <span class="label-text">入荷日付</span>
+                </label>
+                <!-- material_idはreadonly属性で編集不可 -->
+                <input type="text" id="datePicker" name="arrival_date" value="{{ $millPurchaseMaterial->arrival_date }}" class="input input-bordered">
+            </div>
+            
+            <div class="form-control">
                 <label class="label" for="year_of_production">
                     <span class="label-text">生産年度<span class="text-accent">（変更不可）</span></span>
                 </label>

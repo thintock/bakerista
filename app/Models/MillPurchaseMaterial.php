@@ -11,6 +11,7 @@ class MillPurchaseMaterial extends Model
 
     protected $fillable = [
         'materials_id',
+        'arrival_date',
         'year_of_production',
         'flecon_number',
         'total_amount',

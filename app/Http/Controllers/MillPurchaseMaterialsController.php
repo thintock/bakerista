@@ -25,6 +25,7 @@ class MillPurchaseMaterialsController extends Controller
     {
         $validateData = $request->validate([
         'materials_id' => 'required|exists:materials,id', // materialsテーブルのidが存在すること
+        'arrival_date' => 'nullable|date', //日付であること、またはnull許可
         'year_of_production' => 'required|string|size:2', // 文字列で長さが2
         'flecon_number' => 'required|string|size:3', // 文字列で長さが3
         'total_amount' => 'nullable|integer', // 整数であること、またはnull許可
@@ -70,6 +71,7 @@ class MillPurchaseMaterialsController extends Controller
 
         // バリデーションを実行
         $validatedData = $request->validate([
+            'arrival_date' => 'nullable|date',
             'year_of_production' => 'required|max:2',
             'flecon_number' => 'required|max:3',
             'total_amount' => 'nullable|integer',
@@ -80,6 +82,7 @@ class MillPurchaseMaterialsController extends Controller
         // ただし、editではlot_numberは変更しないのでここでは再生成しません。
 
         // 更新可能な情報のみを更新
+        $millPurchaseMaterial->arrival_date = $validatedData['arrival_date'];
         $millPurchaseMaterial->year_of_production = $validatedData['year_of_production'];
         $millPurchaseMaterial->flecon_number = $validatedData['flecon_number'];
         $millPurchaseMaterial->total_amount = $validatedData['total_amount'];
