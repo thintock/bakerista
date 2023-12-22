@@ -28,8 +28,8 @@
                 <input type="radio" name="theme" class="theme-controller radio radio-primary" aria-label="エメラルド" value="emerald"/>
                 <input type="radio" name="theme" class="theme-controller radio radio-primary" aria-label="カップケーキ" value="cupcake"/>
                 <input type="radio" name="theme" class="theme-controller radio radio-primary" aria-label="レトロ" value="retro"/>
-                <input type="radio" name="theme" class="theme-controller radio radio-primary" aria-label="レモネード" value="lemonade"/>
                 <input type="radio" name="theme" class="theme-controller radio radio-primary" aria-label="バレンタイン" value="valentine"/>
+                <input type="radio" name="theme" class="theme-controller radio radio-primary" aria-label="ダーク" value="dark"/>
             </div>
         </div>
     </nav>

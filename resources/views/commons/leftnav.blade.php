@@ -6,22 +6,22 @@
     <!-- Navigation Items -->
     <li>
         <a href="{{ route('materials.index') }}" class="flex items-center p-3 hover:bg-base-300">
-            <span class="text-primary-content">原料管理</span>
+            <span>原材料マスター</span>
+        </a>
+    </li>
+    <li>
+        <a href="{{ route('millPurchaseMaterials.index') }}" class="flex items-center p-3 hover:bg-base-300">
+            <span>原料入荷管理</span>
         </a>
     </li>
     <li>
         <a href="#" class="flex items-center p-3 hover:bg-base-300">
-            <span class="text-primary-content">原料入荷管理</span>
+            <span>精麦管理</span>
         </a>
     </li>
     <li>
         <a href="#" class="flex items-center p-3 hover:bg-base-300">
-            <span class="text-primary-content">精麦管理</span>
-        </a>
-    </li>
-    <li>
-        <a href="#" class="flex items-center p-3 hover:bg-base-300">
-            <span class="text-primary-content">製粉管理</span>
+            <span>製粉管理</span>
         </a>
     </li>
 </ul>

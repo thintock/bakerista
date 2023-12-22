@@ -10,6 +10,9 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         @include('commons.theme_controller')
+        <!--検索可能なセレクトボックス-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/select2/dist/css/select2.min.css" rel="stylesheet" />
     </head>
     <body>
         
@@ -31,5 +34,12 @@
                 </div>
             </div>
         </div>
+        <!--検索可能なセレクトボックス-->
+        <script src="https://cdn.jsdelivr.net/npm/select2/dist/js/select2.min.js"></script>
+        <script>
+        $(document).ready(function() {
+            $('.select-search').select2({width:'100%'});
+        });
+        </script>
     </body>
 </html>

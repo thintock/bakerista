@@ -8,14 +8,14 @@
 
             <div class="form-control">
                 <label class="label" for="materials_code">
-                    <span class="label-text">原材料コード</span>
+                    <span class="label-text">原材料コード（６桁 ネクストエンジンと連動）<span class="text-accent">＊必須</span></span>
                 </label>
-                <input type="text" id="materials_code" name="materials_code" class="input input-bordered" required>
+                <input type="text" id="materials_code" name="materials_code" class="input input-bordered" required autofocus>
             </div>
 
             <div class="form-control">
                 <label class="label" for="materials_name">
-                    <span class="label-text">原材料名</span>
+                    <span class="label-text">原材料名（栽培方法＋小麦品種名）<span class="text-accent">＊必須</span></span>
                 </label>
                 <input type="text" id="materials_name" name="materials_name" class="input input-bordered" required>
             </div>
@@ -35,7 +35,7 @@
             </div>
 
             <div class="form-control mt-6">
-                <button type="submit" class="btn btn-primary">登録</button>
+                <button type="submit" class="btn btn-primary">原材料登録</button>
             </div>
         </form>
     </div>

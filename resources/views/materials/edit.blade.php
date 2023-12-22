@@ -3,36 +3,36 @@
 @section('content')
 <div class="container mx-auto px-4 py-6">
     <div class="w-full lg:w-1/2 mx-auto bg-base-100 shadow-xl p-6">
-        <form action="{{ route('materials.update', $material->id) }}" method="POST">
+        <form action="{{ route('materials.update', $material->id) }}" class="mb-4" method="POST">
             @csrf
             @method('PUT')
 
             <div class="form-control">
                 <label class="label" for="materials_code">
-                    <span class="label-text">原材料コード</span>
+                    <span class="label-text">原材料コード<span class="text-accent">（変更不可）</span></span>
                 </label>
-                <input type="text" id="materials_code" name="materials_code" value="{{ $material->materials_code }}" class="input input-bordered" required>
+                <input type="text" id="materials_code" name="materials_code" value="{{ $material->materials_code }}" class="input input-bordered bg-base-200" required readonly>
             </div>
 
             <div class="form-control">
                 <label class="label" for="materials_name">
-                    <span class="label-text">原材料名</span>
+                    <span class="label-text">原材料名<span class="text-accent">＊必須</span></span>
                 </label>
                 <input type="text" id="materials_name" name="materials_name" value="{{ $material->materials_name }}" class="input input-bordered" required>
             </div>
 
             <div class="form-control">
                 <label class="label" for="materials_purchaser">
-                    <span class="label-text">仕入れ先名</span>
+                    <span class="label-text">仕入れ先名<span class="text-accent">（変更不可）</span></span>
                 </label>
-                <input type="text" id="materials_purchaser" name="materials_purchaser" value="{{ $material->materials_purchaser }}" class="input input-bordered">
+                <input type="text" id="materials_purchaser" name="materials_purchaser" value="{{ $material->materials_purchaser }}" class="input input-bordered bg-base-200" required readonly>
             </div>
 
             <div class="form-control">
                 <label class="label" for="materials_producer_name">
-                    <span class="label-text">生産者名</span>
+                    <span class="label-text">生産者名<span class="text-accent">（変更不可）</span></span>
                 </label>
-                <input type="text" id="materials_producer_name" name="materials_producer_name" value="{{ $material->materials_producer_name }}" class="input input-bordered">
+                <input type="text" id="materials_producer_name" name="materials_producer_name" value="{{ $material->materials_producer_name }}" class="input input-bordered bg-base-200" readonly>
             </div>
 
             <div class="form-control mt-6">
@@ -43,7 +43,7 @@
         <form action="{{ route('materials.destroy', $material->id) }}" method="POST" onsubmit="return confirm('本当に削除しますか？');">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="btn btn-error">削除</button>
+                    <button type="submit" class="btn btn-error w-full">削除</button>
                 </form>
     </div>
 </div>

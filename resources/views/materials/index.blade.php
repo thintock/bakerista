@@ -3,8 +3,13 @@
 @section('content')
     {{--ユーザ一覧--}}
     <div class="container mx-auto px-4 py-6">
+      <div class="justify-center">
+        <h2>原材料マスター</h2>
+        <p>原材料は品種名/仕入れ先/生産者/ごとに作成します。<br>
+        価格や生産年度などは変動するのでここでは登録せずに入荷登録の際に登録します。</p>
+      </div>
     <div class="flex justify-end mb-4">
-        <a href="{{ route('materials.create') }}" class="btn btn-primary">新規作成</a>
+        <a href="{{ route('materials.create') }}" class="btn btn-primary">新規原材料登録</a>
     </div>
 
     @if ($materials->count() > 0)
