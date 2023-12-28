@@ -44,8 +44,20 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
     
+    // materialsとの関連
     public function materials()
     {
         return $this->hasMany(Material::class);
+    }
+    // mill_purchase_materialsとの関連
+    public function millPurchaseMaterials()
+    {
+        return $this->hasMany(MillPurchaseMaterial::class);
+    }
+
+    // mill_polished_materialsとの関連
+    public function millPolishedMaterials()
+    {
+        return $this->hasMany(MillPolishedMaterial::class);
     }
 }

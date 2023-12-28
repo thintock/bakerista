@@ -9,14 +9,14 @@
 
     @if ($millPurchaseMaterials->count() > 0)
     <div class="overflow-x-auto">
-        <table class="table">
+        <table class="table table-xs">
         <!-- head -->
             <thead>
               <tr class="bg-base-200">
                 <th>ロットナンバー<br>入荷日</th>
                 <th>生産者<br>原材料</th>
                 <th>生産年度<br>フレコン番号</th>
-                <th>入荷量（kg）</th>
+                <th>入荷量<br>在庫量</th>
                 <th>仕入れ先<br>仕入れ価格（総額）</th>
                 <th></th>
               </tr>
@@ -37,7 +37,14 @@
                     <p>{{ $millPurchaseMaterial->year_of_production }}年度</p>
                     <p>{{ $millPurchaseMaterial->flecon_number }}</p>
                 </td>
-                <td><p>{{ $millPurchaseMaterial->total_amount }} kg</p></td>
+                <td>
+                    <p>{{ $millPurchaseMaterial->total_amount }} kg</p>
+                    <p>{{ $millPurchaseMaterial->remaining_amount }} kg
+                    @if($millPurchaseMaterial->is_finished)
+                    <span class="text-secondary">在庫なし</span>
+                    @else
+                    @endif</p>
+                </td>
                 <td>
                     <div class="badge badge-secondary badge-outline">{{ $millPurchaseMaterial->material->materials_purchaser }}</div>
                     <p>¥{{ number_format(floor($millPurchaseMaterial->cost), 0, '.', ',') }}</p>

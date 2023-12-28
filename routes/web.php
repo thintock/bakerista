@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\MaterialsController;
 use App\Http\Controllers\MillPurchaseMaterialsController;
+use App\Http\Controllers\MillPolishedMaterialsController;
 
 Route::get('/', function () {
     return view('dashboard');
@@ -20,4 +21,5 @@ Route::group(['middleware' => ['auth']], function() {
    Route::resource('users', UsersController::class, ['only' => ['index', 'show', 'edit', 'update', 'destroy']]); 
    Route::resource('materials', MaterialsController::class)->except(['show']);
    Route::resource('millPurchaseMaterials', MillPurchaseMaterialsController::class);
+   Route::resource('millPolishedMaterials', MillPolishedMaterialsController::class);
 });

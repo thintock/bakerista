@@ -15,7 +15,7 @@
         </a>
     </li>
     <li>
-        <a href="#" class="flex items-center p-3 hover:bg-base-300">
+        <a href="{{ route('millPolishedMaterials.index') }}" class="flex items-center p-3 hover:bg-base-300">
             <span>精麦管理</span>
         </a>
     </li>

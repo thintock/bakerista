@@ -19,7 +19,7 @@
                 <label class="label" for="arrival_date">
                     <span class="label-text">入荷日付</span>
                 </label>
-                <!-- material_idはreadonly属性で編集不可 -->
+                
                 <input type="text" id="datePicker" name="arrival_date" value="{{ $millPurchaseMaterial->arrival_date }}" class="input input-bordered">
             </div>
             
@@ -39,7 +39,7 @@
 
             <div class="form-control">
                 <label class="label" for="total_amount">
-                    <span class="label-text">入荷量（kg）</span>
+                    <span class="label-text">入荷量（kg）在庫数は自動再計算されます。</span>
                 </label>
                 <input type="number" id="total_amount" name="total_amount" value="{{ $millPurchaseMaterial->total_amount }}" class="input input-bordered">
             </div>

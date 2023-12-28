@@ -19,9 +19,9 @@
                     <span class="label-text">原材料</span>
                 </label>
                 <select id="materials_id" name="materials_id" class="select select-search select-bordered w-full max-w-xs">
-                    @foreach ($materials as $material)
-                        <option value="{{ $material->id }}">
-                            {{ $material->materials_code }} - {{ $material->materials_name }} ({{ $material->materials_purchaser }} - {{ $material->materials_producer_name }})
+                    @foreach ($millPurchaseMaterials as $millPurchaseMaterials)
+                        <option value="{{ $millPurchaseMaterials->id }}">
+                            {{ $millPurchaseMaterials->materials_code }} - {{ $millPurchaseMaterials->materials_name }} ({{ $millPurchaseMaterials->materials_purchaser }} - {{ $millPurchaseMaterials->materials_producer_name }})
                         </option>
                     @endforeach
                 </select>

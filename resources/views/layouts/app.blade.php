@@ -48,8 +48,8 @@
         flatpickr("#datePicker", {
             altInput: true,
             altFormat: "Y年m月d日", // 表示上の日付形式
-            dateFormat : 'Ymd', // 20210524の形式で表示
-            defaultDate : new Date()
+            dateFormat : 'Y-m-d', // 20210524の形式で表示
+            defaultDate: "{{ $millPurchaseMaterial->arrival_date ?? 'today' }}"
         });
         </script>
     </body>

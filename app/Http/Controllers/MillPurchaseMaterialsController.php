@@ -17,8 +17,8 @@ class MillPurchaseMaterialsController extends Controller
 
     public function create()
     {
-        $materials = Material::all(); //すべての原材料データを取得する
-        return view('millPurchaseMaterials.create', compact('materials'));
+        $millPurchaseMaterials = Material::all(); //すべての原材料データを取得する
+        return view('millPurchaseMaterials.create', compact('millPurchaseMaterials'));
     }
 
     public function store(Request $request)
@@ -28,7 +28,7 @@ class MillPurchaseMaterialsController extends Controller
         'arrival_date' => 'nullable|date', //日付であること、またはnull許可
         'year_of_production' => 'required|string|size:2', // 文字列で長さが2
         'flecon_number' => 'required|string|size:3', // 文字列で長さが3
-        'total_amount' => 'nullable|integer', // 整数であること、またはnull許可
+        'total_amount' => 'required|integer', // 整数であること、またはnull許可
         'cost' => 'nullable|numeric', // 数値であること、またはnull許可
         ]);
         
@@ -44,18 +44,17 @@ class MillPurchaseMaterialsController extends Controller
             // 既に存在する場合はエラーを返すか、別のロットナンバーを生成
             return back()->withErrors(['lot_number' => 'すでにロットナンバーが存在します。'])->withInput();
         } 
+        
+        // 入荷量から在庫量を作成
+        $remaining_amount = $validateData['total_amount'] ?? 0; // nullの場合は0を設定
+        
         $millPurchaseMaterial = new MillPurchaseMaterial($validateData);
         $millPurchaseMaterial->lot_number = $lotNumber; // ロットナンバーをセット
+        $millPurchaseMaterial->remaining_amount = $remaining_amount; // 在庫量をセット
         $millPurchaseMaterial->user_id = Auth::id(); // ユーザーIDをセット
         $millPurchaseMaterial->save();
 
         return redirect()->route('millPurchaseMaterials.index')->with('success', '原料入荷情報を登録しました。');
-    }
-
-    public function show($id)
-    {
-        $millPurchaseMaterial = MillPurchaseMaterial::findOrFail($id);
-        return view('millPurchaseMaterials.show', compact('millPurchaseMaterial'));
     }
 
     public function edit($id)
@@ -87,6 +86,14 @@ class MillPurchaseMaterialsController extends Controller
         $millPurchaseMaterial->flecon_number = $validatedData['flecon_number'];
         $millPurchaseMaterial->total_amount = $validatedData['total_amount'];
         $millPurchaseMaterial->cost = $validatedData['cost'];
+
+        // 在庫残量の再計算
+        $usedAmount = $millPurchaseMaterial->millPolishedMaterials()->sum('mill_purchase_material_polished.input_weight');
+        $remaining_amount = ($validatedData['total_amount'] ?? 0) - $usedAmount;
+
+        // 在庫量を更新し、is_finishedの状態を設定
+        $millPurchaseMaterial->remaining_amount = $remaining_amount;
+        $millPurchaseMaterial->is_finished = $remaining_amount <= 0;
 
         // レコードを保存
         $millPurchaseMaterial->save();

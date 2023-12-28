@@ -14,7 +14,7 @@
 
     @if ($materials->count() > 0)
     <div class="overflow-x-auto">
-        <table class="table">
+        <table class="table table-xs">
         <!-- head -->
             <thead>
               <tr class="bg-base-200">
