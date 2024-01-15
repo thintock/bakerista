@@ -27,7 +27,7 @@
               <tr style="border-bottom-width:0px">
                 <td>
                     <p>{{ $millPurchaseMaterial->lot_number }}</p>
-                    <p>{{ $millPurchaseMaterial->arrival_date }}</p>
+                    <p>{{ $millPurchaseMaterial->arrival_date->format('Y年m月d日') }}</p>
                 </td>
                 <td>
                     <div class="badge badge-secondary badge-outline">{{ $millPurchaseMaterial->material->materials_producer_name }}</div>

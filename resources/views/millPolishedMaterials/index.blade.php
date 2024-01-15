@@ -18,38 +18,51 @@
                         <p>精麦日付</p>
                     </th>
                     <th>
-                        <p>精麦済み</p>
                         <p>投入量</p>
+                        <p>投入原価</p>
                     </th>
-                    <th>原価</th>
-                    <th>投入原料ロット</th>
-                    <th>原料名</th>
-                    <th>使用重量(kg)</th>
-                    <th>使用原価</th>
+                    <th>
+                        <p>精麦歩留</p>
+                        <p>精麦済量</p>
+                    </th>
+                    <th></th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($millPolishedMaterials as $millPolishedMaterial)
-                <tr>
+                <tr class="border-b-0">
                     <td>
                         <p>{{ $millPolishedMaterial->polished_lot_number }}</p>
-                        <p>{{ $millPolishedMaterial->polished_date }}</p>
+                        <p>{{ $millPolishedMaterial->polished_date->format('Y年m月d日') }}</p>
                     </td>
                     <td>
-                        <p>{{ $millPolishedMaterial->total_output_weight }} kg</p>
-                        <p class="border-t">{{ $millPolishedMaterial->total_input_weight }} kg</p>
+                        <p class="mb-1">{{ round($millPolishedMaterial->total_input_weight, 1) }} kg</p>
+                        <p class="border-t border-base-200 pt-1">{{ number_format($millPolishedMaterial->total_input_cost) }} 円</p>
                     </td>
-                    <td>{{ number_format($millPolishedMaterial->total_input_cost) }} 円</td>
-                    <td class="border-l border-r border-base-200"colspan="4">
-                      <table class="table table-xs">
+                    <td>
+                        <div class="badge badge-primary badge-outline mb-1">{{ $millPolishedMaterial->polished_retention }} %</div>
+                        <p class="border-t border-base-200 pt-1">{{ round($millPolishedMaterial->total_output_weight, 1) }} kg</p>
+                    </td>
+                    <td class="border-l border-r border-base-200">
+                        <table class="table table-xs w-full">
+                            @if ($loop->first)
+                                <thead>
+                                    <tr>
+                                        <th class="w-1/5">投入原料ロット</th>
+                                        <th class="w-2/5">原料名</th>
+                                        <th class="w-1/5">投入重量</th>
+                                        <th class="w-1/5">投入原価</th>
+                                    </tr>
+                                </thead>
+                            @endif
                           <tbody>
                               @foreach ($millPolishedMaterial->millPurchaseMaterials as $millPurchaseMaterial)
                                 <tr>
-                                  <td><div>{{ $millPurchaseMaterial->lot_number }}</div></td>
-                                  <td><div>{{ $millPurchaseMaterial->material->materials_name }}</div></td>
-                                  <td><div>{{ $millPurchaseMaterial->pivot->input_weight }} kg</div></td>
-                                  <td><div>{{ number_format($millPurchaseMaterial->pivot->input_cost) }} 円</div></td>
+                                  <td class="w-1/5"><div>{{ $millPurchaseMaterial->lot_number }}</div></td>
+                                  <td class="w-2/5"><div>{{ $millPurchaseMaterial->material->materials_name }}</div></td>
+                                  <td class="w-1/5"><div>{{ $millPurchaseMaterial->pivot->input_weight }} kg</div></td>
+                                  <td class="w-1/5"><div>{{ number_format($millPurchaseMaterial->pivot->input_cost) }} 円</div></td>
                                 </tr>
                               @endforeach
                             </tbody>
@@ -57,6 +70,11 @@
                       </table>
                     </td>
                     <td><a href="{{ route('millPolishedMaterials.edit', $millPolishedMaterial->id) }}" class="btn btn-primary"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="18" height="18" color="#000000"><defs><style>.cls-6374f8d9b67f094e4896c676-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c676-1" d="M7.23,20.59l-4.78,1,1-4.78L17.89,2.29A2.69,2.69,0,0,1,19.8,1.5h0a2.7,2.7,0,0,1,2.7,2.7h0a2.69,2.69,0,0,1-.79,1.91Z"></path><line class="cls-6374f8d9b67f094e4896c676-1" x1="0.55" y1="22.5" x2="23.45" y2="22.5"></line><line class="cls-6374f8d9b67f094e4896c676-1" x1="19.64" y1="8.18" x2="15.82" y2="4.36"></line></svg></a></td>
+                </tr>
+                <tr>
+                    <td colspan="4" class="text-right">
+                        <p class="text-xs">作成者：{{ $millPolishedMaterial->user->name }} {{ $millPolishedMaterial->user->first_name }} 作成日：{{ $millPolishedMaterial->created_at->format('Y年m月d日 H時i分') }} 最終更新日：{{ $millPolishedMaterial->updated_at->format('Y年m月d日 H時i分') }}</p>
+                    </td>
                 </tr>
                 @endforeach
             </tbody>

@@ -20,7 +20,7 @@
                     <span class="label-text">入荷日付</span>
                 </label>
                 
-                <input type="text" id="datePicker" name="arrival_date" value="{{ $millPurchaseMaterial->arrival_date }}" class="input input-bordered">
+                <input type="text" id="datePicker" name="arrival_date" value="{{ $millPurchaseMaterial->arrival_date->format('Y年m月d日') }}" class="input input-bordered">
             </div>
             
             <div class="form-control">

@@ -10,6 +10,11 @@
         </a>
     </li>
     <li>
+        <a href="{{ route('millMachines.index') }}" class="flex items-center p-3 hover:bg-base-300">
+            <span>製粉機マスター</span>
+        </a>
+    </li>
+    <li>
         <a href="{{ route('millPurchaseMaterials.index') }}" class="flex items-center p-3 hover:bg-base-300">
             <span>原料入荷管理</span>
         </a>
@@ -20,7 +25,7 @@
         </a>
     </li>
     <li>
-        <a href="#" class="flex items-center p-3 hover:bg-base-300">
+        <a href={{ route('millFlourProductions.index') }} class="flex items-center p-3 hover:bg-base-300">
             <span>製粉管理</span>
         </a>
     </li>

@@ -36,11 +36,21 @@ class MillPolishedMaterialsController extends Controller
         $validatedPolishedData = $request->validate([
             'polished_date' => 'required|date',
             'total_output_weight' => 'required|numeric',
+            'polished_retention' => 'nullable|numeric|between:0,999.9',
+            'mill_whiteness_1' => 'nullable|numeric|between:0,99.9',
+            'mill_whiteness_2' => 'nullable|numeric|between:0,99.9',
+            'mill_whiteness_3' => 'nullable|numeric|between:0,99.9',
+            'mill_whiteness_4' => 'nullable|numeric|between:0,99.9',
+            'mill_whiteness_5' => 'nullable|numeric|between:0,99.9',
+            'mill_whiteness_6' => 'nullable|numeric|between:0,99.9',
+            'mill_whiteness_7' => 'nullable|numeric|between:0,99.9',
+            'mill_whiteness_8' => 'nullable|numeric|between:0,99.9',
         ]);
         
         $selectedMaterialIds = $request->input('selectMaterials');
         $inputWeights = $request->input('input_weights');
         $totalInputWeight = array_sum($inputWeights);
+        $totalOutputWeight = $request->input('total_output_weight');
         $totalInputCost = 0; 
 
         $polishedDate = Carbon::createFromFormat('Y-m-d', $request->input('polished_date'));
@@ -64,6 +74,12 @@ class MillPolishedMaterialsController extends Controller
         $polishedMaterial = new MillPolishedMaterial($validatedPolishedData);
         $polishedMaterial->total_input_weight = $totalInputWeight;
         $polishedMaterial->user_id = Auth::id();
+        // 精麦歩留りを計算し、値をセット
+        if ($totalInputWeight > 0) { // 0での除算を防ぐ
+            $polishedMaterial->polished_retention = ($totalOutputWeight / $totalInputWeight) * 100;
+        } else {
+            $polishedMaterial->polished_retention = null; // 入力重量が0または無効な場合、歩留りは計算できない
+        }
         $polishedMaterial->save();
         
         foreach ($selectedMaterialIds as $index => $materialId) {
@@ -146,7 +162,25 @@ class MillPolishedMaterialsController extends Controller
             // バリデーション
             $validatedData = $request->validate([
                 'total_output_weight' => 'required|numeric',
+                'polished_retention' => 'nullable|numeric|between:0,999.9',
+                'mill_whiteness_1' => 'nullable|numeric|between:0,99.9',
+                'mill_whiteness_2' => 'nullable|numeric|between:0,99.9',
+                'mill_whiteness_3' => 'nullable|numeric|between:0,99.9',
+                'mill_whiteness_4' => 'nullable|numeric|between:0,99.9',
+                'mill_whiteness_5' => 'nullable|numeric|between:0,99.9',
+                'mill_whiteness_6' => 'nullable|numeric|between:0,99.9',
+                'mill_whiteness_7' => 'nullable|numeric|between:0,99.9',
+                'mill_whiteness_8' => 'nullable|numeric|between:0,99.9',
             ]);
+            
+            $polishedMaterial->mill_whiteness_1 = $request->input('mill_whiteness_1');
+            $polishedMaterial->mill_whiteness_2 = $request->input('mill_whiteness_2');
+            $polishedMaterial->mill_whiteness_3 = $request->input('mill_whiteness_3');
+            $polishedMaterial->mill_whiteness_4 = $request->input('mill_whiteness_4');
+            $polishedMaterial->mill_whiteness_5 = $request->input('mill_whiteness_5');
+            $polishedMaterial->mill_whiteness_6 = $request->input('mill_whiteness_6');
+            $polishedMaterial->mill_whiteness_7 = $request->input('mill_whiteness_7');
+            $polishedMaterial->mill_whiteness_8 = $request->input('mill_whiteness_8');
             
             // 総重量の更新
             $polishedMaterial->total_output_weight = $validatedData['total_output_weight'];
@@ -156,7 +190,8 @@ class MillPolishedMaterialsController extends Controller
     
             // 中間テーブルから削除されるエントリのIDを取得
             $removedMaterialIds = $request->input('removeMaterials', []); // 削除するエントリのID配列
-            
+            // 精麦歩留計算のための値を取得
+            $totalOutputWeight = $request->input('total_output_weight');
             // 合計投入重量と投入原価を再計算
             $totalInputWeight = 0;
             $totalInputCost = 0;
@@ -238,7 +273,12 @@ class MillPolishedMaterialsController extends Controller
             // 総投入重量と総投入原価を更新
             $polishedMaterial->total_input_weight = $totalInputWeight;
             $polishedMaterial->total_input_cost = $totalInputCost;
-    
+            // 精麦歩留りを計算し、値をセット
+            if ($totalInputWeight > 0) { // 0での除算を防ぐ
+                $polishedMaterial->polished_retention = ($totalOutputWeight / $totalInputWeight) * 100;
+            } else {
+                $polishedMaterial->polished_retention = null; // 入力重量が0または無効な場合、歩留りは計算できない
+            }
             // 変更を保存
             $polishedMaterial->save();
     
