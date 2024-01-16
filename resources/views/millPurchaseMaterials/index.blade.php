@@ -4,7 +4,16 @@
     {{--ユーザ一覧--}}
     <div class="container mx-auto px-4 py-6">
     <div class="flex justify-end mb-4">
-        <a href="{{ route('millPurchaseMaterials.create') }}" class="btn btn-primary">入荷登録</a>
+        <a href="{{ route('millPurchaseMaterials.create') }}" class="btn btn-primary mr-1">入荷登録</a>
+        <form action="{{ route('millPurchaseMaterials.index') }}" method="GET" class="inline">
+            @if(request('show_all') == 'true')
+                <button type="submit" class="btn btn-secondary">在庫なしを表示しない</button>
+                <input type="hidden" name="show_all" value="false">
+            @else
+                <button type="submit" class="btn btn-accent">在庫なしも含める</button>
+                <input type="hidden" name="show_all" value="true">
+            @endif
+        </form>
     </div>
 
     @if ($millPurchaseMaterials->count() > 0)
@@ -41,7 +50,7 @@
                     <p>{{ $millPurchaseMaterial->total_amount }} kg</p>
                     <p>{{ $millPurchaseMaterial->remaining_amount }} kg
                     @if($millPurchaseMaterial->is_finished)
-                    <span class="text-secondary">在庫なし</span>
+                    <span class="text-accent">在庫なし</span>
                     @else
                     @endif</p>
                 </td>

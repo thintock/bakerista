@@ -36,17 +36,16 @@ class MillFlourProduction extends Model
         $thisInputCost = 0;
         
         foreach ($millPolishedMaterialIds as $index => $id) {
-        $polishedMaterial = MillPolishedMaterial::find($id);
-        if ($polishedMaterial !== null && $polishedMaterial->total_output_weight > 0) {
-            // 対応する input weight を取得
-            $inputWeight = $inputWeights[$index] ?? 0;
-            // total_input_costを計算
-            $thisInputCost = ($polishedMaterial->total_input_cost / $polishedMaterial->total_output_weight) * $inputWeight;
-            $calculatedInputCosts += $thisInputCost;
-            $inputCosts[] = $thisInputCost;
+            $polishedMaterial = MillPolishedMaterial::find($id);
+            if ($polishedMaterial !== null && $polishedMaterial->total_output_weight > 0) {
+                // 対応する input weight を取得
+                $inputWeight = $inputWeights[$index] ?? 0;
+                // total_input_costを計算
+                $thisInputCost = ($polishedMaterial->total_input_cost / $polishedMaterial->total_output_weight) * $inputWeight;
+                $calculatedInputCosts += $thisInputCost;
+                $inputCosts[] = $thisInputCost;
+            }
         }
-    }
-        
         // 製粉歩留率を計算
         $millingRetention = ($totalInputWeight > 0) 
             ? (($flourWeight + $branWeight) / $totalInputWeight) * 100
@@ -60,7 +59,25 @@ class MillFlourProduction extends Model
         ];
     }
     
-    // 以下関連テーブル定義
+    // remaining_polished_amount在庫更新処理
+    public function updatePolishedMaterialRemainingAmount($millFlourProductionId, $millPolishedMaterialIds, $inputWeights, $isNew = false)
+    {
+        // MillFlourProduction インスタンスを取得し、関連するMillPolishedMaterialsをロード
+        $production = MillFlourProduction::with('millPolishedmaterials')->findOrFail($millFlourProductionId);
+        foreach ($millPolishedMaterialIds as $index => $id) {
+            $polishedMaterial = $production->millPolishedMaterials->find($id);
+            if ($polishedMaterial) {
+                $oldInputWeight = $isNew ? 0 :$polishedMaterial->pivot->input_weight ?? 0; // 古い投入量をデータベースから取得
+                $newInputWeight = $inputWeights[$index] ?? 0; // 新しい投入量をフォームから取得
+                $difference = $oldInputWeight - $newInputWeight;  // 投入量の増減を計算
+                $newRemainingAmount = max($polishedMaterial->remaining_polished_amount + $difference, 0); // 差分を計算
+                $polishedMaterial->remaining_polished_amount = $newRemainingAmount;
+                $polishedMaterial->is_finished = ($newRemainingAmount <= 0);
+                $polishedMaterial->save();
+            }
+        }
+    }
+    
     // 関連するMillPolishedMaterialsモデルを取得
     public function millPolishedMaterials()
     {

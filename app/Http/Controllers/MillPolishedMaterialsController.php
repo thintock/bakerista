@@ -12,12 +12,18 @@ use Illuminate\Support\Facades\DB; // トランザクション使用
 class MillPolishedMaterialsController extends Controller
 {
     // Display a listing of the polished materials.
-    public function index()
+    public function index(Request $request)
     {
-        $millPolishedMaterials = MillPolishedMaterial::orderBy('polished_lot_number')->paginate(10);
-        return view('millPolishedMaterials.index', compact('millPolishedMaterials'));
+        if ($request->input('show_all') == 'true') {
+            $millPolishedMaterials = MillPolishedMaterial::orderBy('polished_lot_number')->paginate(10);
+        }else {
+        $millPolishedMaterials = MillPolishedMaterial::where('is_finished', false)
+        ->orderBy('polished_lot_number')
+        ->paginate(10);
     }
 
+    return view('millPolishedMaterials.index', compact('millPolishedMaterials'));
+} 
     // Show the form for creating a new polished material.
     public function create()
     {
@@ -28,7 +34,7 @@ class MillPolishedMaterialsController extends Controller
     }
 
     public function store(Request $request)
-    {   
+    {
     // トランザクション開始
     DB::beginTransaction();
 
@@ -73,6 +79,7 @@ class MillPolishedMaterialsController extends Controller
 
         $polishedMaterial = new MillPolishedMaterial($validatedPolishedData);
         $polishedMaterial->total_input_weight = $totalInputWeight;
+        $polishedMaterial->remaining_polished_amount = $request->input('total_output_weight');
         $polishedMaterial->user_id = Auth::id();
         // 精麦歩留りを計算し、値をセット
         if ($totalInputWeight > 0) { // 0での除算を防ぐ
@@ -159,6 +166,8 @@ class MillPolishedMaterialsController extends Controller
         try {
     
             $polishedMaterial = MillPolishedMaterial::with('millPurchaseMaterials')->findOrFail($id);
+            
+            $currentTotalOutputWeight = $polishedMaterial->total_output_weight; // 現在の精麦済み量を取得
             // バリデーション
             $validatedData = $request->validate([
                 'total_output_weight' => 'required|numeric',
@@ -172,18 +181,24 @@ class MillPolishedMaterialsController extends Controller
                 'mill_whiteness_7' => 'nullable|numeric|between:0,99.9',
                 'mill_whiteness_8' => 'nullable|numeric|between:0,99.9',
             ]);
-            
-            $polishedMaterial->mill_whiteness_1 = $request->input('mill_whiteness_1');
-            $polishedMaterial->mill_whiteness_2 = $request->input('mill_whiteness_2');
-            $polishedMaterial->mill_whiteness_3 = $request->input('mill_whiteness_3');
-            $polishedMaterial->mill_whiteness_4 = $request->input('mill_whiteness_4');
-            $polishedMaterial->mill_whiteness_5 = $request->input('mill_whiteness_5');
-            $polishedMaterial->mill_whiteness_6 = $request->input('mill_whiteness_6');
-            $polishedMaterial->mill_whiteness_7 = $request->input('mill_whiteness_7');
-            $polishedMaterial->mill_whiteness_8 = $request->input('mill_whiteness_8');
+            $polishedMaterial->mill_whiteness_1 = $validatedData['mill_whiteness_1'] ?? null;
+            $polishedMaterial->mill_whiteness_2 = $validatedData['mill_whiteness_2'] ?? null;
+            $polishedMaterial->mill_whiteness_3 = $validatedData['mill_whiteness_3'] ?? null;
+            $polishedMaterial->mill_whiteness_4 = $validatedData['mill_whiteness_4'] ?? null;
+            $polishedMaterial->mill_whiteness_5 = $validatedData['mill_whiteness_5'] ?? null;
+            $polishedMaterial->mill_whiteness_6 = $validatedData['mill_whiteness_6'] ?? null;
+            $polishedMaterial->mill_whiteness_6 = $validatedData['mill_whiteness_7'] ?? null;
+            $polishedMaterial->mill_whiteness_6 = $validatedData['mill_whiteness_8'] ?? null;
             
             // 総重量の更新
             $polishedMaterial->total_output_weight = $validatedData['total_output_weight'];
+            
+            // 在庫remaining_polished_amount,is_finishedの更新
+            $currentRemaining = $polishedMaterial->remaining_polished_amount; // 現在の在庫量を取得
+            $result = MillPolishedMaterial::calculateRemaining($polishedMaterial->remaining_polished_amount, $validatedData['total_output_weight'], $currentTotalOutputWeight); //モデルで新しい在庫量を計算
+            $polishedMaterial->remaining_polished_amount = $result['remaining'];
+            $polishedMaterial->is_finished = $result['is_finished']; 
+            
             // 使用原料の更新（中間テーブル）
             $selectedMaterialIds = $request->input('selectMaterials', []);
             $inputWeights = $request->input('input_weights', []);

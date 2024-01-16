@@ -36,6 +36,8 @@ class MillPolishedMaterial extends Model
         'total_output_weight',
         'total_input_cost',
         'polished_retention',
+        'remaining_polished_amount',
+        'is_finished',
         'mill_whiteness_1',
         'mill_whiteness_2',
         'mill_whiteness_3',
@@ -49,6 +51,22 @@ class MillPolishedMaterial extends Model
 
     // 日付として扱う属性を追加
     protected $dates = ['polished_date'];
+    
+    // 在庫残量 remaining_polished_amountの計算
+    // updateの際には、$requestのtotal_output_weightと現在のremaining_polished_amountの
+    // 値の差分を計算し、その分だけremaining_polished_amountの数を修正する。
+    // また、在庫がゼロ以下になれば、is_finishedをtrueにゼロ以上だったらis_finishedを
+    // falseにする処理を入れる。
+    public static function calculateRemaining($currentRemaining, $newTotalOutputWeight, $currentTotalOutputWeight) 
+    {
+        $difference = $newTotalOutputWeight - $currentTotalOutputWeight; //total_output_weightの変更を計算
+        $newRemaining = $currentRemaining + $difference; // 新しい在庫量を計算
+        $isFinished = $newRemaining <= 0; // 在庫量が0以下ならis_finishedをtrueに、それ以外ならfalseに設定
+        return [
+            'remaining' => max($newRemaining, 0),
+            'is_finished' => $isFinished
+            ]; // 在庫がマイナスにならないようにチェック
+    }
     
     /**
      * Userモデルとの関連付け

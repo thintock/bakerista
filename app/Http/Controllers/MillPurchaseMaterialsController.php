@@ -9,9 +9,15 @@ use Illuminate\Support\Facades\Auth;
 
 class MillPurchaseMaterialsController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $millPurchaseMaterials = MillPurchaseMaterial::orderBy('lot_number')->paginate(10);
+        if ($request->input('show_all') == 'true') {
+            $millPurchaseMaterials = MillPurchaseMaterial::orderBy('lot_number')->paginate(10);
+        } else {
+            $millPurchaseMaterials = MillPurchaseMaterial::where('is_finished', false)
+            ->orderBy('lot_number')
+            ->paginate(10);
+        }
         return view('millPurchaseMaterials.index', compact('millPurchaseMaterials'));
     }
 

@@ -6,6 +6,7 @@ use App\Models\MillFlourProduction;
 use App\Models\MillFlourProductionDetail;
 use App\Models\MillPolishedMaterial;
 use App\Models\MillMachine;
+use App\Models\Material;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB; // Add this line
@@ -16,8 +17,12 @@ class MillFlourProductionsController extends Controller
     // index method: 一覧表示
     public function index()
     {
-        // 'production_date' で降順に並び替えて、ページネーションで1ページあたり25個表示
-    $productions = MillFlourProduction::orderBy('production_date', 'desc')->paginate(25);
+        // 'production_date' で降順に並び替えて関連するMaterialもロードし、ページネーションで1ページあたり25個表示
+    $productions = MillFlourProduction::with([
+        'millPolishedMaterials.millPurchaseMaterials.material'
+        ])
+        ->orderBy('production_date', 'desc')
+        ->paginate(25);
     return view('millFlourProductions.index', compact('productions'));
     }
 
@@ -28,7 +33,10 @@ class MillFlourProductionsController extends Controller
         $millMachines = MillMachine::all();
         
         // 全ての精麦済原料を取得
-        $millPolishedMaterials = MillPolishedMaterial::all();
+        $millPolishedMaterials = MillPolishedMaterial::with('millPurchaseMaterials.material')
+        ->where('is_finished', false)
+        ->orderBy('polished_lot_number', 'asc') // ロットナンバー昇順
+        ->get(); // MillPolishedMaterialと関連するMillPurchaseMaterial、Materialをロード
         
         return view('millFlourProductions.create', compact('millMachines', 'millPolishedMaterials'));
     }
@@ -51,8 +59,14 @@ class MillFlourProductionsController extends Controller
                 'bran_weight' => 'nullable|numeric|min:0',
                 'remarks' => 'nullable|string|max:1000',
                 'mill_machine_id' => 'required|exists:mill_machines,id',
+                'mill_polished_material_ids' => 'required|array',
+                'mill_polished_material_ids.*' => 'required|distinct|exists:mill_polished_materials,id',
                 'input_weights' => 'required|array',
                 'input_weights.*' => ['required', 'numeric', 'min:0', 'regex:/^\d{0,5}(\.\d{1,2})?$/'],
+                ],[
+                    'mill_machine_id.required' => '製粉機を選択してください。',
+                    'mill_machine_id.exists' => '選択された製粉機は存在しません。',
+                    
             ]);
             
             // 対応する製粉機のmachine_numberを取得
@@ -63,22 +77,28 @@ class MillFlourProductionsController extends Controller
             
             // ロット番号作成
             $firstPolishedMaterial = MillPolishedMaterial::first();
-            if ($firstPolishedMaterial) {
+            if (!$firstPolishedMaterial) {
+                return back()->withErrors(['msg' => '精麦済み原料が見つかりません。']);
+            }
+            
                 $polishedLotNumber = $firstPolishedMaterial->polished_lot_number;
                 // production_dateから月と日を取得してフォーマット
                 $date = new DateTime($validatedData['production_date']);
                 $monthDay = $date->format('md'); // 月と日の4文字
                 // 製粉機番号（machine_number）を2桁にフォーマットする
                 $machineNumberFormatted = sprintf("%02d", $millMachine->machine_number); 
-                // ロット番号を組み立てる
-                $lotNumber = $polishedLotNumber . $monthDay . $machineNumberFormatted;
+                // バッチ数を１から登録
+                $additionalNumber = 1;
+                do {
+                    // ロット番号を組み立てる
+                    $lotNumber = $polishedLotNumber . $monthDay . $machineNumberFormatted . $additionalNumber;
+                    
+                    // 追加部分の数字を増やす（次のループのため）
+                    $additionalNumber++;
+                } while (MillFlourProduction::where('production_lot_number', $lotNumber)->exists());
+                
                 // ロット番号を検証済みデータに追加
                 $validatedData['production_lot_number'] = $lotNumber;
-            } else {
-                // 例外処理やエラーハンドリング
-                return back()->withErrors(['msg' => '精麦済み原料が見つかりません。']);
-            }
-
             
             $millPolishedMaterialIds = $request->input('mill_polished_material_ids', []);
             // 原料投入量と原価と製粉歩留率を計算
@@ -111,6 +131,9 @@ class MillFlourProductionsController extends Controller
                 ]);
             }
             
+            // remaining_polished_amount在庫更新処理
+            $production->updatePolishedMaterialRemainingAmount($production->id, $millPolishedMaterialIds, $inputWeights, true);
+            
             // 全ての処理が成功したらコミット
             DB::commit();
             
@@ -120,7 +143,7 @@ class MillFlourProductionsController extends Controller
         DB::rollback();
 
         // エラーメッセージをユーザに返す
-        return back()->withErrors('エラーが発生しました: ' . $e->getMessage());
+        return back()->withErrors('' . $e->getMessage());
         }
     }
 
@@ -130,10 +153,13 @@ class MillFlourProductionsController extends Controller
         // 製粉機情報と精麦済み原料情報を取得
         $millFlourProduction = MillFlourProduction::findOrFail($id);
         $millMachines = MillMachine::all();
-        $millPolishedMaterials = MillPolishedMaterial::all();
+        $millPolishedMaterials = MillPolishedMaterial::with('millPurchaseMaterials.material')
+        ->where('is_finished', false)
+        ->get();
+        $materialsNames = Material::pluck('materials_name');
         
         // 編集対象の製粉生産レコードを渡す
-        return view('millFlourProductions.edit', compact('millFlourProduction', 'millMachines', 'millPolishedMaterials'));
+        return view('millFlourProductions.edit', compact('millFlourProduction', 'millMachines', 'millPolishedMaterials', 'materialsNames'));
     }
 
     // update method: レコード更新
@@ -152,11 +178,14 @@ class MillFlourProductionsController extends Controller
                 'flour_weight' => 'nullable|numeric|min:0',
                 'bran_weight' => 'nullable|numeric|min:0',
                 'remarks' => 'nullable|string|max:1000',
+                'mill_polished_material_ids' => 'required|array',
+                'mill_polished_material_ids.*' => 'required|distinct|exists:mill_polished_materials,id',
                 'input_weights' => 'required|array',
                 'input_weights.*' => ['required', 'numeric', 'min:0', 'regex:/^\d{0,5}(\.\d{1,2})?$/'],
             ]);
             
             $millPolishedMaterialIds = $production->millPolishedMaterials->pluck('id')->toArray();
+            
             // 原料投入量と原価と製粉歩留率を計算
             $totals = MillFlourProduction::calculateTotals(
                 $request->input('input_weights', []),
@@ -166,23 +195,26 @@ class MillFlourProductionsController extends Controller
                 );
             $validatedData = array_merge($validatedData, $totals);
             
+            $inputWeights = $request->input('input_weights', []);
+            $inputCosts = $validatedData['input_costs'];
+            
+            // remaining_polished_amount在庫の更新
+            $production->updatePolishedMaterialRemainingAmount(
+                $id, 
+                $millPolishedMaterialIds, 
+                $inputWeights
+                );
+            
             // レコードの更新
             $production->update($validatedData);
             
             
             // 詳細の更新
-            $millPolishedMaterialIds = $request->input('mill_polished_material_ids', []);
-            $inputWeights = $request->input('input_weights', []);
-            $inputCosts = $validatedData['input_costs'];
+            $millPolishedMaterialIds = $validatedData['mill_polished_material_ids'];
             
             // 既存の詳細を一旦削除し、新しく追加する
             $production->millPolishedMaterials()->detach();
-            // foreach ($millPolishedMaterialIds as $index => $millPolishedMaterialId) {
-            //     $production->millPolishedMaterials()->attach($millPolishedMaterialId, [
-            //         'input_weight' => $inputWeights[$index] ?? null,
-            //         'input_cost' => $inputCosts[$index] ?? null
-            //     ]);
-            // }
+            
             foreach ($millPolishedMaterialIds as $index => $millPolishedMaterialId) {
                 // 各詳細レコードに必要なデータを配列で設定
                 $production->millPolishedMaterials()->attach($millPolishedMaterialId, [
@@ -190,6 +222,7 @@ class MillFlourProductionsController extends Controller
                     'input_cost' => $inputCosts[$index] ?? null
                 ]);
             }
+            // dd($production);
             DB::commit();
             return redirect()->route('millFlourProductions.index')->with('success', '製粉生産が更新されました。');
             
@@ -203,12 +236,31 @@ class MillFlourProductionsController extends Controller
     // destroy method: レコード削除
     public function destroy($id)
     {
-        $production = MillFlourProduction::with('millPolishedMaterials')->findOrFail($id);
-        // 関連する中間テーブルのデータを削除
-        $production->millPolishedMaterials()->detach();
-        // 製粉生産レコードを削除
-        $production->delete();
+        DB::beginTransaction();
         
-        return redirect()->route('millFlourProductions.index')->with('success', '製粉生産が削除されました。');
+        try {
+            
+            $production = MillFlourProduction::with('millPolishedMaterials')->findOrFail($id);
+            
+            // 明細行に対してremaining_polished_amount在庫を加算する処理
+            foreach ($production->millPolishedMaterials as $polishedMaterial) {
+                $inputWeight = $polishedMaterial->pivot->input_weight;
+                $polishedMaterial->remaining_polished_amount += $inputWeight;
+                $polishedMaterial->is_finished = ($polishedMaterial->remaining_polished_amount <=0);
+                $polishedMaterial->save();
+            }
+            
+            // 関連する中間テーブルのデータを削除
+            $production->millPolishedMaterials()->detach();
+            // 製粉生産レコードを削除
+            $production->delete();
+    
+            DB::commit();
+            
+            return redirect()->route('millFlourProductions.index')->with('success', '製粉生産が削除されました。');
+        } catch (\Exception $e) {
+            DB::rollback();
+            return back()->withErrors('削除できませんでした:' . $e->getMessage());
+        }
     }
 }

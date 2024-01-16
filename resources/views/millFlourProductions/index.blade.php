@@ -66,12 +66,18 @@
                                         @endif
                                         <tbody>
                                             @foreach ($production->millPolishedMaterials as $polishedMaterial)
-                                                <tr>
-                                                    <td>{{ $polishedMaterial->polished_lot_number }}</td>
-                                                    <td>{{ $polishedMaterial->pivot->input_weight }} kg</td>
-                                                    <td>{{ number_format($polishedMaterial->pivot->input_cost) }} 円</td>
-                                                </tr>
+                                                @php
+                                                    $purchaseMaterial = $polishedMaterial->millPurchaseMaterials->first(); // 最初の購入材料を取得
+                                                @endphp
+                                                @if ($purchaseMaterial && $purchaseMaterial->material)
+                                                    <tr>
+                                                        <td>{{ $polishedMaterial->polished_lot_number }} - {{ $purchaseMaterial->material->materials_name }}</td>
+                                                        <td>{{ $polishedMaterial->pivot->input_weight }} kg</td>
+                                                        <td>{{ number_format($polishedMaterial->pivot->input_cost) }} 円</td>
+                                                    </tr>
+                                                @endif
                                             @endforeach
+
                                         </tbody>
                                     </table>
                                 </td>

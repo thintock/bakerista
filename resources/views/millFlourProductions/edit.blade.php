@@ -34,12 +34,12 @@
             <!-- 製品小麦粉量 -->
             <div class="mb-4">
                 <label for="flour_weight" class="block text-sm font-bold mb-2">製品小麦粉量（kg）</label>
-                <input type="number" id="flour_weight" name="flour_weight" value="{{ $millFlourProduction->flour_weight }}" class="input input-bordered w-full">
+                <input type="number" id="flour_weight" name="flour_weight" value="{{ $millFlourProduction->flour_weight }}" step="0.01" class="input input-bordered w-full">
             </div>
             <!-- 製品ふすま量 -->
             <div class="mb-4">
                 <label for="bran_weight" class="block text-sm font-bold mb-2">製品ふすま量（kg）</label>
-                <input type="number" id="bran_weight" name="bran_weight" value="{{ $millFlourProduction->bran_weight }}" class="input input-bordered w-full">
+                <input type="number" id="bran_weight" name="bran_weight" value="{{ $millFlourProduction->bran_weight }}" step="0.01" class="input input-bordered w-full">
             </div>
             
             <!-- 備考 -->
@@ -58,9 +58,13 @@
                 @foreach ($millFlourProduction->millPolishedMaterials as $material)
                 <div class="flex items-center gap-2 mb-4">
                     <select class="select select-bordered flex-1" name="mill_polished_material_ids[]">
-                        <option value="{{ $material->id }}" selected>{{ $material->polished_lot_number }}</option>
+                        <option value="{{ $material->id }}" selected>
+                            {{ $material->polished_lot_number }}
+                            @if ($material->millPurchaseMaterials->first() && $material->millPurchaseMaterials->first()->material) - {{ $material->millPurchaseMaterials->first()->material->materials_name }}</option>
+                            @endif
                     </select>
                 <input class="input input-bordered flex-1" value="{{ $material->pivot->input_weight }}" name="input_weights[]" type="number" step="0.01" placeholder="投入量(kg)" required>
+                <span>残:{{ $material->remaining_polished_amount }}kg</span>
                 <button type="button" class="removeDetail btn btn-error" data-materialid="{{ $material->id }}">削除</button>
                 </div>
                 @endforeach

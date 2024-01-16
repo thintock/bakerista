@@ -18,7 +18,7 @@ function addMaterialInputGroup() {
                     <option value="{{ $millPurchaseMaterial->id }}">{{ $millPurchaseMaterial->lot_number }} - {{ $millPurchaseMaterial->material->materials_name }}</option>
                 @endforeach
             </select>
-            <input class="input input-bordered flex-1" name="input_weights[]" type="number" step="0.01" placeholder="投入量(kg)" required>
+            <input class="input input-bordered flex-1" name="input_weights[]" type="number" step="1" placeholder="投入量(kg)" required>
             <span class="remaining-amount"></span> <!-- 在庫残数を表示する -->
             <button type="button" class="removeMaterial btn btn-error">削除</button>
         </div>

@@ -3,8 +3,18 @@
 @section('content')
     {{--ユーザ一覧--}}
     <div class="container mx-auto px-4 py-6">
+    
     <div class="flex justify-end mb-4">
-        <a href="{{ route('millPolishedMaterials.create') }}" class="btn btn-primary">精麦登録</a>
+        <a href="{{ route('millPolishedMaterials.create') }}" class="btn btn-primary mr-1">精麦登録</a>
+        <form action="{{ route('millPolishedMaterials.index') }}" method="GET">
+            @if(request('show_all') == 'true')
+                <button type="submit" class="btn btn-secondary">在庫なしを表示しない</button>
+                <input type="hidden" name="show_all" value="false">
+            @else
+                <button type="submit" class="btn btn-accent">在庫なしも含める</button>
+                <input type="hidden" name="show_all" value="true">
+            @endif
+        </form>
     </div>
 
     @if ($millPolishedMaterials->count() > 0)
@@ -22,8 +32,8 @@
                         <p>投入原価</p>
                     </th>
                     <th>
-                        <p>精麦歩留</p>
-                        <p>精麦済量</p>
+                        <p>精麦済量（歩留）</p>
+                        <p>在庫残量</p>
                     </th>
                     <th></th>
                     <th></th>
@@ -41,8 +51,12 @@
                         <p class="border-t border-base-200 pt-1">{{ number_format($millPolishedMaterial->total_input_cost) }} 円</p>
                     </td>
                     <td>
-                        <div class="badge badge-primary badge-outline mb-1">{{ $millPolishedMaterial->polished_retention }} %</div>
-                        <p class="border-t border-base-200 pt-1">{{ round($millPolishedMaterial->total_output_weight, 1) }} kg</p>
+                        <p class="mb-1">{{ round($millPolishedMaterial->total_output_weight, 1) }} kg ({{ $millPolishedMaterial->polished_retention }} %)</p>
+                        <p class="border-t border-base-200 pt-1">{{ round($millPolishedMaterial->remaining_polished_amount, 1) }}kg
+                        @if ($millPolishedMaterial->is_finished)
+                        <span class="text-accent">在庫なし</span>
+                        @else
+                        @endif</p>
                     </td>
                     <td class="border-l border-r border-base-200">
                         <table class="table table-xs w-full">
