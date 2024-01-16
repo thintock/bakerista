@@ -15,15 +15,18 @@ class MillPolishedMaterialsController extends Controller
     public function index(Request $request)
     {
         if ($request->input('show_all') == 'true') {
-            $millPolishedMaterials = MillPolishedMaterial::orderBy('polished_lot_number')->paginate(10);
+            $millPolishedMaterials = MillPolishedMaterial::orderBy('polished_lot_number')
+            ->paginate(10)
+            ->appends(['show_all' => 'true']);
         }else {
         $millPolishedMaterials = MillPolishedMaterial::where('is_finished', false)
         ->orderBy('polished_lot_number')
-        ->paginate(10);
-    }
+        ->paginate(10)
+        ->appends(['show_all' => 'false']);
+        }
 
     return view('millPolishedMaterials.index', compact('millPolishedMaterials'));
-} 
+    } 
     // Show the form for creating a new polished material.
     public function create()
     {
