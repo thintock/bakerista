@@ -13,13 +13,13 @@
             
             <div class="stat">
               <div class="stat-title">累計入荷量</div>
-              <div class="stat-value text-secondary">{{ $allTotalAmount }} kg</div>
+              <div class="stat-value text-secondary">{{ number_format($allTotalAmount) }} kg</div>
               <div class="stat-desc"></div>
             </div>
             
             <div class="stat">
             <div class="stat-title">現在の原料在庫量</div>
-            <div class="stat-value text-secondary">{{ $totalRemainingAmount }} kg</div>
+            <div class="stat-value text-secondary">{{ number_format($totalRemainingAmount) }} kg</div>
             <div class="stat-desc"></div>
             </div>
             

@@ -13,19 +13,19 @@
         <div class="stats shadow">
             <div class="stat">
                 <div class="stat-title">累計精麦量</div>
-                <div class="stat-value text-secondary">{{ round($totalPolishedAmount) }} kg</div>
+                <div class="stat-value text-secondary">{{ number_format(round($totalPolishedAmount)) }} kg</div>
                 <div class="stat-desc"></div>
             </div>
             
             <div class="stat">
                 <div class="stat-title">精麦済み在庫量</div>
-                <div class="stat-value text-secondary">{{ round($currentPolishedAmount) }} kg</div>
+                <div class="stat-value text-secondary">{{ number_format(round($currentPolishedAmount)) }} kg</div>
                 <div class="stat-desc"></div>
             </div>
             
             <div class="stat">
                 <div class="stat-title">精麦済み在庫金額</div>
-                <div class="stat-value text-accent">{{ round($currentPolishedValue) }} 円</div>
+                <div class="stat-value text-accent">{{ number_format(round($currentPolishedValue)) }} 円</div>
                 <div class="stat-desc"></div>
             </div>
             

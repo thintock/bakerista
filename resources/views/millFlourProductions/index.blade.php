@@ -12,25 +12,25 @@
             <div class="stats shadow">
                 <div class="stat">
                     <div class="stat-title">累計製粉量</div>
-                    <div class="stat-value text-secondary">{{ round($totalFlourAmount) }} kg</div>
+                    <div class="stat-value text-secondary">{{ number_format(round($totalFlourAmount)) }} kg</div>
                     <div class="stat-desc"></div>
                 </div>
                 
                 <div class="stat">
                     <div class="stat-title">小麦粉在庫量</div>
-                    <div class="stat-value text-secondary">{{ round($currentFlourAmount) }} kg</div>
+                    <div class="stat-value text-secondary">{{ number_format(round($currentFlourAmount)) }} kg</div>
                     <div class="stat-desc"></div>
                 </div>
                 
                 <div class="stat">
                     <div class="stat-title">ふすま在庫量</div>
-                    <div class="stat-value text-secondary">{{ round($currentBranAmount) }} kg</div>
+                    <div class="stat-value text-secondary">{{ number_format(round($currentBranAmount)) }} kg</div>
                     <div class="stat-desc"></div>
                 </div>
                 
                 <div class="stat">
                     <div class="stat-title">在庫金額</div>
-                    <div class="stat-value text-accent">{{ round($currentStockValue) }} 円</div>
+                    <div class="stat-value text-accent">{{ number_format(round($currentStockValue)) }} 円</div>
                     <div class="stat-desc"></div>
                 </div>
                 
