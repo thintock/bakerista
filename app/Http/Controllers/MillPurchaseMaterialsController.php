@@ -11,14 +11,33 @@ class MillPurchaseMaterialsController extends Controller
 {
     public function index(Request $request)
     {
-        if ($request->input('show_all') == 'true') {
-            $millPurchaseMaterials = MillPurchaseMaterial::orderBy('lot_number')->paginate(10);
-        } else {
-            $millPurchaseMaterials = MillPurchaseMaterial::where('is_finished', false)
-            ->orderBy('lot_number')
-            ->paginate(10);
+        // 表示期間設定
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+        
+        // クエリを作成
+        $query = MillPurchaseMaterial::query();
+        
+        if ($startDate && $endDate) {
+            $query->whereBetween('arrival_date', [$startDate, $endDate]); // 表示期間設定
         }
-        return view('millPurchaseMaterials.index', compact('millPurchaseMaterials'));
+        
+        if ($request->input('show_all') == 'true') {
+            $query->where('is_finished', true); // 在庫表示設定
+        } else {
+            $query->where('is_finished', false);
+        }
+        
+        $millPurchaseMaterials = $query->orderBy('lot_number')->paginate(15);
+        
+        // 各種計算
+        $allTotalAmount = MillPurchaseMaterial::sum('total_amount'); // 累計入荷量
+        $totalRemainingAmount = MillPurchaseMaterial::where('is_finished', false) // 合計在庫量
+            ->sum('remaining_amount');
+        $totalStockValue = MillPurchaseMaterial::where('is_finished',false) // 合計在庫金額
+            ->sum(\DB::raw('(cost / total_amount) * remaining_amount'));
+        
+        return view('millPurchaseMaterials.index', compact('millPurchaseMaterials', 'totalRemainingAmount', 'totalStockValue', 'allTotalAmount'));
     }
 
     public function create()

@@ -15,15 +15,42 @@ use DateTime;
 class MillFlourProductionsController extends Controller
 {
     // index method: 一覧表示
-    public function index()
+    public function index(Request $request)
     {
-        // 'production_date' で降順に並び替えて関連するMaterialもロードし、ページネーションで1ページあたり25個表示
-    $productions = MillFlourProduction::with([
-        'millPolishedMaterials.millPurchaseMaterials.material'
-        ])
-        ->orderBy('production_date', 'desc')
-        ->paginate(25);
-    return view('millFlourProductions.index', compact('productions'));
+        // 表示期間設定
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+        
+        // クエリを作成
+        $query = MillFlourProduction::query();
+        
+        if ($startDate && $endDate) {
+            $query->whereBetween('production_date', [$startDate, $endDate]); // 表示期間設定
+        }
+        
+        // if ($request->input('show_all') == 'true') {
+        //     $query->where('is_finished', true); // 在庫表示設定
+        // } else {
+        //     $query->where('is_finished', false);
+        // }
+        
+        // 各種計算
+        $totalFlourAmount = MillFlourProduction::sum('total_input_weight'); // 総累計製粉量
+        $currentFlourAmount = MillFlourProduction::sum('flour_weight'); // 小麦粉在庫量
+        $currentBranAmount = MillFlourProduction::sum('bran_weight'); // ふすま在庫量
+        $currentStockValue = MillFlourProduction::get() // 在庫金額
+            ->reduce(function ($carry, $item) {
+                $currentWeight = $item->flour_weight + $item->bran_weight;
+                if ($currentWeight > 0) {
+                    return $carry + ($item->total_input_cost / $currentWeight) * $currentWeight;
+                }
+                return $carry;
+            }, 0);
+        
+        // 結果をViewに返す
+        $productions = $query->orderBy('production_date', 'desc')->paginate(15);
+        return view('millFlourProductions.index', compact('productions', 'totalFlourAmount', 'currentFlourAmount', 'currentBranAmount', 'currentStockValue'));
+        
     }
 
     // create method: 新規作成画面表示

@@ -14,18 +14,40 @@ class MillPolishedMaterialsController extends Controller
     // Display a listing of the polished materials.
     public function index(Request $request)
     {
-        if ($request->input('show_all') == 'true') {
-            $millPolishedMaterials = MillPolishedMaterial::orderBy('polished_lot_number')
-            ->paginate(10)
-            ->appends(['show_all' => 'true']);
-        }else {
-        $millPolishedMaterials = MillPolishedMaterial::where('is_finished', false)
-        ->orderBy('polished_lot_number')
-        ->paginate(10)
-        ->appends(['show_all' => 'false']);
+        // 表示期間設定
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+        
+        // クエリを作成
+        $query = MillPolishedMaterial::query();
+        
+        if ($startDate && $endDate) {
+            $query->whereBetween('polished_date', [$startDate, $endDate]); // 表示期間設定
         }
-
-    return view('millPolishedMaterials.index', compact('millPolishedMaterials'));
+        
+        if ($request->input('show_all') == 'true') {
+            $query->where('is_finished', true); // 在庫表示設定
+        } else {
+            $query->where('is_finished', false);
+        }
+        
+        // 各種計算
+        $totalPolishedAmount = MillPolishedMaterial::sum('total_input_weight'); // 総累計精麦量
+        $currentPolishedAmount = MillPolishedMaterial::where('is_finished', false) // 精麦済み在庫量
+            ->sum('remaining_polished_amount');
+        $currentPolishedValue = MillPolishedMaterial::where('is_finished', false) // 精麦済み在庫金額
+            ->get()
+            ->reduce(function ($carry, $item) {
+                // 出力量が0でない場合のみ計算
+                if ($item->total_output_weight > 0) {
+                    return $carry + ($item->total_input_cost / $item->total_output_weight) * $item->remaining_polished_amount;
+                }
+                return $carry;
+            }, 0);
+        
+        $millPolishedMaterials = $query->orderBy('polished_lot_number')->paginate(15);
+        
+    return view('millPolishedMaterials.index', compact('millPolishedMaterials', 'totalPolishedAmount', 'currentPolishedAmount', 'currentPolishedValue'));
     } 
     // Show the form for creating a new polished material.
     public function create()

@@ -4,17 +4,59 @@
     {{--ユーザ一覧--}}
     <div class="container mx-auto px-4 py-6">
     
-    <div class="flex justify-end mb-4">
-        <a href="{{ route('millPolishedMaterials.create') }}" class="btn btn-primary mr-1">精麦登録</a>
-        <form action="{{ route('millPolishedMaterials.index') }}" method="GET">
-            @if(request('show_all') == 'true')
-                <button type="submit" class="btn btn-secondary">在庫なしを表示しない</button>
-                <input type="hidden" name="show_all" value="false">
-            @else
-                <button type="submit" class="btn btn-accent">在庫なしも含める</button>
-                <input type="hidden" name="show_all" value="true">
-            @endif
-        </form>
+    <div class="flex flex-col 2xl:flex-row justify-between items-center mb-4">
+        
+        <div class="flex mb-4">
+            <h1 class="text-xl font-semibold">精麦記録一覧</h1>
+        </div>
+        
+        <div class="stats shadow">
+            <div class="stat">
+                <div class="stat-title">累計精麦量</div>
+                <div class="stat-value text-secondary">{{ round($totalPolishedAmount) }} kg</div>
+                <div class="stat-desc"></div>
+            </div>
+            
+            <div class="stat">
+                <div class="stat-title">精麦済み在庫量</div>
+                <div class="stat-value text-secondary">{{ round($currentPolishedAmount) }} kg</div>
+                <div class="stat-desc"></div>
+            </div>
+            
+            <div class="stat">
+                <div class="stat-title">精麦済み在庫金額</div>
+                <div class="stat-value text-accent">{{ round($currentPolishedValue) }} 円</div>
+                <div class="stat-desc"></div>
+            </div>
+            
+        </div>
+        
+        <div class="flex mt-4">
+            <form action="{{ route('millPolishedMaterials.index') }}" method="GET" class="mb-4">
+                <div class="flex space-x-2">
+                    <div class="form-control">
+                        <input type="date" id="start_date" name="start_date" value="{{ request('start_date') }}" class="input input-bordered input-secondary">
+                    </div>
+                    <div class="mt-3">〜</div>
+                    <div class="form-control">
+                        <input type="date" id="end_date" name="end_date" value="{{ request('end_date') }}" class="input input-bordered input-secondary">
+                    </div>
+                    <div class="form-control">
+                        <button type="submit" class="btn btn-secondary mr-2">表示期間設定</button>
+                    </div>
+                </div>
+            </form>
+            <a href="{{ route('millPolishedMaterials.create') }}" class="btn btn-primary mr-1">精麦登録</a>
+            <form action="{{ route('millPolishedMaterials.index') }}" method="GET" class="inline">
+                @if(request('show_all') == 'true')
+                    <button type="submit" class="btn btn-secondary">在庫を表示</button>
+                    <input type="hidden" name="show_all" value="false">
+                @else
+                    <button type="submit" class="btn btn-accent">在庫なしを表示</button>
+                    <input type="hidden" name="show_all" value="true">
+                @endif
+            </form>
+        </div>
     </div>
 
     @if ($millPolishedMaterials->count() > 0)

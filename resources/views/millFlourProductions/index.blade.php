@@ -2,10 +2,68 @@
 
 @section('content')
     <div class="container mx-auto px-4 py-6">
-        <div class="flex justify-end mb-4">
-            <a href="{{ route('millFlourProductions.create') }}" class="btn btn-primary">新規製粉登録</a>
+        
+        <div class="flex flex-col flex-row justify-between items-center mb-4">
+            
+            <div class="flex mb-4">
+                <h1 class="text-xl font-semibold">製粉記録一覧</h1>
+            </div>
+            
+            <div class="stats shadow">
+                <div class="stat">
+                    <div class="stat-title">累計製粉量</div>
+                    <div class="stat-value text-secondary">{{ round($totalFlourAmount) }} kg</div>
+                    <div class="stat-desc"></div>
+                </div>
+                
+                <div class="stat">
+                    <div class="stat-title">小麦粉在庫量</div>
+                    <div class="stat-value text-secondary">{{ round($currentFlourAmount) }} kg</div>
+                    <div class="stat-desc"></div>
+                </div>
+                
+                <div class="stat">
+                    <div class="stat-title">ふすま在庫量</div>
+                    <div class="stat-value text-secondary">{{ round($currentBranAmount) }} kg</div>
+                    <div class="stat-desc"></div>
+                </div>
+                
+                <div class="stat">
+                    <div class="stat-title">在庫金額</div>
+                    <div class="stat-value text-accent">{{ round($currentStockValue) }} 円</div>
+                    <div class="stat-desc"></div>
+                </div>
+                
+            </div>
+        
+            <div class="flex mt-4">
+                <form action="{{ route('millFlourProductions.index') }}" method="GET" class="mb-4">
+                    <div class="flex space-x-2">
+                        <div class="form-control">
+                            <input type="date" id="start_date" name="start_date" value="{{ request('start_date') }}" class="input input-bordered input-secondary">
+                        </div>
+                        <div class="mt-3">〜</div>
+                        <div class="form-control">
+                            <input type="date" id="end_date" name="end_date" value="{{ request('end_date') }}" class="input input-bordered input-secondary">
+                        </div>
+                        <div class="form-control">
+                            <button type="submit" class="btn btn-secondary mr-2">表示期間設定</button>
+                        </div>
+                    </div>
+                </form>
+                <a href="{{ route('millFlourProductions.create') }}" class="btn btn-primary mr-1">新規製粉登録</a>
+                <form action="{{ route('millFlourProductions.index') }}" method="GET" class="inline">
+                    @if(request('show_all') == 'true')
+                        <button type="submit" class="btn btn-secondary">在庫を表示</button>
+                        <input type="hidden" name="show_all" value="false">
+                    @else
+                        <button type="submit" class="btn btn-accent">在庫なしを表示</button>
+                        <input type="hidden" name="show_all" value="true">
+                    @endif
+                </form>
+            </div>
         </div>
-
+        
         @if ($productions->count() > 0)
             <div class="overflow-x-auto">
                 <table class="table table-xs">
