@@ -9,7 +9,7 @@ use App\Models\MillMachine;
 use App\Models\Material;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB; // Add this line
+use Illuminate\Support\Facades\DB;
 use DateTime;
 
 class MillFlourProductionsController extends Controller

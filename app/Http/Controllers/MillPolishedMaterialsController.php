@@ -6,12 +6,12 @@ use Illuminate\Http\Request;
 use App\Models\MillPolishedMaterial;
 use App\Models\MillPurchaseMaterial;
 use Illuminate\Support\Facades\Auth;
-use Carbon\carbon; // ロット番号生成（日付生成用）
-use Illuminate\Support\Facades\DB; // トランザクション使用
+use Carbon\carbon;
+use Illuminate\Support\Facades\DB;
 
 class MillPolishedMaterialsController extends Controller
 {
-    // Display a listing of the polished materials.
+    
     public function index(Request $request)
     {
         // 表示期間設定

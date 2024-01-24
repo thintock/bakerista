@@ -19,12 +19,11 @@
 
     </head>
     <body>
-        
         <div class="md:grid md:grid-cols-12 md:gap-4 h-screen">
             <!-- レフトナビゲーション -->
-            <div class="md:col-span-3 lg:col-span-2 text-center shadow-lg bg-base-200">
+            <aside class="md:col-span-3 lg:col-span-2 text-center shadow-lg bg-base-200">
                 @include('commons.leftnav')
-            </div>
+            </aside>
             {{--ライトコンテンツ--}}
             <div class="md:col-span-9 lg:col-span-10 text-center">
         

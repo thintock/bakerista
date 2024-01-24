@@ -8,6 +8,8 @@ use App\Http\Controllers\MillMachinesController;
 use App\Http\Controllers\MillPurchaseMaterialsController;
 use App\Http\Controllers\MillPolishedMaterialsController;
 use App\Http\Controllers\MillFlourProductionsController;
+use App\Http\Controllers\CustomerRelationCategoriesController;
+use App\Http\Controllers\CustomerRelationsController;
 
 
 Route::get('/', function () {
@@ -27,4 +29,6 @@ Route::group(['middleware' => ['auth']], function() {
    Route::resource('millPurchaseMaterials', MillPurchaseMaterialsController::class);
    Route::resource('millPolishedMaterials', MillPolishedMaterialsController::class);
    Route::resource('millFlourProductions', MillFlourProductionsController::class)->except(['show']);
+   Route::resource('customerRelationCategories', CustomerRelationCategoriesController::class, ['only' => ['index','store','update','destroy']]);
+   Route::resource('customerRelations', CustomerRelationsController::class)->except(['show']);
 });
