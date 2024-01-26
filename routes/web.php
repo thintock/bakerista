@@ -23,14 +23,6 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-Route::get('/test-s3', function () {
-    $contents = 'これはS3テストファイルです。';
-    $fileName = 'test-file.txt';
-    Storage::disk('s3')->put($fileName, $contents);
-
-    return "ファイル '{$fileName}' がS3にアップロードされました。";
-});
-
 require __DIR__.'/auth.php';
 
 Route::group(['middleware' => ['auth']], function() {

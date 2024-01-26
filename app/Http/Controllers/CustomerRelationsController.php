@@ -128,7 +128,9 @@ class CustomerRelationsController extends Controller
                 'health_department_contact_details' => 'nullable|string',
                 'is_finished' => 'boolean',
                 'images' => 'nullable|array|max:5',
-                'images.*' => 'image|max:10240' // 10MB
+                'images.*' => 'image|max:10240', // 10MB
+                'customerRelationHistories.*.response_category' => 'nullable|string|max:255',
+                'customerRelationHistories.*.response_content' => 'nullable|string|max:10000'
             ]);
             
             // 画像登録

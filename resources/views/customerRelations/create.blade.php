@@ -120,11 +120,11 @@
             <div id="customerRelationHistories">
                 <div class="customerRelationHistory">
                     <div class="card border mt-4">
-                        <div class="card-body">
+                        <div class="card-body p-3">
                             <div class="flex justify-between items-center mb-2">
                                 <div class="form-control">
                                     <select name="customerRelationHistories[${historyCount}][response_category]" class="select select-bordered">
-                                        <option value="">選択してください</option>
+                                        <option value="連絡対応">連絡対応</option>
                                         <option value="代替商品発送＆引き取り">代替商品発送＆引き取り</option>
                                         <option value="代替商品発送のみ">代替商品発送のみ</option>
                                         <option value="引き取り&キャンセル">引き取り&キャンセル</option>
@@ -152,11 +152,11 @@
                 newHistory.className = 'customerRelationHistory';
                 newHistory.innerHTML = `
                     <div class="card border mt-4">
-                        <div class="card-body">
+                        <div class="card-body p-3">
                             <div class="flex justify-between items-center mb-2">
                                 <div class="form-control">
                                     <select name="customerRelationHistories[${historyCount}][response_category]" class="select select-bordered">
-                                        <option value="">選択してください</option>
+                                        <option value="連絡対応">連絡対応</option>
                                         <option value="代替商品発送＆引き取り">代替商品発送＆引き取り</option>
                                         <option value="代替商品発送のみ">代替商品発送のみ</option>
                                         <option value="引き取り&キャンセル">引き取り&キャンセル</option>

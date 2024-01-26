@@ -169,12 +169,12 @@
                 <div class="customerRelationHistory">
                     @foreach ($customerRelationHistories as $history)
                         <div class="card border mt-4">
-                            <div class="card-body p-2">
+                            <div class="card-body p-3">
                                 <div class="form-control">
                                     <div class="existingHistory p-4 border rounded-lg">
                                         <!-- 1行目：対応カテゴリ、対応者、作成日 -->
                                         <div class="flex justify-between items-center mb-2">
-                                            <span class="text-sm font-semibold">対応カテゴリ: {{ $history->response_category }}</span>
+                                            <span class="text-sm font-semibold">対応内容: {{ $history->response_category }}</span>
                                             <span class="text-sm">対応者： {{ $history->user->name }} {{ $history->user->first_name }}</span>
                                             <span class="text-sm">作成日：{{ $history->created_at->format('Y-m-d') }}</span>
                                             <div>
@@ -185,7 +185,7 @@
                                         
                                         <!-- 2行目：対応内容 -->
                                         <div class="form-control">
-                                            <textarea class="textarea textarea-bordered" readonly>{{ $history->response_content }}</textarea>
+                                            <textarea class="textarea textarea-bordered">{{ $history->response_content }}</textarea>
                                         </div>
                             
                                     </div>
@@ -208,21 +208,22 @@
                 newHistory.className = 'newHistory';
                 newHistory.innerHTML = `
                     <div class="card border mt-4">
-                        <div class="card-body p-2">
-                            <div class="form-control">
-                                <label class="label">対応カテゴリ（対応者：{{ Auth::user()->name }} {{ Auth::user()->first_name }}）</label>
-                                <select name="newHistories[${historyCount}][response_category]" class="select select-bordered">
-                                    <option value="">選択してください</option>
-                                    <option value="代替商品発送＆引き取り">代替商品発送＆引き取り</option>
-                                    <option value="代替商品発送のみ">代替商品発送のみ</option>
-                                    <option value="引き取り&キャンセル">引き取り&キャンセル</option>
-                                    <option value="引き取りなし&キャンセル">引き取りなし&キャンセル</option>
-                                    <option value="その他">その他</option>
-                                </select>
+                        <div class="card-body p-3">
+                            <div class="flex justify-between items-center mb-2">
+                                <div class="form-control">
+                                    <select name="customerRelationHistories[${historyCount}][response_category]" class="select select-bordered">
+                                        <option value="連絡対応">連絡対応</option>
+                                        <option value="代替商品発送＆引き取り">代替商品発送＆引き取り</option>
+                                        <option value="代替商品発送のみ">代替商品発送のみ</option>
+                                        <option value="引き取り&キャンセル">引き取り&キャンセル</option>
+                                        <option value="引き取りなし&キャンセル">引き取りなし&キャンセル</option>
+                                        <option value="その他">その他</option>
+                                    </select>
+                                </div>
+                                <div>対応者：{{ Auth::user()->name }} {{ Auth::user()->first_name }}</div>
                             </div>
                             <div class="form-control">
-                                <label class="label">対応内容</label>
-                                <textarea name="newHistories[${historyCount}][response_content]" class="input input-bordered h-40" placeholder="対応内容"></textarea>
+                                <textarea name="customerRelationHistories[${historyCount}][response_content]" class="input input-bordered textarea textarea-bordered h-24" placeholder="対応内容を入力してください。"></textarea>
                             </div>
                         </div>
                     </div>`;
