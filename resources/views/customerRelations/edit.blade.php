@@ -85,7 +85,7 @@
                     <div class="grid grid-cols-5 gap-4">
                         @foreach($images as $index => $image)
                             <div class="relative w-full pb-full">
-                                <img src="{{ asset('storage/' . $image) }}" alt="Uploaded Image" class="top-0 left-0 w-full h-full object-cover rounded-lg cursor-pointer" onclick="showModal('{{ asset('storage/' . $image) }}')">
+                                <img src="{{ Storage::url($image) }}" alt="Uploaded Image" class="top-0 left-0 w-full h-full object-cover rounded-lg cursor-pointer" onclick="showModal('{{ Storage::url($image) }}')">
                                 <label>
                                     <input type="checkbox" name="delete_images[]" value="{{ $index }}" class="checkbox checkbox-accent" style="width: 1rem;height: 1rem;">
                                     <label for="images" class="text-xs text-accent">削除</label>

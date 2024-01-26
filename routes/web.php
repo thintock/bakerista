@@ -11,6 +11,9 @@ use App\Http\Controllers\MillFlourProductionsController;
 use App\Http\Controllers\CustomerRelationCategoriesController;
 use App\Http\Controllers\CustomerRelationsController;
 
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Request;
+
 
 Route::get('/', function () {
     return view('dashboard');
@@ -19,6 +22,14 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
+
+Route::get('/test-s3', function () {
+    $contents = 'これはS3テストファイルです。';
+    $fileName = 'test-file.txt';
+    Storage::disk('s3')->put($fileName, $contents);
+
+    return "ファイル '{$fileName}' がS3にアップロードされました。";
+});
 
 require __DIR__.'/auth.php';
 

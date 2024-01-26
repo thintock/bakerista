@@ -135,7 +135,7 @@ class CustomerRelationsController extends Controller
             if ($request->hasFile('images')) {
                 $imagePaths = [];
                 foreach ($request->file('images') as $image) {
-                $path = $image->store('customer_relations_images', 'public');
+                $path = $image->store('customer_relations_images');
                 $imagePaths[] = $path;
             }
                 $validatedData['images'] = json_encode($imagePaths);
@@ -163,6 +163,7 @@ class CustomerRelationsController extends Controller
                 'category_id' => 'nullable|array',
                 'category_id.*' => 'exists:customer_relation_categories,id'
             ]);
+            
             // customerRelationSelectionsの登録処理
             if (!empty($validatedData['category_id'])) {
                 $customerRelation->customerRelationCategories()->sync($validatedData['category_id']);
@@ -216,7 +217,7 @@ class CustomerRelationsController extends Controller
             if ($request->has('delete_images')) {
                 $currentImages = json_decode($customerRelation->images, true);
                 foreach ($request->delete_images as $deleteIndex) {
-                    Storage::disk('public')->delete($currentImages[$deleteIndex]);
+                    Storage::delete($currentImages[$deleteIndex]);
                     unset($currentImages[$deleteIndex]);
                 }
                 $customerRelation->images = json_encode(array_values($currentImages));
@@ -227,7 +228,7 @@ class CustomerRelationsController extends Controller
             if ($request->hasFile('new_images')) {
                 $newImages = array_values(json_decode($customerRelation->images, true) ?? []);
                 foreach ($request->file('new_images') as $newImage) {
-                    $path = $newImage->store('customer_relations_images', 'public');
+                    $path = $newImage->store('customer_relations_images');
                     $newImages[] = $path;
                 }
                 $customerRelation->images = json_encode($newImages);
@@ -290,7 +291,7 @@ class CustomerRelationsController extends Controller
             if ($customerRelation->images) {
                 $images = json_decode($customerRelation->images, true);
                 foreach ($images as $image) {
-                    Storage::disk('public')->delete($image);
+                    Storage::delete($image);
                 }
             }
             
