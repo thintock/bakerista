@@ -10,7 +10,8 @@ class CustomerRelationCategory extends Model
     use HasFactory;
     
     protected $fillable = [
-        'name'
+        'name',
+        'department'
     ];
         
     public function customerRelations()

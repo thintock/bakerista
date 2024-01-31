@@ -18,7 +18,7 @@
                 <!-- 受付場所 -->
                 <div class="form-control">
                     <label class="label" for="reception_channel">受付場所</label>
-                    <select id="reception_channel" name="reception_channel" class="select select-bordered">
+                    <select id="reception_channel" name="reception_channel" class="select select-bordered" required>
                         <option value="">選択してください</option>
                         <option value="LINE">公式LINE</option>
                         <option value="メール">メール</option>
@@ -135,45 +135,12 @@
                                 <div>対応者：{{ Auth::user()->name }} {{ Auth::user()->first_name }}</div>
                             </div>
                             <div class="form-control">
-                                <textarea name="newHistories[${historyCount}][response_content]" class="input input-bordered textarea textarea-bordered h-24" placeholder="対応内容を入力してください。"></textarea>
+                                <textarea name="newHistories[${historyCount}][response_content]" class="input input-bordered textarea textarea-bordered h-60" placeholder="対応内容を入力してください。"></textarea>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            
-            <button type="button" onclick="addHistory()" class="btn btn-primary mt-4">対応を追加</button>
-            
-            <script>
-            function addHistory() {
-                var container = document.getElementById('customerRelationHistories');
-                var historyCount = container.getElementsByClassName('customerRelationHistory').length;
-                var newHistory = document.createElement('div');
-                newHistory.className = 'customerRelationHistory';
-                newHistory.innerHTML = `
-                    <div class="card border mt-4">
-                        <div class="card-body p-3">
-                            <div class="flex justify-between items-center mb-2">
-                                <div class="form-control">
-                                    <select name="newHistories[${historyCount}][response_category]" class="select select-bordered">
-                                        <option value="連絡対応">連絡対応</option>
-                                        <option value="代替商品発送＆引き取り">代替商品発送＆引き取り</option>
-                                        <option value="代替商品発送のみ">代替商品発送のみ</option>
-                                        <option value="引き取り&キャンセル">引き取り&キャンセル</option>
-                                        <option value="引き取りなし&キャンセル">引き取りなし&キャンセル</option>
-                                        <option value="その他">その他</option>
-                                    </select>
-                                </div>
-                                <div>対応者：{{ Auth::user()->name }} {{ Auth::user()->first_name }}</div>
-                            </div>
-                            <div class="form-control">
-                                <textarea name="newHistories[${historyCount}][response_content]" class="input input-bordered textarea textarea-bordered h-24" placeholder="対応内容を入力してください。"></textarea>
-                            </div>
-                        </div>
-                    </div>`;
-                container.appendChild(newHistory);
-            }
-            </script>
         </div>
         <div class="form-control mt-6">
             <button type="submit" class="btn btn-primary">登録</button>

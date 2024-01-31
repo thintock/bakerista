@@ -195,7 +195,6 @@
                     @endforeach
                 </div>
             </div>
-    
             <!-- 新規履歴追加 -->
             <div id="newHistories"></div>
             <button type="button" onclick="addNewHistory()" class="btn btn-primary mt-4">対応を追加</button>
@@ -220,7 +219,7 @@
                                         <option value="その他">その他</option>
                                     </select>
                                 </div>
-                                <div>対応者：{{ Auth::user()->name }} {{ Auth::user()->first_name }}</div>
+                                <div>対応者：楠本 幸貴</div>
                             </div>
                             <div class="form-control">
                                 <textarea name="newHistories[${historyCount}][response_content]" class="input input-bordered textarea textarea-bordered h-24" placeholder="対応内容を入力してください。"></textarea>

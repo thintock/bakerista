@@ -27,7 +27,8 @@ class CustomerRelationCategoriesController extends Controller
     public function store(Request $request)
     {
         $validateData = $request->validate([
-            'name' => 'required|string|max:255|unique:customer_relation_categories,name'
+            'name' => 'required|string|max:255|unique:customer_relation_categories,name',
+            'department' => 'nullable|string|max:255'
             ]);
             
             CustomerRelationCategory::create($validateData);
@@ -45,7 +46,8 @@ class CustomerRelationCategoriesController extends Controller
     public function update(Request $request, CustomerRelationCategory $customerRelationCategory)
     {
         $validatedData = $request->validate([
-            'name' => 'required|string|max:255|unique:customer_relation_categories,name,' . $customerRelationCategory->id
+            'name' => 'required|string|max:255|unique:customer_relation_categories,name,' . $customerRelationCategory->id,
+            'department' => 'nullable|string|max:255'
         ]);
         
         $customerRelationCategory->update($validatedData);

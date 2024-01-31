@@ -21,76 +21,33 @@ class CustomerRelationsController extends Controller
      */
     public function index(Request $request)
     {
-        
         // ユーザーリストの取得
         $users = User::all();
         
         // カテゴリリストの取得
         $customerRelationCategories = CustomerRelationCategory::all();
         
+        // 部署リストの取得
+        $departments = CustomerRelationCategory::select('department')->distinct()->pluck('department');
+        
         // カテゴリの絞り込み
         $selectedCategoryId = $request->input('category_id', '');
-
-        // クエリビルダの初期化
-        $query = CustomerRelation::with('customerRelationCategories', 'user');
-    
-        // 受付日時での絞り込み
-        if ($request->filled('received_at_start') && $request->filled('received_at_end')) {
-            $query->whereBetween('received_at', [$request->input('received_at_start'), $request->input('received_at_end')]);
-        } elseif ($request->filled('received_at_start')) {
-            $query->whereDate('received_at', '>=', $request->input('received_at_start'));
-        } elseif ($request->filled('received_at_end')) {
-            $query->whereDate('received_at', '<=', $request->input('received_at_end'));
-        }
-    
-        // 受付担当者での絞り込み
-        if ($request->filled('user_id')) {
-            $query->where('received_by_user_id', $request->input('user_id'));
-        }
-    
-        // お客様名での検索
-        if ($request->filled('customer_name')) {
-            $query->where('customer_name', 'like', '%' . $request->input('customer_name') . '%');
-        }
-    
-        // 電話番号での検索
-        if ($request->filled('contact_number')) {
-            $query->where('contact_number', 'like', '%' . $request->input('contact_number') . '%');
-        }
-    
-        // 受付場所での検索
-        if ($request->filled('reception_channel')) {
-            $query->where('reception_channel', 'like', '%' . $request->input('reception_channel') . '%');
-        }
-    
-        // 初期受付内容での検索
-        if ($request->filled('initial_content')) {
-            $query->where('initial_content', 'like', '%' . $request->input('initial_content') . '%');
-        }
         
-        // 完了フラグでの検索
-        if ($request->has('is_finished')) {
-            if ($request->input('is_finished') == '') {
-                // 「全て」が選択された場合はフィルタを適用しない
-            } else {
-                $query->where('is_finished', $request->input('is_finished'));
-            }
-        } else {
-            // ユーザーが完了フラグでの検索条件を指定していない場合、デフォルトで対応中のものを表示
-            $query->where('is_finished', false);
-        }
+        // クエリ構築
+        $customerRelations = CustomerRelation::with('customerRelationCategories', 'user')
+        ->receivedAtBetween($request->input('received_at_start'), $request->input('received_at_end'))
+        ->receivedByUserId($request->input('user_id'))
+        ->customerName($request->input('customer_name'))
+        ->contactNumber($request->input('contact_number'))
+        ->receptionChannel($request->input('reception_channel'))
+        ->initialContent($request->input('initial_content'))
+        ->isFinished($request->input('is_finished'))
+        ->category($selectedCategoryId)
+        ->department($request->input('department'))
+        ->orderBy('created_at', 'desc')
+        ->paginate(15);
         
-        // カテゴリでの絞り込み
-        if (!empty($selectedCategoryId)) {
-            $query->whereHas('customerRelationCategories', function ($query) use ($selectedCategoryId) {
-                $query->where('customer_relation_categories.id', $selectedCategoryId);
-            });
-        }
-        
-        // 結果の取得
-        $customerRelations = $query->orderBy('created_at', 'desc')->paginate(15);
-        
-        return View('customerRelations.index', compact('customerRelations', 'users', 'customerRelationCategories', 'selectedCategoryId'));
+        return View('customerRelations.index', compact('customerRelations', 'users', 'customerRelationCategories', 'selectedCategoryId','departments'));
     }
 
     /**

@@ -20,8 +20,19 @@
                             <div class="form-control">
                                 <input type="text" id="name" name="name" class="input input-bordered" placeholder="新規作成"  required autofocus>
                             </div>
-                    </td>
-                    <td>
+                        </td>
+                        <td>
+                            <div class="form-control">
+                                <select id="department" name="department" class="select select-bordered">
+                                    <option value="">担当部署を選択</option>
+                                    <option value="業務部">業務部</option>
+                                    <option value="出荷部">出荷部</option>
+                                    <option value="製造部">製造部</option>
+                                    <option value="その他">その他</option>
+                                </select>
+                            </div>
+                        </td>
+                        <td>
                             <div class="form-control">
                                 <button type="submit" class="btn btn-primary">登録</button>
                             </div>
@@ -37,12 +48,19 @@
                                 <div class="form-control">
                                     <input type="text" name="name" value="{{ $category->name }}" class="input input-bordered" required>
                                 </div>
-                            </form>
-                        </td>
-                        <td>
-                            <form action="{{ route('customerRelationCategories.update', $category->id) }}" method="POST" class="inline">
-                                @csrf
-                                @method('PUT')
+                            </td>
+                            <td>
+                                <div class="form-control">
+                                    <select id="department" name="department" class="select select-bordered">
+                                        <option value="">担当部署を選択</option>
+                                        <option value="業務部" {{ $category->department == '業務部' ? 'selected' : '' }}>業務部</option>
+                                        <option value="出荷部" {{ $category->department == '出荷部' ? 'selected' : '' }}>出荷部</option>
+                                        <option value="製造部" {{ $category->department == '製造部' ? 'selected' : '' }}>製造部</option>
+                                        <option value="その他" {{ $category->department == 'その他' ? 'selected' : '' }}>その他</option>
+                                    </select>
+                                </div>
+                            </td>
+                            <td>
                                 <button type="submit" class="btn btn-success">更新</button>
                             </form>
                             <form action="{{ route('customerRelationCategories.destroy', $category->id) }}" method="POST" class="inline">

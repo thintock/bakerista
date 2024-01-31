@@ -49,6 +49,16 @@
                 @endforeach
             </select>
             
+            <!-- 担当部署での検索 -->
+            <select id="department" name="department" class="select select-bordered text-xs">
+                <option value="">全ての部署</option>
+                @foreach ($departments as $department)
+                    <option value="{{ $department }}" {{ request('department') == $department ? 'selected' : '' }} class="text-xs">
+                        {{ $department }}
+                    </option>
+                @endforeach
+            </select>
+            
             <!-- 完了フラグでの検索 -->
             <div>
                 <select id="is_finished" name="is_finished" class="select select-bordered text-xs">
