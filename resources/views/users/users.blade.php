@@ -22,7 +22,7 @@
 
         <div>
           <div class="text-center font-bold text-base-600 md:text-lg">{{ $user->name }}&nbsp;{{ $user->first_name }}</div>
-          <p class="mb-3 text-center text-sm text-base-500 md:mb-4 md:text-base">{{ $user->email }}<br>{{ $user->phone }}</p>
+          <p class="mb-3 text-center text-sm text-base-500 md:mb-4 md:text-base">{{ $user->email }}<br>{{ $user->phone }}<br>{{ $user->is_approved }}</p>
 
           <!-- social - start -->
           <div class="flex justify-center">

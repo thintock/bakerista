@@ -121,7 +121,7 @@
                 <td>{{ $relation->initial_content }}</td>
                 <td>{{ $relation->product_name }}</td>
                 <td class="flex items-center space-x-2">
-                    <a href="{{ route('customerRelations.edit', $relation->id) }}" class="btn btn-primary text-sm">編集</a>
+                    <a href="{{ route('customerRelations.edit', $relation->id) }}" class="btn btn-primary text-sm" target="_blank">編集</a>
                     <form action="{{ route('customerRelations.destroy', $relation->id) }}" method="POST" class="d-inline">
                         @csrf
                         @method('DELETE')

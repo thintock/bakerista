@@ -176,18 +176,18 @@
                                         <div class="flex justify-between items-center mb-2">
                                             <span class="text-sm font-semibold">対応内容: {{ $history->response_category }}</span>
                                             <span class="text-sm">対応者： {{ $history->user->name }} {{ $history->user->first_name }}</span>
-                                            <span class="text-sm">作成日：{{ $history->created_at->format('Y-m-d') }}</span>
+                                            <span class="text-sm">作成日：{{ $history->created_at }}</span>
+                                            <span class="text-sm">更新日：{{ $history->updated_at }}</span>
                                             <div>
                                                 <label class="label-text ml-2 text-accent">削除</label>
-                                                <input type="checkbox" name="delete_histories[]" value="{{ $history->id }}" class="checkbox checkbox-accent">
+                                                <input type="checkbox" name="deleteHistories[]" value="{{ $history->id }}" class="checkbox checkbox-accent">
                                             </div>
                                         </div>
                                         
                                         <!-- 2行目：対応内容 -->
                                         <div class="form-control">
-                                            <textarea class="textarea textarea-bordered">{{ $history->response_content }}</textarea>
+                                            <textarea name="updateHistories[{{ $history->id }}][response_content]" class="textarea textarea-bordered">{{ $history->response_content }}</textarea>
                                         </div>
-                            
                                     </div>
                                 </div>
                             </div>
@@ -211,7 +211,7 @@
                         <div class="card-body p-3">
                             <div class="flex justify-between items-center mb-2">
                                 <div class="form-control">
-                                    <select name="customerRelationHistories[${historyCount}][response_category]" class="select select-bordered">
+                                    <select name="newHistories[${historyCount}][response_category]" class="select select-bordered">
                                         <option value="連絡対応">連絡対応</option>
                                         <option value="代替商品発送＆引き取り">代替商品発送＆引き取り</option>
                                         <option value="代替商品発送のみ">代替商品発送のみ</option>
@@ -223,7 +223,7 @@
                                 <div>対応者：{{ Auth::user()->name }} {{ Auth::user()->first_name }}</div>
                             </div>
                             <div class="form-control">
-                                <textarea name="customerRelationHistories[${historyCount}][response_content]" class="input input-bordered textarea textarea-bordered h-24" placeholder="対応内容を入力してください。"></textarea>
+                                <textarea name="newHistories[${historyCount}][response_content]" class="input input-bordered textarea textarea-bordered h-24" placeholder="対応内容を入力してください。"></textarea>
                             </div>
                         </div>
                     </div>`;

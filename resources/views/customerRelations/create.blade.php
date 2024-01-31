@@ -123,7 +123,7 @@
                         <div class="card-body p-3">
                             <div class="flex justify-between items-center mb-2">
                                 <div class="form-control">
-                                    <select name="customerRelationHistories[${historyCount}][response_category]" class="select select-bordered">
+                                    <select name="newHistories[${historyCount}][response_category]" class="select select-bordered">
                                         <option value="連絡対応">連絡対応</option>
                                         <option value="代替商品発送＆引き取り">代替商品発送＆引き取り</option>
                                         <option value="代替商品発送のみ">代替商品発送のみ</option>
@@ -135,7 +135,7 @@
                                 <div>対応者：{{ Auth::user()->name }} {{ Auth::user()->first_name }}</div>
                             </div>
                             <div class="form-control">
-                                <textarea name="customerRelationHistories[${historyCount}][response_content]" class="input input-bordered textarea textarea-bordered h-24" placeholder="対応内容を入力してください。"></textarea>
+                                <textarea name="newHistories[${historyCount}][response_content]" class="input input-bordered textarea textarea-bordered h-24" placeholder="対応内容を入力してください。"></textarea>
                             </div>
                         </div>
                     </div>
@@ -155,7 +155,7 @@
                         <div class="card-body p-3">
                             <div class="flex justify-between items-center mb-2">
                                 <div class="form-control">
-                                    <select name="customerRelationHistories[${historyCount}][response_category]" class="select select-bordered">
+                                    <select name="newHistories[${historyCount}][response_category]" class="select select-bordered">
                                         <option value="連絡対応">連絡対応</option>
                                         <option value="代替商品発送＆引き取り">代替商品発送＆引き取り</option>
                                         <option value="代替商品発送のみ">代替商品発送のみ</option>
@@ -167,7 +167,7 @@
                                 <div>対応者：{{ Auth::user()->name }} {{ Auth::user()->first_name }}</div>
                             </div>
                             <div class="form-control">
-                                <textarea name="customerRelationHistories[${historyCount}][response_content]" class="input input-bordered textarea textarea-bordered h-24" placeholder="対応内容を入力してください。"></textarea>
+                                <textarea name="newHistories[${historyCount}][response_content]" class="input input-bordered textarea textarea-bordered h-24" placeholder="対応内容を入力してください。"></textarea>
                             </div>
                         </div>
                     </div>`;

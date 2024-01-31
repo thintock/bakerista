@@ -48,12 +48,13 @@ class UsersController extends Controller
         if (Auth::id() !==$user->id) {
             return redirect()->route('users.show', $user->id)->with('success', '自分のユーザー情報以外は修正できません。');
         }
-        
+        // dd($request);
         $request->validate([
         'name' => 'required|string|max:255',
         'first_name' => 'required|string|max:255',
         'phone' => 'nullable|string|max:255',
         'email' => 'required|string|email|max:255|unique:users,email,' . $id,
+        ''
         ]);
         
         $user = User::findOrFail($id);

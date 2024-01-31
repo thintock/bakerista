@@ -41,6 +41,13 @@
                             <input type="text" name="email" class="input input-bordered w-full" value="{{ $user->email }}">
                         </div>
 
+                        <!--<div class="form-control my-4">-->
+                        <!--    <label for="is_approved" class="label">-->
+                        <!--        <span class="label-text">管理者の承認</span>-->
+                        <!--    </label>-->
+                        <!--    <input type="text" name="email" class="input input-bordered w-full" value="{{ $user->is_approved }}">-->
+                        <!--</div>-->
+
                         <div class="form-control my-4">
                             <button type="submit" class="btn btn-primary">更新</button>
                         </div>

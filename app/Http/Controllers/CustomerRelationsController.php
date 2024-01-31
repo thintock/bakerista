@@ -129,8 +129,8 @@ class CustomerRelationsController extends Controller
                 'is_finished' => 'boolean',
                 'images' => 'nullable|array|max:5',
                 'images.*' => 'image|max:10240', // 10MB
-                'customerRelationHistories.*.response_category' => 'nullable|string|max:255',
-                'customerRelationHistories.*.response_content' => 'nullable|string|max:10000'
+                'newHistories.*.response_category' => 'nullable|string|max:255',
+                'newHistories.*.response_content' => 'nullable|string|max:10000',
             ]);
             
             // 画像登録
@@ -149,16 +149,9 @@ class CustomerRelationsController extends Controller
             // CustomerRelation レコードの作成
             $customerRelation = CustomerRelation::create($validatedData);
             
-            // customerRelationHistoriesの登録処理
-            if ($request->has('customerRelationHistories')) {
-                foreach ($request->input('customerRelationHistories') as $historyData) {
-                    $customerRelation->customerRelationHistories()->create([
-                        'response_category' => $historyData['response_category'],
-                        'response_content' => $historyData['response_content'],
-                        'respondent_user_id' => Auth::id(),
-                    ]);
-                }
-            }
+            // Historyの更新メソッド
+            $newHistories = $validatedData['newHistories'] ?? [];
+            CustomerRelationHistory::newHistories($customerRelation, $newHistories); // モデルメソッド実行
             
             // CustomerRelationSelection配列のバリデート
             $validatedData = $request->validate([
@@ -212,8 +205,20 @@ class CustomerRelationsController extends Controller
                 'health_department_contact_details' => 'nullable|string',
                 'is_finished' => 'boolean',
                 'new_images' => 'nullable|array|max:5',
-                'new_images.*' => 'image|max:10240' // 10MB
+                'new_images.*' => 'image|max:10240', // 10MB
+                'updateHistories.*.response_content' => 'nullable|string|max:10000',
+                'newHistories.*.response_category' => 'nullable|string|max:255',
+                'newHistories.*.response_content' => 'nullable|string|max:10000',
+                'deleteHistories' => 'nullable|array',
+                'deleteHistories.*' => 'exists:customer_relation_histories,id',
+                'category_id' => 'nullable|array',
+                'category_id.*' => 'exists:customer_relation_categories,id'
             ]);
+            
+            // カテゴリの関連付けを更新
+            if (array_key_exists('category_id', $validatedData)) {
+                $customerRelation->customerRelationCategories()->sync($validatedData['category_id']);
+            }
             
             // 既存の画像削除処理
             if ($request->has('delete_images')) {
@@ -244,38 +249,29 @@ class CustomerRelationsController extends Controller
             // 顧客対応情報を更新
             $customerRelation->update($validatedData);
             
-            // CustomerRelationSelection配列のバリデート
-            $validatedData = $request->validate([
-                'category_id' => 'nullable|array',
-                'category_id.*' => 'exists:customer_relation_categories,id'
-            ]);
+            // Historyの操作メソッド
+            $updateHistories = $validatedData['updateHistories'] ?? [];
+            CustomerRelationHistory::updateHistories($updateHistories);
             
-            // カテゴリの関連付けを更新
-            if (array_key_exists('category_id', $validatedData)) {
-                $customerRelation->customerRelationCategories()->sync($validatedData['category_id']);
-            }
-    
-            // 既存履歴の削除処理
-            if ($request->has('delete_histories')) {
-                $deleteHistories = $request->input('delete_histories');
-                foreach ($deleteHistories as $deleteHistoryId) {
-                    CustomerRelationHistory::destroy($deleteHistoryId);
-                }
-            }
+            $deleteHistories = $validatedData['deleteHistories'] ?? [];
+            CustomerRelationHistory::deleteHistories($deleteHistories);
+ 
+            $newHistories = $validatedData['newHistories'] ?? [];
+            CustomerRelationHistory::newHistories($customerRelation, $newHistories);
             
-            // 新しい履歴の追加処理
-            if ($request->has('newHistories')) {
-                foreach ($request->input('newHistories') as $newHistoryData) {
-                    $customerRelation->customerRelationHistories()->create([
-                        'response_category' => $newHistoryData['response_category'],
-                        'response_content' => $newHistoryData['response_content'],
-                        'respondent_user_id' => Auth::id() // 現在のユーザーID
-                    ]);
-                }
-            }
             DB::commit();
             
-            return redirect()->route('customerRelations.index')->with('success', '顧客対応が更新されました。');
+            return redirect()->route('customerRelations.edit', $customerRelation->id)->with('success', '顧客対応が更新されました。');
+            // // 全てのカテゴリを取得
+            // $allCategories = CustomerRelationCategory::orderBy('name', 'asc')->get();
+            
+            // // 選択されているカテゴリのIDを取得
+            // $selectedCategoryIds = $customerRelation->customerRelationCategories->pluck('id')->toArray();
+            
+            // // CustomerRelationHistoryの関連レコードを取得
+            // $customerRelationHistories = $customerRelation->customerRelationHistories;
+            
+            // return view('customerRelations.edit', compact('customerRelation', 'allCategories', 'selectedCategoryIds', 'customerRelationHistories'));
         } catch (\Exception $e) {
         DB::rollback();
         return back()->withErrors('エラーが発生しました：' . $e->getMessage());
