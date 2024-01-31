@@ -182,7 +182,9 @@ class CustomerRelationsController extends Controller
         $selectedCategoryIds = $customerRelation->customerRelationCategories->pluck('id')->toArray();
         
         // CustomerRelationHistoryの関連レコードを取得
-        $customerRelationHistories = $customerRelation->customerRelationHistories;
+        $customerRelationHistories = $customerRelation->customerRelationHistories()
+        ->orderBy('created_at', 'asc')
+        ->get();
         
         return view('customerRelations.edit', compact('customerRelation', 'allCategories', 'selectedCategoryIds', 'customerRelationHistories'));
     }
