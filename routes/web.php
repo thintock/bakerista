@@ -25,7 +25,9 @@ Route::get('/dashboard', function () {
 
 require __DIR__.'/auth.php';
 
-Route::group(['middleware' => ['auth']], function() {
+Route::group(['middleware' => ['auth']], function() { // , 'approved'を追加するとユーザー制御がONになる。
+   Route::get('/users/manage', [UsersController::class, 'manage'])->name('users.manage');
+   Route::patch('/users/{user}/updateStatus', [UsersController::class, 'updateStatus'])->name('users.updateStatus');
    Route::resource('users', UsersController::class, ['only' => ['index', 'show', 'edit', 'update', 'destroy']]); 
    Route::resource('materials', MaterialsController::class)->except(['show']);
    Route::resource('millMachines', MillMachinesController::class)->except(['show']);

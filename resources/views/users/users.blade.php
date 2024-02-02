@@ -8,6 +8,10 @@
       <h2 class="mb-4 text-center text-2xl font-bold text-base-800 md:mb-6 lg:text-3xl">ユーザー一覧</h2>
 
       <p class="mx-auto max-w-screen-md text-center text-base-500 md:text-lg">必ず自分のアカウントを作成して、使用する際は自身のユーザーアカウントでログインしていることを確認して使用してください。</p>
+      @if(Auth::id() === 1)
+          <!--管理者のみ表示-->
+          <a href="{{ route('users.manage') }}" class="btn btn-primary">ユーザー管理</a>
+      @endif
     </div>
     <!-- text - end -->
     

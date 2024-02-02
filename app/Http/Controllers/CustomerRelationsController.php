@@ -221,16 +221,7 @@ class CustomerRelationsController extends Controller
             DB::commit();
             
             return redirect()->route('customerRelations.edit', $customerRelation->id)->with('success', '顧客対応が更新されました。');
-            // // 全てのカテゴリを取得
-            // $allCategories = CustomerRelationCategory::orderBy('name', 'asc')->get();
             
-            // // 選択されているカテゴリのIDを取得
-            // $selectedCategoryIds = $customerRelation->customerRelationCategories->pluck('id')->toArray();
-            
-            // // CustomerRelationHistoryの関連レコードを取得
-            // $customerRelationHistories = $customerRelation->customerRelationHistories;
-            
-            // return view('customerRelations.edit', compact('customerRelation', 'allCategories', 'selectedCategoryIds', 'customerRelationHistories'));
         } catch (\Exception $e) {
         DB::rollback();
         return back()->withErrors('エラーが発生しました：' . $e->getMessage());
