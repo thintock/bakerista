@@ -40,6 +40,16 @@
                             </label>
                             <input type="text" name="email" class="input input-bordered w-full" value="{{ $user->email }}">
                         </div>
+                        
+                        <div class="form-control my-4">
+                            <label for="approved" class="label">
+                                @if($user->is_approved)
+                                    <span class="badge badge-primary">承認済み</span>
+                                @else
+                                    <span class="badge badge-accent badge-outline">未承認</span><span>※管理者に連絡してください。</span>
+                                @endif
+                            </label>
+                        </div>
 
                         <div class="form-control my-4">
                             <button type="submit" class="btn btn-primary">更新</button>
