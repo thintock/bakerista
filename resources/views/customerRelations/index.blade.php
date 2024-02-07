@@ -128,7 +128,7 @@
                         , 他
                     @endif
                 </td>
-                <td>{{ $relation->initial_content }}</td>
+                <td>{{ mb_strimwidth($relation->initial_content, 0, 100, '...') }}</td>
                 <td>{{ $relation->product_name }}</td>
                 <td class="flex items-center space-x-2">
                     <a href="{{ route('customerRelations.edit', $relation->id) }}" class="btn btn-primary text-sm" target="_blank">編集</a>
