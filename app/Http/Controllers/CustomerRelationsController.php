@@ -44,7 +44,7 @@ class CustomerRelationsController extends Controller
         ->isFinished($request->input('is_finished'))
         ->category($selectedCategoryId)
         ->department($request->input('department'))
-        ->orderBy('created_at', 'desc')
+        ->orderBy('received_at', 'desc')
         ->paginate(15);
         
         return View('customerRelations.index', compact('customerRelations', 'users', 'customerRelationCategories', 'selectedCategoryId','departments'));
