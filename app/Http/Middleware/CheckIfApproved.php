@@ -14,6 +14,6 @@ class CheckIfApproved
             return $next($request);
         }
 
-        return redirect('/')->with('error', 'アカウントがまだ承認されていません。');
+        return redirect('/unapproved');
     }
 }
