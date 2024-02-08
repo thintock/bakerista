@@ -251,7 +251,7 @@ class MillFlourProductionsController extends Controller
             }
             // dd($production);
             DB::commit();
-            return redirect()->route('millFlourProductions.index')->with('success', '製粉生産が更新されました。');
+            return redirect()->route('millFlourProductions.edit', $id)->with('success', '製粉生産が更新されました。');
             
         } catch (\Exception $e) {
             DB::rollback();

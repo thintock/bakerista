@@ -326,7 +326,7 @@ class MillPolishedMaterialsController extends Controller
             DB::commit();
     
             // 成功した場合のリダイレクト
-            return redirect()->route('millPolishedMaterials.index')->with('success', '精麦済み原料が更新されました。');
+            return redirect()->route('millPolishedMaterials.edit', $id)->with('success', '精麦済み原料が更新されました。');
     } catch (\Exception $e) {
         // エラーが発生した場合はロールバック
         DB::rollback();
