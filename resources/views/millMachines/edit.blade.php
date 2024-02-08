@@ -27,17 +27,17 @@
                 </label>
                 <textarea id="description" name="description" class="textarea textarea-bordered" rows="4">{{ $millMachine->description }}</textarea>
             </div>
-
-            <div class="form-control mt-6">
-                <button type="submit" class="btn btn-primary">更新</button>
+            <div class="flex mt-6">
+                <div class="form-control w-1/2 mr-3">
+                    <button type="submit" class="btn btn-primary">更新</button>
+                </div>
+                </form>
+                <form action="{{ route('millMachines.destroy', $millMachine->id) }}" method="POST" onsubmit="return confirm('本当に削除しますか？');" class="w-1/2">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-error w-full">製粉機情報を削除</button>
+                </form>
             </div>
-        </form>
-
-        <form action="{{ route('millMachines.destroy', $millMachine->id) }}" method="POST" onsubmit="return confirm('本当に削除しますか？');">
-            @csrf
-            @method('DELETE')
-            <button type="submit" class="btn btn-error w-full">削除</button>
-        </form>
+        </div>
     </div>
-</div>
 @endsection

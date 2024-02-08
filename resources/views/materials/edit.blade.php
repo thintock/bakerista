@@ -34,17 +34,18 @@
                 </label>
                 <input type="text" id="materials_producer_name" name="materials_producer_name" value="{{ $material->materials_producer_name }}" class="input input-bordered bg-base-200" readonly>
             </div>
-
-            <div class="form-control mt-6">
-                <button type="submit" class="btn btn-primary">更新</button>
-                
-            </div>
-        </form>
-        <form action="{{ route('materials.destroy', $material->id) }}" method="POST" onsubmit="return confirm('本当に削除しますか？');">
+            <div class="flex mt-6">
+                <div class="form-control w-1/2 mr-3">
+                    <button type="submit" class="btn btn-primary">更新</button>
+                    
+                </div>
+                </form>
+                <form action="{{ route('materials.destroy', $material->id) }}" method="POST" onsubmit="return confirm('本当に削除しますか？');" class="w-1/2">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-error w-full">削除</button>
                 </form>
+            </div>
+        </div>
     </div>
-</div>
 @endsection

@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <h1>顧客対応編集</h1>
+    <h1 class="text-xl font-semibold">顧客対応編集</h1>
 
     <form action="{{ route('customerRelations.update', $customerRelation->id) }}" method="POST" class="lg:flex lg:gap-10" enctype="multipart/form-data">
         @csrf
@@ -71,7 +71,13 @@
     
             <!-- リンク -->
             <div class="form-control">
-                <label class="label" for="link">受注画面</label>
+                <label class="label" for="link">受注画面
+                    @if ($customerRelation->link)
+                        <a href="{{ $customerRelation->link }}" target="_blank">
+                            <img src="{{ asset('images/icons/link.svg') }}" alt="link" width="16px">
+                        </a>
+                    @endif
+                </label>
                 <input type="url" id="link" name="link" class="input input-bordered" value="{{ $customerRelation->link }}">
             </div>
             
@@ -230,9 +236,18 @@
             }
             </script>
         </div>
-        <div class="form-control mt-6">
+    </div>
+    <div class="flex mt-6">
+        <div class="form-control w-1/2 mr-3">
             <button type="submit" class="btn btn-primary">更新</button>
         </div>
-    </form>
-</div>
+        </form>
+        <form action="{{ route('customerRelations.destroy', $customerRelation->id) }}" method="POST" onsubmit="return confirm('本当に削除しますか？');" class="w-1/2">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-error w-full">対応情報を削除</button>
+        </form>
+    </div>
+
+    
 @endsection

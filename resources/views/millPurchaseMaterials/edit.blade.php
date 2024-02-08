@@ -58,16 +58,17 @@
                 </label>
                 <input type="number" id="cost" name="cost" value="{{ $millPurchaseMaterial->cost }}" class="input input-bordered">
             </div>
-
-            <div class="form-control mt-6">
-                <button type="submit" class="btn btn-primary">更新</button>
-            </div>
-        </form>
-        <form action="{{ route('millPurchaseMaterials.destroy', $millPurchaseMaterial->id) }}" method="POST" onsubmit="return confirm('本当に削除しますか？');">
+            <div class="flex mt-6">
+                <div class="form-control w-1/2 mr-3">
+                    <button type="submit" class="btn btn-primary">更新</button>
+                </div>
+                </form>
+                <form action="{{ route('millPurchaseMaterials.destroy', $millPurchaseMaterial->id) }}" method="POST" onsubmit="return confirm('本当に削除しますか？');" class="w-1/2">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="btn btn-error w-full">削除</button>
+                    <button type="submit" class="btn btn-error w-full">入荷情報を削除</button>
                 </form>
+            </div>
+        </div>
     </div>
-</div>
 @endsection
