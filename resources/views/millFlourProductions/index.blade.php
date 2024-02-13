@@ -12,25 +12,25 @@
             <div class="stats shadow">
                 <div class="stat">
                     <div class="stat-title">累計製粉量</div>
-                    <div class="stat-value text-secondary">{{ number_format(round($totalFlourAmount)) }} kg</div>
+                    <div class="stat-value text-primary">{{ number_format(round($totalFlourAmount)) }} kg</div>
                     <div class="stat-desc"></div>
                 </div>
                 
                 <div class="stat">
                     <div class="stat-title">小麦粉在庫量</div>
-                    <div class="stat-value text-secondary">{{ number_format(round($currentFlourAmount)) }} kg</div>
+                    <div class="stat-value text-primary">{{ number_format(round($currentFlourAmount)) }} kg</div>
                     <div class="stat-desc"></div>
                 </div>
                 
                 <div class="stat">
                     <div class="stat-title">ふすま在庫量</div>
-                    <div class="stat-value text-secondary">{{ number_format(round($currentBranAmount)) }} kg</div>
+                    <div class="stat-value text-primary">{{ number_format(round($currentBranAmount)) }} kg</div>
                     <div class="stat-desc"></div>
                 </div>
                 
                 <div class="stat">
                     <div class="stat-title">在庫金額</div>
-                    <div class="stat-value text-accent">{{ number_format(round($currentStockValue)) }} 円</div>
+                    <div class="stat-value text-info">{{ number_format(round($currentStockValue)) }} 円</div>
                     <div class="stat-desc"></div>
                 </div>
                 
@@ -40,14 +40,14 @@
                 <form action="{{ route('millFlourProductions.index') }}" method="GET" class="mb-4">
                     <div class="flex space-x-2">
                         <div class="form-control">
-                            <input type="date" id="start_date" name="start_date" value="{{ request('start_date') }}" class="input input-bordered input-secondary">
+                            <input type="date" id="start_date" name="start_date" value="{{ request('start_date') }}" class="input input-bordered">
                         </div>
                         <div class="mt-3">〜</div>
                         <div class="form-control">
-                            <input type="date" id="end_date" name="end_date" value="{{ request('end_date') }}" class="input input-bordered input-secondary">
+                            <input type="date" id="end_date" name="end_date" value="{{ request('end_date') }}" class="input input-bordered">
                         </div>
                         <div class="form-control">
-                            <button type="submit" class="btn btn-secondary mr-2">表示期間設定</button>
+                            <button type="submit" class="btn btn-info mr-2">表示期間設定</button>
                         </div>
                     </div>
                 </form>
@@ -57,7 +57,7 @@
                         <button type="submit" class="btn btn-secondary">在庫を表示</button>
                         <input type="hidden" name="show_all" value="false">
                     @else
-                        <button type="submit" class="btn btn-accent">在庫なしを表示</button>
+                        <button type="submit" class="btn btn-success">在庫なしを表示</button>
                         <input type="hidden" name="show_all" value="true">
                     @endif
                 </form>
@@ -66,9 +66,9 @@
         
         @if ($productions->count() > 0)
             <div class="overflow-x-auto">
-                <table class="table table-xs">
+                <table class="table table-xs bg-base-100">
                     <thead>
-                        <tr class="bg-base-200">
+                        <tr>
                             <th>
                                 <p>製造ロット番号</p>
                                 <p>製粉日</p>
@@ -106,10 +106,16 @@
                                     <p>ふすま: {{ round($production->bran_weight, 1) }} kg</p>
                                 </td>
                                 <td>
-                                    <div class="badge badge-primary mb-1">No.{{ $production->millMachine->machine_number }}</div>
+                                    <div class="badge badge-info mb-1">No.{{ $production->millMachine->machine_number }}</div>
                                     <p>{{ $production->millMachine->machine_name }}</p>
                                 </td>
-                                <td>{{ $production->milling_retention }} %</td>
+                                <td>
+                                    <p>{{ $production->milling_retention }} %</p>
+                                    @if ($production->is_finished)
+                                    <p class="text-info">在庫なし</p>
+                                    @else
+                                    @endif
+                                </td>
                                 <td>{{ $production->remarks }}</td>
                                 <td class="border-l border-r border-base-200">
                                     <table class="table table-xs w-full">
@@ -140,7 +146,7 @@
                                     </table>
                                 </td>
                                 <td>
-                                    <a href="{{ route('millFlourProductions.edit', $production->id) }}" class="btn btn-primary"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="18" height="18" color="#000000"><defs><style>.cls-6374f8d9b67f094e4896c676-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c676-1" d="M7.23,20.59l-4.78,1,1-4.78L17.89,2.29A2.69,2.69,0,0,1,19.8,1.5h0a2.7,2.7,0,0,1,2.7,2.7h0a2.69,2.69,0,0,1-.79,1.91Z"></path><line class="cls-6374f8d9b67f094e4896c676-1" x1="0.55" y1="22.5" x2="23.45" y2="22.5"></line><line class="cls-6374f8d9b67f094e4896c676-1" x1="19.64" y1="8.18" x2="15.82" y2="4.36"></line></svg></a>
+                                    <a href="{{ route('millFlourProductions.edit', $production->id) }}" class="btn btn-secondary"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="18" height="18" color="#000000"><defs><style>.cls-6374f8d9b67f094e4896c676-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c676-1" d="M7.23,20.59l-4.78,1,1-4.78L17.89,2.29A2.69,2.69,0,0,1,19.8,1.5h0a2.7,2.7,0,0,1,2.7,2.7h0a2.69,2.69,0,0,1-.79,1.91Z"></path><line class="cls-6374f8d9b67f094e4896c676-1" x1="0.55" y1="22.5" x2="23.45" y2="22.5"></line><line class="cls-6374f8d9b67f094e4896c676-1" x1="19.64" y1="8.18" x2="15.82" y2="4.36"></line></svg></a>
                                 </td>
                             </tr>
                           <tr>

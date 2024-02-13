@@ -30,7 +30,7 @@
                           <!--</div>-->
                           <!--<a href="#" class="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">パスワードを忘れましたか？</a>-->
                       <!--</div>-->
-                      <button type="submit" class="btn btn-primary w-full">ログイン</button>
+                      <button type="submit" class="btn btn-secondary w-full">ログイン</button>
                       <p class="text-sm font-light text-gray-500 dark:text-gray-400">
                         まだユーザーを作成していません。 <a href="{{ route('register') }}" class="font-medium text-primary-600 hover:underline dark:text-primary-500">新規登録</a>
                       </p>

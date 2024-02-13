@@ -31,7 +31,7 @@
                         <form action="{{ route('users.updateStatus', $user->id) }}" method="POST">
                             @csrf
                             @method('PATCH')
-                            <input type="checkbox" name="is_approved" class="toggle toggle-accent" {{ $user->is_approved ? 'checked' : '' }}
+                            <input type="checkbox" name="is_approved" class="toggle toggle-secondary" {{ $user->is_approved ? 'checked' : '' }}
                                 onchange="confirmStatusChange(this.form)">
                         </form>
                     </td>
@@ -39,7 +39,7 @@
                         <form action="{{ route('users.destroy', $user->id) }}" method="POST">
                             @csrf
                             @method('DELETE')
-                            <button class="btn btn-error" onclick="return confirmDelete()">
+                            <button class="btn btn-warning" onclick="return confirmDelete()">
                                 削除
                             </button>
                         </form>

@@ -123,7 +123,7 @@ class CustomerRelationsController extends Controller
 
             
             DB::commit();
-            return redirect()->route('customerRelations.index')->with('success', '顧客対応情報が登録されました。');
+            return redirect()->route('customerRelations.edit', $customerRelation->id )->with('success', '顧客対応情報が登録されました。');
         } catch (\Exception $e) {
             DB::rollback();
             return back()->withErrors('エラーが発生しました：' . $e->getMessage());

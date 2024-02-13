@@ -8,14 +8,14 @@
 
             <div class="form-control">
                 <label class="label" for="machine_number">
-                    <span class="label-text">番号<span class="text-accent">＊必須</span></span>
+                    <span class="label-text">番号<span class="text-info">＊必須</span></span>
                 </label>
                 <input type="text" id="machine_number" name="machine_number" class="input input-bordered" required autofocus>
             </div>
             
             <div class="form-control">
                 <label class="label" for="machine_name">
-                    <span class="label-text">製粉機名<span class="text-accent">＊必須</span></span>
+                    <span class="label-text">製粉機名<span class="text-info">＊必須</span></span>
                 </label>
                 <input type="text" id="machine_name" name="machine_name" class="input input-bordered" required autofocus>
             </div>

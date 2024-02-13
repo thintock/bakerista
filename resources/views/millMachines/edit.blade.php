@@ -16,7 +16,7 @@
 
             <div class="form-control">
                 <label class="label" for="machine_name">
-                    <span class="label-text">製粉機名<span class="text-accent">＊必須</span></span>
+                    <span class="label-text">製粉機名<span class="text-info">＊必須</span></span>
                 </label>
                 <input type="text" id="machine_name" name="machine_name" value="{{ $millMachine->machine_name }}" class="input input-bordered" required>
             </div>
@@ -29,7 +29,7 @@
             </div>
             <div class="flex mt-6">
                 <div class="form-control w-1/2 mr-3">
-                    <button type="submit" class="btn btn-primary">更新</button>
+                    <button type="submit" class="btn btn-secondary">更新</button>
                 </div>
                 </form>
                 <form action="{{ route('millMachines.destroy', $millMachine->id) }}" method="POST" onsubmit="return confirm('本当に削除しますか？');" class="w-1/2">

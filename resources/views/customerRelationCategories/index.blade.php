@@ -61,12 +61,12 @@
                                 </div>
                             </td>
                             <td>
-                                <button type="submit" class="btn btn-success">更新</button>
+                                <button type="submit" class="btn btn-secondary">更新</button>
                             </form>
                             <form action="{{ route('customerRelationCategories.destroy', $category->id) }}" method="POST" class="inline">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-error" onclick="return confirm('本当に削除しますか？');">削除</button>
+                                <button type="submit" class="btn btn-warning" onclick="return confirm('本当に削除しますか？');">削除</button>
                             </form>
                         </td>
                     </tr>

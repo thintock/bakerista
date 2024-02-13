@@ -2,7 +2,19 @@
 
 @section('content')
 <div class="container">
-    <h1 class="text-xl font-semibold">顧客対応編集</h1>
+    <div class="flex justify-between items-center mb-4">
+        <!-- 戻るボタン -->
+        <a href="{{ route('customerRelations.index') }}" class="btn btn-secondary">
+            ← 戻る
+        </a>
+    
+        <h1 class="text-2xl font-bold">顧客対応編集</h1>
+    
+        <!-- 新規作成ボタン -->
+        <a href="{{ route('customerRelations.create') }}" class="btn btn-primary">
+            新規作成
+        </a>
+    </div>
 
     <form action="{{ route('customerRelations.update', $customerRelation->id) }}" method="POST" class="lg:flex lg:gap-10" enctype="multipart/form-data">
         @csrf
@@ -36,7 +48,7 @@
                 <div class="form-control">
                     <label class="label cursor-pointer" for="is_finished">
                         <span class="mr-3 text-xs">対応完了</span>
-                        <input type="checkbox" id="is_finished" name="is_finished" class="checkbox checkbox-secondary" value="1" {{ $customerRelation->is_finished ? 'checked' : '' }}>
+                        <input type="checkbox" id="is_finished" name="is_finished" class="checkbox checkbox-accent" value="1" {{ $customerRelation->is_finished ? 'checked' : '' }}>
                     </label>
                 </div>
                 
@@ -44,7 +56,7 @@
                 <div class="form-control">
                     <label class="label cursor-pointer" for="needs_health_department_contact">
                         <span class="label-text mr-3 text-xs">保健所連絡</span>
-                        <input type="checkbox" id="needs_health_department_contact" name="needs_health_department_contact" class="checkbox checkbox-secondary" value="1" {{ $customerRelation->needs_health_department_contact ? 'checked' : '' }}>
+                        <input type="checkbox" id="needs_health_department_contact" name="needs_health_department_contact" class="checkbox checkbox-accent" value="1" {{ $customerRelation->needs_health_department_contact ? 'checked' : '' }}>
                     </label>
                 </div>
     
@@ -154,7 +166,7 @@
                     <div class="overflow-y-auto max-h-40 w-60 p-2 border rounded">
                         @foreach ($allCategories as $category)
                             <div class="flex items-center">
-                                <input type="checkbox" id="category_{{ $category->id }}" name="category_id[]" value="{{ $category->id }}" class="checkbox checkbox-primary"{{ in_array($category->id, $selectedCategoryIds) ? 'checked' : '' }} style="width: 1rem;height: 1rem;">
+                                <input type="checkbox" id="category_{{ $category->id }}" name="category_id[]" value="{{ $category->id }}" class="checkbox"{{ in_array($category->id, $selectedCategoryIds) ? 'checked' : '' }} style="width: 1rem;height: 1rem;">
                                 <label for="category_{{ $category->id }}" class="ml-2 text-xs">{{ $category->name }}</label>
                             </div>
                         @endforeach
@@ -239,13 +251,13 @@
     </div>
     <div class="flex mt-6">
         <div class="form-control w-1/2 mr-3">
-            <button type="submit" class="btn btn-primary">更新</button>
+            <button type="submit" class="btn btn-secondary">更新</button>
         </div>
         </form>
         <form action="{{ route('customerRelations.destroy', $customerRelation->id) }}" method="POST" onsubmit="return confirm('本当に削除しますか？');" class="w-1/2">
             @csrf
             @method('DELETE')
-            <button type="submit" class="btn btn-error w-full">対応情報を削除</button>
+            <button type="submit" class="btn btn-warning w-full">対応情報を削除</button>
         </form>
     </div>
 

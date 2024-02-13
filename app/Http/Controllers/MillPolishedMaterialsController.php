@@ -45,7 +45,7 @@ class MillPolishedMaterialsController extends Controller
                 return $carry;
             }, 0);
         
-        $millPolishedMaterials = $query->orderBy('polished_lot_number')->paginate(15);
+        $millPolishedMaterials = $query->orderBy('polished_date', 'desc')->paginate(15)->withQueryString();
         
     return view('millPolishedMaterials.index', compact('millPolishedMaterials', 'totalPolishedAmount', 'currentPolishedAmount', 'currentPolishedValue'));
     } 
@@ -149,7 +149,7 @@ class MillPolishedMaterialsController extends Controller
         // すべての処理が成功したらコミット
         DB::commit();
 
-        return redirect()->route('millPolishedMaterials.index')->with('success', '精麦済み原料が正常に登録されました。');
+        return redirect()->route('millPolishedMaterials.edit', $polishedMaterial->id)->with('success', '精麦済み原料が正常に登録されました。');
 
     } catch (\Illuminate\Database\QueryException $e) {
     if ($e->getCode() == 23000) { // 一意性制約違反のエラーコード

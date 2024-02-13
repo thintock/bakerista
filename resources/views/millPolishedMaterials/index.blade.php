@@ -13,19 +13,19 @@
         <div class="stats shadow">
             <div class="stat">
                 <div class="stat-title">累計精麦量</div>
-                <div class="stat-value text-secondary">{{ number_format(round($totalPolishedAmount)) }} kg</div>
+                <div class="stat-value text-primary">{{ number_format(round($totalPolishedAmount)) }} kg</div>
                 <div class="stat-desc"></div>
             </div>
             
             <div class="stat">
                 <div class="stat-title">精麦済み在庫量</div>
-                <div class="stat-value text-secondary">{{ number_format(round($currentPolishedAmount)) }} kg</div>
+                <div class="stat-value text-primary">{{ number_format(round($currentPolishedAmount)) }} kg</div>
                 <div class="stat-desc"></div>
             </div>
             
             <div class="stat">
                 <div class="stat-title">精麦済み在庫金額</div>
-                <div class="stat-value text-accent">{{ number_format(round($currentPolishedValue)) }} 円</div>
+                <div class="stat-value text-info">{{ number_format(round($currentPolishedValue)) }} 円</div>
                 <div class="stat-desc"></div>
             </div>
             
@@ -35,15 +35,17 @@
             <form action="{{ route('millPolishedMaterials.index') }}" method="GET" class="mb-4">
                 <div class="flex space-x-2">
                     <div class="form-control">
-                        <input type="date" id="start_date" name="start_date" value="{{ request('start_date') }}" class="input input-bordered input-secondary">
+                        <input type="date" id="start_date" name="start_date" value="{{ request('start_date') }}" class="input input-bordered">
                     </div>
                     <div class="mt-3">〜</div>
                     <div class="form-control">
-                        <input type="date" id="end_date" name="end_date" value="{{ request('end_date') }}" class="input input-bordered input-secondary">
+                        <input type="date" id="end_date" name="end_date" value="{{ request('end_date') }}" class="input input-bordered">
                     </div>
                     <div class="form-control">
                         <button type="submit" class="btn btn-secondary mr-2">表示期間設定</button>
                     </div>
+                    <!--絞り込み条件の保持-->
+                    <input type="hidden" name="show_all" value="{{ request('show_all') }}">
                 </div>
             </form>
             <a href="{{ route('millPolishedMaterials.create') }}" class="btn btn-primary mr-1">精麦登録</a>
@@ -52,9 +54,13 @@
                     <button type="submit" class="btn btn-secondary">在庫を表示</button>
                     <input type="hidden" name="show_all" value="false">
                 @else
-                    <button type="submit" class="btn btn-accent">在庫なしを表示</button>
+                    <button type="submit" class="btn btn-success">在庫なしを表示</button>
                     <input type="hidden" name="show_all" value="true">
                 @endif
+                <!--絞り込み条件の保持-->
+                <input type="hidden" name="start_date" value="{{ request('start_date') }}">
+                <input type="hidden" name="end_date" value="{{ request('end_date') }}">
+                
             </form>
         </div>
     </div>
@@ -125,7 +131,7 @@
                         </thead>
                       </table>
                     </td>
-                    <td><a href="{{ route('millPolishedMaterials.edit', $millPolishedMaterial->id) }}" class="btn btn-primary"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="18" height="18" color="#000000"><defs><style>.cls-6374f8d9b67f094e4896c676-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c676-1" d="M7.23,20.59l-4.78,1,1-4.78L17.89,2.29A2.69,2.69,0,0,1,19.8,1.5h0a2.7,2.7,0,0,1,2.7,2.7h0a2.69,2.69,0,0,1-.79,1.91Z"></path><line class="cls-6374f8d9b67f094e4896c676-1" x1="0.55" y1="22.5" x2="23.45" y2="22.5"></line><line class="cls-6374f8d9b67f094e4896c676-1" x1="19.64" y1="8.18" x2="15.82" y2="4.36"></line></svg></a></td>
+                    <td><a href="{{ route('millPolishedMaterials.edit', $millPolishedMaterial->id) }}" class="btn btn-secondary"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="18" height="18" color="#000000"><defs><style>.cls-6374f8d9b67f094e4896c676-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c676-1" d="M7.23,20.59l-4.78,1,1-4.78L17.89,2.29A2.69,2.69,0,0,1,19.8,1.5h0a2.7,2.7,0,0,1,2.7,2.7h0a2.69,2.69,0,0,1-.79,1.91Z"></path><line class="cls-6374f8d9b67f094e4896c676-1" x1="0.55" y1="22.5" x2="23.45" y2="22.5"></line><line class="cls-6374f8d9b67f094e4896c676-1" x1="19.64" y1="8.18" x2="15.82" y2="4.36"></line></svg></a></td>
                 </tr>
                 <tr>
                     <td colspan="4" class="text-right">

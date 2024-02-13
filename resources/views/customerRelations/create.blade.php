@@ -102,7 +102,7 @@
                     <div class="overflow-y-auto max-h-40 w-60 p-2 border rounded">
                         @foreach ($customerRelationCategories as $category)
                             <div class="flex items-center">
-                                <input type="checkbox" id="category_{{ $category->id }}" name="category_id[]" value="{{ $category->id }}" class="checkbox checkbox-primary" style="width: 1rem;height: 1rem;">
+                                <input type="checkbox" id="category_{{ $category->id }}" name="category_id[]" value="{{ $category->id }}" class="checkbox" style="width: 1rem;height: 1rem;">
                                 <label for="category_{{ $category->id }}" class="ml-2 text-xs">{{ $category->name }}</label>
                             </div>
                         @endforeach
@@ -142,9 +142,9 @@
                 </div>
             </div>
         </div>
-        <div class="form-control mt-6">
-            <button type="submit" class="btn btn-primary">登録</button>
-        </div>
-    </form>
-</div>
+    </div>
+    <div class="form-control mt-6">
+        <button type="submit" class="btn btn-primary">登録</button>
+    </div>
+</form>
 @endsection

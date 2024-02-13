@@ -28,17 +28,20 @@ class MillFlourProductionsController extends Controller
             $query->whereBetween('production_date', [$startDate, $endDate]); // 表示期間設定
         }
         
-        // if ($request->input('show_all') == 'true') {
-        //     $query->where('is_finished', true); // 在庫表示設定
-        // } else {
-        //     $query->where('is_finished', false);
-        // }
+        // is_finishedによる出しわけ
+        if ($request->has('show_all')) {
+            if ($request->input('show_all') == 'true') {
+                $query->where('is_finished', true); // 完了したレコードのみ表示
+            } elseif ($request->input('show_all') == 'false') {
+                $query->where('is_finished', false); // 未完了のレコードのみ表示
+            }
+        }
         
         // 各種計算
         $totalFlourAmount = MillFlourProduction::sum('total_input_weight'); // 総累計製粉量
-        $currentFlourAmount = MillFlourProduction::sum('flour_weight'); // 小麦粉在庫量
-        $currentBranAmount = MillFlourProduction::sum('bran_weight'); // ふすま在庫量
-        $currentStockValue = MillFlourProduction::get() // 在庫金額
+        $currentFlourAmount = MillFlourProduction::where('is_finished', false)->sum('flour_weight'); // 小麦粉在庫量
+        $currentBranAmount = MillFlourProduction::where('is_finished', false)->sum('bran_weight'); // ふすま在庫量
+        $currentStockValue = MillFlourProduction::where('is_finished', false)->get() // 在庫金額
             ->reduce(function ($carry, $item) {
                 $currentWeight = $item->flour_weight + $item->bran_weight;
                 if ($currentWeight > 0) {
@@ -95,6 +98,8 @@ class MillFlourProductionsController extends Controller
                     'mill_machine_id.exists' => '選択された製粉機は存在しません。',
                     
             ]);
+            // is_finishedにfalseを設定
+            $validatedData['is_finished'] = false;
             
             // 対応する製粉機のmachine_numberを取得
             $millMachine = MillMachine::find($validatedData['mill_machine_id']);
@@ -164,7 +169,7 @@ class MillFlourProductionsController extends Controller
             // 全ての処理が成功したらコミット
             DB::commit();
             
-            return redirect()->route('millFlourProductions.index')->with('success', '製粉生産が登録されました。');
+            return redirect()->route('millFlourProductions.edit', $production->id)->with('success', '製粉生産が登録されました。');
         } catch (\Exception $e) {
         // エラーが発生した場合はロールバック
         DB::rollback();
@@ -205,6 +210,7 @@ class MillFlourProductionsController extends Controller
                 'flour_weight' => 'nullable|numeric|min:0',
                 'bran_weight' => 'nullable|numeric|min:0',
                 'remarks' => 'nullable|string|max:1000',
+                'is_finished' => 'boolean',
                 'mill_polished_material_ids' => 'required|array',
                 'mill_polished_material_ids.*' => 'required|distinct|exists:mill_polished_materials,id',
                 'input_weights' => 'required|array',
@@ -224,6 +230,9 @@ class MillFlourProductionsController extends Controller
             
             $inputWeights = $request->input('input_weights', []);
             $inputCosts = $validatedData['input_costs'];
+            
+            // チェックボックスの値をbooleanに変換
+            $validatedData['is_finished'] = $request->has('is_finished');
             
             // remaining_polished_amount在庫の更新
             $production->updatePolishedMaterialRemainingAmount(

@@ -10,7 +10,7 @@
       <p class="mx-auto max-w-screen-md text-center md:text-lg">必ず自分のアカウントを作成して、使用する際は自身のユーザーアカウントでログインしていることを確認して使用してください。</p>
       @if(Auth::id() === 1)
           <!--管理者のみ表示-->
-          <a href="{{ route('users.manage') }}" class="btn btn-primary">ユーザー管理</a>
+          <a href="{{ route('users.manage') }}" class="btn btn-secondary">ユーザー管理</a>
       @endif
     </div>
     <!-- text - end -->
@@ -30,9 +30,9 @@
           <p class="mb-3 text-center text-sm md:mb-4">{{ $user->phone }}</p>
           <p class="mb-3 text-center text-sm md:mb-4">
             @if($user->is_approved)
-                <span class="badge badge-primary">承認済み</span>
+                <span class="badge badge-secondary">承認済み</span>
             @else
-                <span class="badge badge-accent badge-outline">未承認</span>
+                <span class="badge badge-warning badge-outline">未承認</span>
             @endif
           </p>
 

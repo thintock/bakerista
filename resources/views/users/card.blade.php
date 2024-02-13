@@ -7,9 +7,9 @@
     <p>Eメール：{{ $user->email }}</p>
     <p>
       @if($user->is_approved)
-          <span class="badge badge-primary">承認済み</span>
+          <span class="badge badge-secondary">承認済み</span>
       @else
-          <span class="badge badge-accent badge-outline">未承認</span><span>※管理者に連絡してください。</span>
+          <span class="badge badge-warning badge-outline">未承認</span><span>※管理者に連絡してください。</span>
       @endif
     </p>
     <div class="card-actions justify-end">
