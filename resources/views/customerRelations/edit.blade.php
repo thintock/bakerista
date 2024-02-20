@@ -16,7 +16,7 @@
         </a>
     </div>
 
-    <form action="{{ route('customerRelations.update', $customerRelation->id) }}" method="POST" class="lg:flex lg:gap-10" enctype="multipart/form-data">
+    <form action="{{ route('customerRelations.update', $customerRelation->id) }}" id="uploadForm" method="POST" class="lg:flex lg:gap-10" enctype="multipart/form-data">
         @csrf
         @method('PUT')
 
@@ -105,8 +105,7 @@
                             <div class="relative w-full pb-full">
                                 <img src="{{ Storage::url($image) }}" alt="Uploaded Image" class="top-0 left-0 w-full h-full object-cover rounded-lg cursor-pointer" onclick="showModal('{{ Storage::url($image) }}')">
                                 <label>
-                                    <input type="checkbox" name="delete_images[]" value="{{ $index }}" class="checkbox checkbox-accent" style="width: 1rem;height: 1rem;">
-                                    <label for="images" class="text-xs text-accent">削除</label>
+                                    <div class="btn btn-xs btn-warning"><input type="checkbox" name="delete_images[]" value="{{ $index }}" class="checkbox checkbox-warning" style="width: 1rem; height: 1rem;">削除</div>
                                 </label>
                             </div>
                         @endforeach

@@ -15,8 +15,8 @@
             新規作成
         </a>
     </div>
-        <form action="{{ route('millFlourProductions.update', $millFlourProduction->id) }}" method="POST">
-            <div class="lg:flex lg:gap-10">
+        <form action="{{ route('millFlourProductions.update', $millFlourProduction->id) }}" id="uploadForm" method="POST">
+            <div class="lg:flex lg:gap-10 text-left">
                 @csrf
                 @method('PUT')
                 <!-- 左側のセクション -->

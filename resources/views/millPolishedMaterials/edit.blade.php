@@ -15,8 +15,8 @@
             新規作成
         </a>
     </div>
-        <form action="{{ route('millPolishedMaterials.update', $polishedMaterial->id) }}" method="POST" id="editForm">
-            <div class="lg:flex lg:gap-10">
+        <form action="{{ route('millPolishedMaterials.update', $polishedMaterial->id) }}" id="uploadForm" method="POST" id="editForm">
+            <div class="lg:flex lg:gap-10 text-left">
                 @csrf
                 @method('PUT') 
                 <!-- 左側のセクション -->
@@ -45,7 +45,7 @@
                         </div>
                         
                     </div>
-                    <div class="flex flex-wrap mb-4 border border-secondary">
+                    <div class="flex flex-wrap mb-4 border border-secondary text-center">
                     
                         <div class="w-1/3 p-1 bg-secondary flex items-center justify-center">
                             <p class="text-base-200">

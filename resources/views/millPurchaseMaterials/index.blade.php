@@ -62,10 +62,10 @@
     
     @if ($millPurchaseMaterials->count() > 0)
         <div class="overflow-x-auto">
-            <table class="table table-xs">
+            <table class="table table-xs bg-base-100">
             <!-- head -->
                 <thead>
-                  <tr class="bg-base-200">
+                  <tr>
                     <th>ロットナンバー<br>入荷日</th>
                     <th>生産者<br>原材料</th>
                     <th>生産年度<br>フレコン番号</th>

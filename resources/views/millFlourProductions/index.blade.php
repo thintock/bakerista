@@ -49,6 +49,8 @@
                         <div class="form-control">
                             <button type="submit" class="btn btn-info mr-2">表示期間設定</button>
                         </div>
+                        <!--絞り込み条件の保持-->
+                        <input type="hidden" name="show_all" value="{{ request('show_all') }}">
                     </div>
                 </form>
                 <a href="{{ route('millFlourProductions.create') }}" class="btn btn-primary mr-1">新規製粉登録</a>
@@ -60,6 +62,9 @@
                         <button type="submit" class="btn btn-success">在庫なしを表示</button>
                         <input type="hidden" name="show_all" value="true">
                     @endif
+                    <!--絞り込み条件の保持-->
+                    <input type="hidden" name="start_date" value="{{ request('start_date') }}">
+                    <input type="hidden" name="end_date" value="{{ request('end_date') }}">
                 </form>
             </div>
         </div>

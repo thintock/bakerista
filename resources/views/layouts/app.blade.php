@@ -21,19 +21,7 @@
                 </div>
             </div>
         </div>
-        <!--検索可能なセレクトボックス-->
-        <script src="https://cdn.jsdelivr.net/npm/select2/dist/js/select2.min.js"></script>
-        <script>
-        $(document).ready(function() {
-            $('.select-search').select2({width:'100%'});
-        });
-        //日付ピッカー
-        flatpickr("#datePicker", {
-            altInput: true,
-            altFormat: "Y年m月d日", // 表示上の日付形式
-            dateFormat : 'Y-m-d', // 20210524の形式で表示
-            defaultDate: "{{ $millPurchaseMaterial->arrival_date ?? 'today' }}"
-        });
-        </script>
+        
+        @include('commons.common_tools')
     </body>
 </html>

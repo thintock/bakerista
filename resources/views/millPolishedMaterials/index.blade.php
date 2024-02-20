@@ -67,10 +67,10 @@
 
     @if ($millPolishedMaterials->count() > 0)
     <div class="overflow-x-auto">
-        <table class="table table-xs">
+        <table class="table table-xs bg-base-100">
         <!-- head -->
            <thead>
-                <tr class="bg-base-200">
+                <tr>
                     <th>
                         <p>精麦済みロット番号</p>
                         <p>精麦日付</p>

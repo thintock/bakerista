@@ -64,20 +64,20 @@
                 <select id="is_finished" name="is_finished" class="select select-bordered text-xs">
                     <option value="" {{ request('is_finished') === null ? 'selected' : '' }}>全て</option>
                     <option value="1" {{ request('is_finished') == '1' ? 'selected' : '' }}>完了</option>
-                    <option value="0" {{ request('is_finished') == '0' ? 'selected' : '' }}>対応中</option>
+                    <option value="0" {{ request('is_finished') === '0' || request('is_finished') === null ? 'selected' : '' }}>対応中</option>
                 </select>
             </div>
             
             <button type="submit" class="btn btn-secondary text-xs">検索</button>
             <a href="{{ route('customerRelations.index') }}" class="btn btn-info text-xs">クリア</a>
-            <a href="{{ route('customerRelationCategories.index') }}" class="btn btn-primary mr-2">カテゴリ管理</a>
             <a href="{{ route('customerRelations.create') }}" class="btn btn-primary">新規追加</a>
         </form>
         
     </div>
-    <table class="table table-xs mt-4 mb-4">
+    @if ($customerRelations->count() > 0)
+    <table class="table table-xs mt-4 mb-4 bg-base-100">
         <thead>
-            <tr class="bg-base-200">
+            <tr>
                 <th>ID</th>
                 <th>受付日時</th>
                 <th>ステータス</th>
@@ -144,5 +144,8 @@
     </table>
 {{-- ページネーションのリンク --}}
 {{ $customerRelations->links() }}
+@else
+<p>対応中の案件はありません。</p>
+@endif
 </div>
 @endsection

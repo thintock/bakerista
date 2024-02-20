@@ -6,7 +6,7 @@
             <h2 class="mb-4">ユーザー情報の修正</h2>
             <div class="card w-96 bg-base-100 shadow-xl">
                 <div class="card-body">
-                    <form method="POST" action="{{ route('users.update', $user->id) }}">
+                    <form method="POST" action="{{ route('users.update', $user->id) }}" id="uploadForm">
                         @csrf
                         @method('PUT')
                         

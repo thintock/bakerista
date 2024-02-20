@@ -12,9 +12,9 @@
 
     @if ($millMachines->count() > 0)
     <div class="overflow-x-auto">
-        <table class="table table-xs">
+        <table class="table table-xs bg-base-100">
             <thead>
-              <tr class="bg-base-200">
+              <tr>
                 <th>番号</th>
                 <th>製粉機名</th>
                 <th>説明</th>

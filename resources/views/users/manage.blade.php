@@ -28,7 +28,7 @@
                     <td>{{ $user->created_at }}</td>
                     <td>{{ $user->updated_at }}</td>
                     <td>
-                        <form action="{{ route('users.updateStatus', $user->id) }}" method="POST">
+                        <form action="{{ route('users.updateStatus', $user->id) }}" id="uploadForm" method="POST">
                             @csrf
                             @method('PATCH')
                             <input type="checkbox" name="is_approved" class="toggle toggle-secondary" {{ $user->is_approved ? 'checked' : '' }}

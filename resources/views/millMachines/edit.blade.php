@@ -3,7 +3,7 @@
 @section('content')
 <div class="container mx-auto px-4 py-6">
     <div class="w-full lg:w-1/2 mx-auto bg-base-100 shadow-xl p-6">
-        <form action="{{ route('millMachines.update', $millMachine->id) }}" class="mb-4" method="POST">
+        <form action="{{ route('millMachines.update', $millMachine->id) }}" id="uploadForm" class="mb-4" method="POST">
             @csrf
             @method('PUT')
 
@@ -35,7 +35,7 @@
                 <form action="{{ route('millMachines.destroy', $millMachine->id) }}" method="POST" onsubmit="return confirm('本当に削除しますか？');" class="w-1/2">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="btn btn-error w-full">製粉機情報を削除</button>
+                    <button type="submit" class="btn btn-warning w-full">製粉機情報を削除</button>
                 </form>
             </div>
         </div>

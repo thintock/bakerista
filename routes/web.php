@@ -10,6 +10,9 @@ use App\Http\Controllers\MillPolishedMaterialsController;
 use App\Http\Controllers\MillFlourProductionsController;
 use App\Http\Controllers\CustomerRelationCategoriesController;
 use App\Http\Controllers\CustomerRelationsController;
+use App\Http\Controllers\LocationsController;
+use App\Http\Controllers\CompaniesController;
+use App\Http\Controllers\SupplyItemsController;
 
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
@@ -37,4 +40,7 @@ Route::group(['middleware' => ['auth', 'approved']], function() { // , 'approved
    Route::resource('millFlourProductions', MillFlourProductionsController::class)->except(['show']);
    Route::resource('customerRelationCategories', CustomerRelationCategoriesController::class, ['only' => ['index','store','update','destroy']]);
    Route::resource('customerRelations', CustomerRelationsController::class)->except(['show']);
+   Route::resource('locations', LocationsController::class, ['only' => ['index','store','update','destroy']]);
+   Route::resource('companies', CompaniesController::class)->except(['show']);
+   Route::resource('supplyItems', SupplyItemsController::class)->except(['show']);
 });

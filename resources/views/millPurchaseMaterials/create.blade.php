@@ -3,7 +3,7 @@
 @section('content')
 <div class="container mx-auto px-4 py-6">
     <div class="w-full lg:w-1/2 mx-auto bg-base-100 shadow-xl p-6">
-        <form action="{{ route('millPurchaseMaterials.store') }}" method="POST">
+        <form action="{{ route('millPurchaseMaterials.store') }}" id="uploadForm" method="POST">
             @csrf
 
             <div class="form-control">

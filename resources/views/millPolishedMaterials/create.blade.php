@@ -3,8 +3,8 @@
 @section('content')
 <div class="container mx-auto p-6">
     <h1 class="text-2xl font-bold mb-4">精麦登録</h1>
-    <form action="{{ route('millPolishedMaterials.store') }}" method="POST">
-        <div class="lg:flex lg:gap-10">
+    <form action="{{ route('millPolishedMaterials.store') }}" id="uploadForm" method="POST">
+        <div class="lg:flex lg:gap-10 text-left">
             @csrf
              <!-- 左側のセクション -->
             <div class="lg:w-2/5">
@@ -31,7 +31,7 @@
                     </div>
                 </div>
                 
-                <div class="flex flex-wrap mb-4 border border-primary">
+                <div class="flex flex-wrap mb-4 border border-primary text-center">
                     
                     <div class="w-1/3 p-1 bg-primary flex items-center justify-center">
                         <p class="text-base-200">

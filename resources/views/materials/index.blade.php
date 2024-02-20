@@ -14,10 +14,10 @@
 
     @if ($materials->count() > 0)
     <div class="overflow-x-auto">
-        <table class="table table-xs">
+        <table class="table table-xs bg-base-100 p-6">
         <!-- head -->
             <thead>
-              <tr class="bg-base-200">
+              <tr>
                 <th>システムID</th>
                 <th>原材料コード</th>
                 <th>原材料名</th>

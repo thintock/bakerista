@@ -3,7 +3,7 @@
 @section('content')
 <div class="container mx-auto px-4 py-6">
     <div class="w-full lg:w-1/2 mx-auto bg-base-100 shadow-xl p-6">
-        <form action="{{ route('materials.update', $material->id) }}" class="mb-4" method="POST">
+        <form action="{{ route('materials.update', $material->id) }}" id="uploadForm" class="mb-4" method="POST">
             @csrf
             @method('PUT')
 

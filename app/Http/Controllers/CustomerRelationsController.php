@@ -33,19 +33,27 @@ class CustomerRelationsController extends Controller
         // カテゴリの絞り込み
         $selectedCategoryId = $request->input('category_id', '');
         
-        // クエリ構築
-        $customerRelations = CustomerRelation::with('customerRelationCategories', 'user')
-        ->receivedAtBetween($request->input('received_at_start'), $request->input('received_at_end'))
-        ->receivedByUserId($request->input('user_id'))
-        ->customerName($request->input('customer_name'))
-        ->contactNumber($request->input('contact_number'))
-        ->receptionChannel($request->input('reception_channel'))
-        ->initialContent($request->input('initial_content'))
-        ->isFinished($request->input('is_finished'))
-        ->category($selectedCategoryId)
-        ->department($request->input('department'))
-        ->orderBy('received_at', 'desc')
-        ->paginate(15);
+        $query = CustomerRelation::with('customerRelationCategories', 'user')
+            ->receivedAtBetween($request->input('received_at_start'), $request->input('received_at_end'))
+            ->receivedByUserId($request->input('user_id'))
+            ->customerName($request->input('customer_name'))
+            ->contactNumber($request->input('contact_number'))
+            ->receptionChannel($request->input('reception_channel'))
+            ->initialContent($request->input('initial_content'))
+            ->category($selectedCategoryId)
+            ->department($request->input('department'))
+            ->orderBy('received_at', 'desc');
+    
+        // is_finishedがリクエストに含まれているかチェック
+        if ($request->has('is_finished')) {
+            $query->isFinished($request->input('is_finished'));
+        } else {
+            // 初期表示は対応中のみ
+            $query->isFinished('0');
+        }
+    
+        // 結果の取得
+        $customerRelations = $query->paginate(15)->withQueryString();
         
         return View('customerRelations.index', compact('customerRelations', 'users', 'customerRelationCategories', 'selectedCategoryId','departments'));
     }

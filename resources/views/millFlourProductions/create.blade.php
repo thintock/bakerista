@@ -3,8 +3,8 @@
 @section('content')
 <div class="container mx-auto p-6">
     <h1 class="text-2xl font-bold mb-4">製粉登録</h1>
-    <form action="{{ route('millFlourProductions.store') }}" method="POST">
-        <div class="lg:flex lg:gap-10">
+    <form action="{{ route('millFlourProductions.store') }}" id="uploadForm" method="POST">
+        <div class="lg:flex lg:gap-10 text-left">
             @csrf
             <!-- 左側のセクション -->
             <div class="lg:w-2/5">

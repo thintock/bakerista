@@ -51,7 +51,7 @@ class MillFlourProductionsController extends Controller
             }, 0);
         
         // 結果をViewに返す
-        $productions = $query->orderBy('production_date', 'desc')->paginate(15);
+        $productions = $query->orderBy('production_date', 'desc')->paginate(15)->withQueryString();
         return view('millFlourProductions.index', compact('productions', 'totalFlourAmount', 'currentFlourAmount', 'currentBranAmount', 'currentStockValue'));
         
     }

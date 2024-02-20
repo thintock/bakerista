@@ -15,7 +15,7 @@
             <tbody>
                 <tr>
                     <td>
-                        <form action="{{ route('customerRelationCategories.store') }}" method="POST">
+                        <form action="{{ route('customerRelationCategories.store') }}" id="uploadForm" method="POST">
                             @csrf
                             <div class="form-control">
                                 <input type="text" id="name" name="name" class="input input-bordered" placeholder="新規作成"  required autofocus>
@@ -42,7 +42,7 @@
                 @foreach ($customerRelationCategories as $category)
                     <tr>
                         <td>
-                            <form action="{{ route('customerRelationCategories.update', $category->id) }}" method="POST">
+                            <form action="{{ route('customerRelationCategories.update', $category->id) }}" id="uploadForm" method="POST">
                                 @csrf
                                 @method('PUT')
                                 <div class="form-control">
