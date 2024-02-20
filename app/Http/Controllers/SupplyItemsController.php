@@ -13,10 +13,42 @@ use App\Models\User;
 
 class SupplyItemsController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $supplyItems = SupplyItem::with(['location', 'company'])->paginate(15);
-        return view('supplyItems.index', compact('supplyItems'));
+        // 発注先のリストを取得
+        $companies = Company::orderBy('name', 'asc')->get(); 
+        
+        // ロケーションのリストを取得
+        $locations = Location::orderBy('location_code', 'asc')->get();
+        
+        $query = SupplyItem::query();
+
+        if ($request->filled('item_code')) {
+            $query->where('item_code', 'like', '%' . $request->item_code . '%');
+        }
+    
+        if ($request->filled('item_status')) {
+            $query->where('item_status', $request->item_status);
+        }
+    
+        if ($request->filled('item_name')) {
+            $query->where('item_name', 'like', '%' . $request->item_name . '%');
+        }
+    
+        if ($request->filled('company_id')) {
+            $query->where('company_id', $request->company_id);
+        }
+    
+        if ($request->filled('category')) {
+            $query->where('category', $request->category);
+        }
+        if ($request->filled('location_code')) {
+            $query->where('location_code', $request->location_code);
+        }
+    
+        $supplyItems = $query->paginate(15)->withQueryString();
+        
+        return view('supplyItems.index', compact('supplyItems', 'companies', 'locations'));
     }
 
     public function create()
@@ -41,14 +73,14 @@ class SupplyItemsController extends Controller
                 'brand_name' => 'nullable|string|max:255',
                 'category' => 'nullable|string|max:255',
                 'price' => 'nullable|numeric',
-                'order_lot' => 'nullable|integer|min:1',
+                'order_lot' => 'nullable|integer|min:0',
                 'description' => 'nullable|string',
                 'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
                 'files' => 'nullable|array|max:10',
                 'files.*' => 'file|max:102400',
                 'print_images' => 'nullable|array|max:2',
                 'print_images.*' => 'file|mimetypes:application/pdf,application/postscript|max:102400',
-                'order_point' => 'nullable|integer|min:1',
+                'order_point' => 'nullable|integer|min:0',
                 'constant_stock' => 'nullable|integer|min:0|max:100000',
                 'actual_stock' => 'nullable|integer|min:0|max:100000',
                 'order_url' => 'nullable|url',
@@ -142,14 +174,14 @@ class SupplyItemsController extends Controller
                 'brand_name' => 'nullable|string|max:255',
                 'category' => 'nullable|string|max:255',
                 'price' => 'nullable|numeric',
-                'order_lot' => 'nullable|integer|min:1',
+                'order_lot' => 'nullable|integer|min:0',
                 'description' => 'nullable|string',
                 'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
                 'files' => 'nullable|array|max:10',
                 'files.*' => 'file|max:102400',
                 'print_images' => 'nullable|array|max:2',
                 'print_images.*' => 'file|mimetypes:application/pdf,application/postscript|max:102400',
-                'order_point' => 'nullable|integer|min:1',
+                'order_point' => 'nullable|integer|min:0',
                 'constant_stock' => 'nullable|integer|min:0|max:100000',
                 'actual_stock' => 'nullable|integer|min:0|max:100000',
                 'order_url' => 'nullable|url',

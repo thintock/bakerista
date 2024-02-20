@@ -28,6 +28,7 @@
                         <select id="reception_channel" name="reception_channel" class="select select-bordered" required>
                             <option value="">選択してください</option>
                             <option value="LINE">公式LINE</option>
+                            <option value="LINE">RMS</option>
                             <option value="メール">メール</option>
                             <option value="電話">電話</option>
                             <option value="レビュー">レビュー</option>

@@ -51,6 +51,11 @@ class CustomerRelationHistory extends Model
         // 新規履歴の追加処理
         if (!empty($newHistories)) {
             foreach ($newHistories as $historyData) {
+                // response_contentがnullまたは空文字の場合はスキップ
+                if (empty($historyData['response_content'])) {
+                    continue;
+                }
+    
                 $customerRelation->customerRelationHistories()->create([
                     'customer_relation_id' => $customerRelation->id,
                     'respondent_user_id' => Auth::id(),
@@ -60,4 +65,5 @@ class CustomerRelationHistory extends Model
             }
         }
     }
+
 }

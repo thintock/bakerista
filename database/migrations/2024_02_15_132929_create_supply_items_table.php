@@ -23,10 +23,10 @@ return new class extends Migration
             $table->decimal('price', 10, 2)->nullable();
             $table->text('description')->nullable();
             $table->string('thumbnail', 255)->nullable();
-            $table->mediumText('files')->nullable();
-            $table->mediumText('print_images')->nullable();
+            $table->text('files')->nullable();
+            $table->text('print_images')->nullable();
             $table->string('item_status', 255)->nullable();
-            $table->string('order_url')->nullable();
+            $table->text('order_url')->nullable();
             $table->date('order_schedule')->nullable();
             $table->string('delivery_period', 255)->nullable();
             $table->integer('order_point')->nullable();

@@ -249,7 +249,13 @@
                     </div>
                     
                     <div class="form-group mb-4">
-                        <label for="order_url" class="form-label">発注URL</label>
+                        <label for="order_url" class="label">発注URL
+                            @if ($supplyItem->order_url)
+                                <a href="{{ $supplyItem->order_url }}" target="_blank">
+                                    <img src="{{ asset('images/icons/link.svg') }}" alt="link" width="16px">
+                                </a>
+                            @endif
+                        </label>
                         <input type="url" id="order_url" name="order_url" class="input input-bordered w-full" value="{{ $supplyItem->order_url }}" placeholder="http://example.com">
                     </div>
                     

@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <h1 class="text-xl font-semibold">お客様対応管理</h1>
+<div class="container mx-auto px-4 py-6">
+    <h1 class="text-2xl font-bold mb-4">お客様対応管理</h1>
     
     <div class="flex mt-4">
     <!-- 絞り込み検索 -->

@@ -196,8 +196,9 @@
                                             <span class="text-sm">作成日：{{ $history->created_at }}</span>
                                             <span class="text-sm">更新日：{{ $history->updated_at }}</span>
                                             <div>
-                                                <label class="label-text ml-2 text-accent">削除</label>
-                                                <input type="checkbox" name="deleteHistories[]" value="{{ $history->id }}" class="checkbox checkbox-accent">
+                                                <label>
+                                                    <div class="btn btn-xs btn-warning"><input type="checkbox" name="deleteHistories[]" value="{{ $history->id }}" class="checkbox checkbox-warning" style="width: 1rem; height: 1rem;">削除</div>
+                                                </label>
                                             </div>
                                         </div>
                                         
