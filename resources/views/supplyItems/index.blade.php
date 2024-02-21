@@ -105,9 +105,9 @@
                     </td>
                     <td>{{ $item->item_name }}</td>
                     <td>{{ $item->standard }}</td>
-                    <td>{{ $item->company ? $item->company->name : 'N/A' }}</td>
+                    <td>{{ $item->company ? $item->company->name : '未登録' }}</td>
                     <td>{{ $item->category }}</td>
-                    <td>{{ $item->location ? $item->location->location_code : 'N/A' }}<br>{{ $item->location ? $item->location->location_name : 'N/A' }}</td>
+                    <td>{{ $item->location ? $item->location->location_code : '' }}<br>{{ $item->location ? $item->location->location_name : '未登録' }}</td>
                     <td>
                         <a href="{{ route('supplyItems.edit', $item->id) }}" class="btn btn-secondary">編集</a>
                     </td>

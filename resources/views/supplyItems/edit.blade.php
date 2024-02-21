@@ -272,6 +272,7 @@
                    <div class="form-group mb-4">
                         <label for="location_code" class="form-label">保管場所</label>
                         <select id="location_code" name="location_code" class="select select-bordered w-full">
+                            <option value="">選択してください</option>
                             @foreach ($locations as $location)
                                 <option value="{{ $location->id }}" @if($location->id == $supplyItem->location_code) selected @endif>{{ $location->location_code }}-{{ $location->location_name }}</option>
                             @endforeach
@@ -281,6 +282,7 @@
                     <div class="form-group mb-4">
                         <label for="company_id" class="form-label">発注先</label>
                         <select id="company_id" name="company_id" class="select select-bordered w-full">
+                            <option value="">選択してください</option>
                             @foreach ($companies as $company)
                                 <option value="{{ $company->id }}" @if($company->id == $supplyItem->company_id) selected @endif>{{ $company->name }}</option>
                             @endforeach
