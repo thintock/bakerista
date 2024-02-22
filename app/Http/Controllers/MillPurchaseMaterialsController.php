@@ -55,6 +55,7 @@ class MillPurchaseMaterialsController extends Controller
         'flecon_number' => 'required|string|size:3', // 文字列で長さが3
         'total_amount' => 'required|integer', // 整数であること、またはnull許可
         'cost' => 'nullable|numeric', // 数値であること、またはnull許可
+        'inspection_completed' => 'boolean',
         ]);
         
         $material = Material::find($validateData['materials_id']);
@@ -79,7 +80,7 @@ class MillPurchaseMaterialsController extends Controller
         $millPurchaseMaterial->user_id = Auth::id(); // ユーザーIDをセット
         $millPurchaseMaterial->save();
 
-        return redirect()->route('millPurchaseMaterials.index')->with('success', '原料入荷情報を登録しました。');
+        return redirect()->route('millPurchaseMaterials.edit', $millPurchaseMaterial->id)->with('success', '原料入荷情報を登録しました。');
     }
 
     public function edit($id)
@@ -100,8 +101,9 @@ class MillPurchaseMaterialsController extends Controller
             'flecon_number' => 'required|max:3',
             'total_amount' => 'nullable|integer',
             'cost' => 'nullable|numeric',
+            'inspection_completed' => 'nullable|boolean',
         ]);
-
+        
         // ロットナンバーの生成（materials_code, year_of_production, flecon_numberを組み合わせ）
         // ただし、editではlot_numberは変更しないのでここでは再生成しません。
 
@@ -111,7 +113,9 @@ class MillPurchaseMaterialsController extends Controller
         $millPurchaseMaterial->flecon_number = $validatedData['flecon_number'];
         $millPurchaseMaterial->total_amount = $validatedData['total_amount'];
         $millPurchaseMaterial->cost = $validatedData['cost'];
-
+        $inspectionCompleted = $request->has('inspection_completed') ? $validatedData['inspection_completed'] : 0;
+        $millPurchaseMaterial->inspection_completed = $inspectionCompleted;
+        
         // 在庫残量の再計算
         $usedAmount = $millPurchaseMaterial->millPolishedMaterials()->sum('mill_purchase_material_polished.input_weight');
         $remaining_amount = ($validatedData['total_amount'] ?? 0) - $usedAmount;
@@ -124,7 +128,7 @@ class MillPurchaseMaterialsController extends Controller
         $millPurchaseMaterial->save();
 
         // リダイレクト
-        return redirect()->route('millPurchaseMaterials.index')->with('success', '原料入荷情報を更新しました。');
+        return redirect()->route('millPurchaseMaterials.edit',$millPurchaseMaterial->id)->with('success', '原料入荷情報を更新しました。');
     }
 
     public function destroy($id)

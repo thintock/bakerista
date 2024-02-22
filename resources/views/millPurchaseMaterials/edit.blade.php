@@ -1,7 +1,20 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container mx-auto px-4 py-6">
+<div class="container mx-auto py-6">
+    <div class="flex justify-between items-center mb-4">
+        <!-- 戻るボタン -->
+        <a href="{{ route('millPurchaseMaterials.index') }}" class="btn btn-secondary">
+            ← 戻る
+        </a>
+    
+        <h1 class="text-2xl font-bold">原料入荷編集</h1>
+    
+        <!-- 新規作成ボタン -->
+        <a href="{{ route('millPurchaseMaterials.create') }}" class="btn btn-primary">
+            新規作成
+        </a>
+    </div>
     <div class="w-full lg:w-1/2 mx-auto bg-base-100 shadow-xl p-6">
         <form action="{{ route('millPurchaseMaterials.update', $millPurchaseMaterial->id) }}" id="uploadForm" class="mb-4" method="POST">
             @csrf
@@ -58,6 +71,14 @@
                 </label>
                 <input type="number" id="cost" name="cost" value="{{ $millPurchaseMaterial->cost }}" class="input input-bordered">
             </div>
+            <div class="form-control">
+                <label class="label" for="inspection_completed">
+                    <span class="label-text">入荷検品</span>
+                    <input type="checkbox" id="inspection_completed" name="inspection_completed" value="1" class="checkbox" {{ $millPurchaseMaterial->inspection_completed == 1 ? 'checked' : '' }}>
+                </label>
+            </div>
+
+            
             <div class="flex mt-6">
                 <div class="form-control w-1/2 mr-3">
                     <button type="submit" class="btn btn-secondary">更新</button>

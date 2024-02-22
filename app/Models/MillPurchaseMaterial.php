@@ -43,6 +43,7 @@ class MillPurchaseMaterial extends Model
         'is_finished',
         'lot_number',
         'cost',
+        'inspection_completed',
         'user_id'
     ];
     

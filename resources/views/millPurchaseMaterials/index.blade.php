@@ -106,7 +106,7 @@
                   </tr>
                   <tr>
                     <td colspan="7" class="text-right">
-                        <p class="text-xs">作成者：{{ $millPurchaseMaterial->user->name }} {{ $millPurchaseMaterial->user->first_name }} 作成日：{{ $millPurchaseMaterial->created_at->format('Y年m月d日 H時i分') }} 最終更新日：{{ $millPurchaseMaterial->updated_at->format('Y年m月d日 H時i分') }}</p>
+                        <p class="text-xs">作成者：{{ $millPurchaseMaterial->user->name }} {{ $millPurchaseMaterial->user->first_name }} @if($millPurchaseMaterial->inspection_completed) 検品済み@else未検品@endif 作成日：{{ $millPurchaseMaterial->created_at->format('Y年m月d日 H時i分') }} 最終更新日：{{ $millPurchaseMaterial->updated_at->format('Y年m月d日 H時i分') }}</p>
                     </td>
                   </tr>
                 @endforeach

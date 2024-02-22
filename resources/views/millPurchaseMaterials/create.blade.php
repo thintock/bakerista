@@ -1,7 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container mx-auto px-4 py-6">
+<div class="container mx-auto py-6">
+    <div class="flex justify-between items-center mb-4">
+        <!-- 戻るボタン -->
+        <a href="{{ route('millPurchaseMaterials.index') }}" class="btn btn-secondary">
+            ← 戻る
+        </a>
+        <h1 class="text-2xl font-semibold">新規原料入荷登録</h1>
+        <div></div>
+    </div>
     <div class="w-full lg:w-1/2 mx-auto bg-base-100 shadow-xl p-6">
         <form action="{{ route('millPurchaseMaterials.store') }}" id="uploadForm" method="POST">
             @csrf
@@ -53,6 +61,13 @@
                 </label>
                 <input type="number" id="cost" name="cost" value="0" class="input input-bordered">
             </div>
+            <div class="form-control">
+                <label class="label cursor-pointer">
+                    <span class="label-text">入荷検品</span>
+                    <input type="checkbox" name="inspection_completed" value="1" class="checkbox">
+                </label>
+            </div>
+
 
             <div class="form-control mt-6">
                 <button type="submit" class="btn btn-primary">入荷登録</button>

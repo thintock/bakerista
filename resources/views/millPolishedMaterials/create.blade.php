@@ -2,7 +2,14 @@
 
 @section('content')
 <div class="container mx-auto p-6">
-    <h1 class="text-2xl font-bold mb-4">精麦登録</h1>
+    <div class="flex justify-between items-center mb-4">
+        <!-- 戻るボタン -->
+        <a href="{{ route('millPolishedMaterials.index') }}" class="btn btn-secondary">
+            ← 戻る
+        </a>
+        <h1 class="text-2xl font-semibold">新規精麦登録</h1>
+        <div></div>
+    </div>
     <form action="{{ route('millPolishedMaterials.store') }}" id="uploadForm" method="POST">
         <div class="lg:flex lg:gap-10 text-left">
             @csrf
