@@ -89,7 +89,10 @@
                             <td>
                                 <p>製粉機</p>
                             </td>
-                            <th>製粉歩留</th>
+                            <th>
+                                製品歩留<br>
+                                製粉歩留
+                            </th>
                             <td>備考</td>
                             <td>使用原料情報</td>
                             <th>操作</th>
@@ -116,6 +119,7 @@
                                 </td>
                                 <td>
                                     <p>{{ $production->milling_retention }} %</p>
+                                    <p>{{ $production->productRetention }} %</p>
                                     @if ($production->is_finished)
                                     <p class="text-info">在庫なし</p>
                                     @else

@@ -7,9 +7,9 @@
                     @include('commons.link_items')
                 </ul>
                 <div class="dropdown dropdown-end">
-                    <button type="button" tabindex="0" class="btn btn-ghost normal-case font-normal lg:hidden">
+                    <button type="button" tabindex="0" class="btn btn-ghost lg:hidden">
                         @if (Auth::check())
-                            {{ Auth::user()->name }}
+                            {{ Auth::user()->name }} {{ Auth::user()->first_name }}
                         @else
                             Guest
                         @endif
@@ -17,7 +17,7 @@
                             <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                         </svg>
                     </button>
-                    <ul tabindex="0" class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52 text-info">
+                    <ul tabindex="0" class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100  w-52">
                         @include('commons.link_items')
                     </ul>
                 </div>

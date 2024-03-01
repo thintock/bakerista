@@ -6,13 +6,34 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use App\Models\SupplyOrder;
 use App\Models\SupplyItem;
 use App\Models\Location;
 use App\Models\Company;
 use App\Models\User;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class SupplyItemsController extends Controller
 {
+    public function generateQr($id)
+    {
+        $supplyItem = SupplyItem::findOrFail($id);
+        // supplyItemに基づくorderRequestのURLを構築
+        $url = route('supplyOrders.orderRequest', ['item_id' => $id]);
+    
+        // QRコードを生成
+        $qrCode = QrCode::size(100)->generate($url);
+    
+        // QRコードとアイテム情報をビューに渡す
+        return view('supplyItems.generateQr', [
+            'qrCode' => $qrCode,
+            'item_code' => $supplyItem->item_code,
+            'item_name' => $supplyItem->item_name
+        ]);
+    }
+
+
+    
     public function index(Request $request)
     {
         // 発注先のリストを取得
@@ -67,7 +88,7 @@ class SupplyItemsController extends Controller
         try {
             // バリデーションルールを定義
             $validatedData = $request->validate([
-                'item_code' => 'required|string|size:13|unique:supply_items,item_code',
+                'item_code' => 'nullable|string|unique:supply_items,item_code',
                 'item_name' => 'nullable|string|max:255',
                 'standard' => 'nullable|string|max:255',
                 'brand_name' => 'nullable|string|max:255',
@@ -167,7 +188,7 @@ class SupplyItemsController extends Controller
         try {
             
             $validatedData = $request->validate([
-                'item_code' => 'required|string|size:13|unique:supply_items,item_code,'.$supplyItem->id,
+                'item_code' => 'nullable|string|unique:supply_items,item_code,'.$supplyItem->id,
                 'item_name' => 'nullable|string|max:255',
                 'item_status' => 'required|string',
                 'standard' => 'nullable|string|max:255',
@@ -276,6 +297,17 @@ class SupplyItemsController extends Controller
     // 削除処理
     public function destroy(SupplyItem $supplyItem)
     {
+        
+        // supply_orders テーブルに現在の supply item が参照されているか確認
+        $isReferenced = SupplyOrder::where('item_id', $supplyItem->id)->exists();
+    
+        if ($isReferenced) {
+            // 参照されている場合はエラーメッセージを返す
+            return redirect()->back()->withErrors(['error' => 'この資材備品は発注データが存在するため、削除できません。該当する発注データを削除するか、ステータスを使用終了にしてください。']);
+        }
+    
+        $supplyItem->delete();
+        
         // サムネイル画像の削除
         if ($supplyItem->thumbnail) {
             Storage::delete($supplyItem->thumbnail);
@@ -296,10 +328,7 @@ class SupplyItemsController extends Controller
                 Storage::delete($image['path']);
             }
         }
-    
-        // supplyItemレコードの削除
-        $supplyItem->delete();
-    
+
         // リダイレクト処理。成功メッセージをフラッシュデータとしてセッションに保存
         return redirect()->route('supplyItems.index')->with('success', '資材備品情報を削除しました。');
     }

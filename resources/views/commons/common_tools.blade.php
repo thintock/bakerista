@@ -32,3 +32,23 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 </script>
+<!--ハンバーガー開閉-->
+<script>
+document.getElementById('menuButton').addEventListener('click', function() {
+    document.getElementById('menu').classList.toggle('hidden');
+});
+</script>
+<!--コンテンツスクリーン調整-->
+<style>
+    @media (min-width: 768px) {
+  .content-height {
+    height: calc(100vh - 70px);
+  }
+}
+
+@media (max-width: 767.98px) {
+  .content-height {
+    height: calc(100vh - 48px);
+  }
+}
+</style>

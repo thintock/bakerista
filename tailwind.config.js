@@ -23,7 +23,7 @@ module.exports = {
                     "accent": "#fcd34d",
                     "neutral": "#343a47",
                     "base-100": "#ffffff",
-                    "base-200": "#f2f5f9",
+                    "base-200": "#f2f5e9",
                     "base-300": "#1e2433",
                     "info": "#fb923c",
                     "success": "#a78bfa",
@@ -34,7 +34,7 @@ module.exports = {
         ],
     },
     plugins: [
-        require('@tailwindcss/forms'),
+        // require('@tailwindcss/forms'), // DaisyUIのaccordionが動かない問題
         require('@tailwindcss/typography'),
         require('daisyui')
     ],

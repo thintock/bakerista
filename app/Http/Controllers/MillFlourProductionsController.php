@@ -37,7 +37,7 @@ class MillFlourProductionsController extends Controller
             }
         }
         
-        // 各種計算
+        // ダッシュボード用各種計算
         $totalFlourAmount = MillFlourProduction::sum('total_input_weight'); // 総累計製粉量
         $currentFlourAmount = MillFlourProduction::where('is_finished', false)->sum('flour_weight'); // 小麦粉在庫量
         $currentBranAmount = MillFlourProduction::where('is_finished', false)->sum('bran_weight'); // ふすま在庫量
@@ -52,6 +52,16 @@ class MillFlourProductionsController extends Controller
         
         // 結果をViewに返す
         $productions = $query->orderBy('production_date', 'desc')->paginate(15)->withQueryString();
+        
+        // 各レコードごとに製粉歩留を計算
+        $productions->each(function ($production) {
+            if ($production->total_input_weight > 0) {
+                $production->productRetention = round(($production->flour_weight / $production->total_input_weight) * 100, 2); // 小数第3位を四捨五入
+            } else {
+                $production->productRetention = 0;
+            }
+        });
+        
         return view('millFlourProductions.index', compact('productions', 'totalFlourAmount', 'currentFlourAmount', 'currentBranAmount', 'currentStockValue'));
         
     }

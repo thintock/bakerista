@@ -32,6 +32,7 @@
                             <option value="承認済み" {{ $supplyItem->item_status === '承認済み' ? 'selected' : '' }}>承認済み</option>
                             <option value="使用終了" {{ $supplyItem->item_status === '使用終了' ? 'selected' : '' }}>使用終了</option>
                         </select>
+                        <a href="{{ route('supplyItems.generateQr', $supplyItem->id) }}" class="btn btn-primary" target="_blanc">QRコード生成</a>
                     </div>
                     
                     <div class="form-group mb-4">
@@ -71,7 +72,7 @@
                     <div class="form-group mb-4">
                         <label for="item_code" class="form-label">資材コード１３桁(JANコードor自社コード)</label>
                         <div class="flex items-center">
-                            <input type="text" id="item_code" name="item_code" class="input input-bordered w-full" pattern="\d{13}" placeholder="1234567890123" value="{{ $supplyItem->item_code }}" oninput="updateLengthDisplay()" required>
+                            <input type="text" id="item_code" name="item_code" class="input input-bordered w-full" placeholder="1234567890123" value="{{ $supplyItem->item_code }}" oninput="updateLengthDisplay()">
                             <span id="checkmark" style="display:none; margin-left: 8px;">
                                 <!-- ここにチェックマークのSVGまたはアイコンを挿入 -->
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg>
