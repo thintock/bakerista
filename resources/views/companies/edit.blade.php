@@ -2,8 +2,17 @@
 
 @section('content')
 <div class="container mx-auto p-4">
-    <h1 class="text-2xl font-semibold mb-4">取引先情報の編集</h1>
-
+    <div class="flex justify-between items-center mb-4">
+        <!-- 戻るボタン -->
+        <a href="{{ route('companies.index') }}" class="btn btn-secondary">
+            ← 戻る
+        </a>
+        <h1 class="text-2xl font-bold">取引先情報編集</h1>
+        <!-- 新規作成ボタン -->
+        <a href="{{ route('companies.create') }}" class="btn btn-primary">
+            新規作成
+        </a>
+    </div>
     <div class="w-full lg:w-1/2 mx-auto bg-base-100 shadow-xl p-6">
         <form action="{{ route('companies.update', $company->id) }}" id="uploadForm" method="POST">
             @csrf

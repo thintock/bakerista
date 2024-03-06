@@ -2,7 +2,15 @@
 
 @section('content')
 <div class="container mx-auto px-4 py-6">
-    <h1 class="text-2xl font-semibold mb-4">取引先情報の登録</h1>
+    <div class="flex justify-between items-center mb-4">
+        <!-- 戻るボタン -->
+        <a href="{{ route('companies.index') }}" class="btn btn-secondary">
+            ← 戻る
+        </a>
+        <h1 class="text-2xl font-bold">新規取引先登録</h1>
+        <!-- 新規作成ボタン -->
+        <div></div>
+    </div>
     <div class="w-full lg:w-1/2 mx-auto bg-base-100 shadow-xl p-6">
         <form action="{{ route('companies.store') }}" id="uploadForm" method="POST">
             @csrf

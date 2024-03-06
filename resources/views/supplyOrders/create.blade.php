@@ -3,10 +3,10 @@
 @section('content')
 <div class="container">
     <div class="flex justify-between items-center mb-4">
-        <a href="{{ route('supplyOrders.index') }}" class="btn btn-secondary">
-            ← 戻る
+        <a href="{{ route('supplyOrders.orderExecute') }}" class="btn btn-secondary">
+            発注実行
         </a>
-        <h1 class="text-2xl font-semibold">新規発注登録</h1>
+        <h1 class="text-2xl font-semibold">手動発注入力</h1>
         <div></div>
     </div>
     <div class="w-full mx-auto">

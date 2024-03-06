@@ -3,8 +3,8 @@
 @section('content')
 <div class="container mx-auto px-4 py-6">
     <div class="justify-center">
-        <h1 class="text-2xl font-bold mb-4">資材・備品発注一覧表</h1>
-        <p>社内で使用される資材と備品の発注業務を一覧表示します。</p>
+        <h1 class="text-2xl font-bold mb-4">資材・備品発注データ保守</h1>
+        <p>社内で使用される資材と備品の発注業務を一覧表示します。<br>この画面はデータ保守に使用し、日常業務には使用しないでください。</p>
     </div>
     <div class="flex mb-4">
         <form action="{{ route('supplyOrders.index') }}" method="GET" class="flex flex-wrap gap-4">
@@ -17,7 +17,7 @@
                 <option value="発注待ち" {{ request('status') == '発注待ち' ? 'selected' : '' }}>発注待ち</option>
                 <option value="入荷待ち" {{ request('status') == '入荷待ち' ? 'selected' : '' }}>入荷待ち</option>
                 <option value="保留" {{ request('status') == '保留' ? 'selected' : '' }}>保留</option>
-                <option value="否認" {{ request('status') == '否認' ? 'selected' : '' }}>否認</option>
+                <option value="取消" {{ request('status') == '取消' ? 'selected' : '' }}>取消</option>
                 <option value="完了" {{ request('status') == '完了' ? 'selected' : '' }}>完了</option>
                 </select>
             <!-- 発注先での検索 -->
@@ -44,7 +44,7 @@
             <!-- 検索ボタン -->
             <button type="submit" class="btn btn-secondary text-xs">検索</button>
             <a href="{{ route('supplyOrders.index') }}" class="btn btn-info text-xs">クリア</a>
-            <a href="{{ route('supplyOrders.create') }}" class="btn btn-primary">新規発注登録</a>
+            <a href="{{ route('supplyOrders.create') }}" class="btn btn-primary">手動発注入力</a>
         </form>
     </div>
     <div class="overflow-x-auto">
@@ -71,7 +71,7 @@
             <tbody>
                 @foreach ($supplyOrders as $order)
                 <tr>
-                    <td>{{ $order->id }}<br>
+                    <td width="110px">{{ $order->id }}<br>
                     <!-- 現在のステータスに応じたバッジ表示 -->
                         @if($order->status === '発注依頼中')
                             <span class="badge badge-secondary ml-2">発注依頼中</span>
@@ -81,8 +81,8 @@
                             <span class="badge badge-primary ml-2">入荷待ち</span>
                         @elseif($order->status === '保留')
                             <span class="badge badge-info ml-2">保留</span>
-                        @elseif($order->status === '否認')
-                            <span class="badge badge-warning ml-2">否認</span>
+                        @elseif($order->status === '取消')
+                            <span class="badge badge-warning ml-2">取消</span>
                         @elseif($order->status === '完了')
                             <span class="badge badge-warning ml-2">完了</span>
                         @endif

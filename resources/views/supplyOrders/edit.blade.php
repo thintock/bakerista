@@ -29,7 +29,7 @@
                             <option value="発注依頼中" {{ $supplyOrder->status === '発注依頼中' ? 'selected' : '' }}>発注依頼中</option>
                             <option value="発注待ち" {{ $supplyOrder->status === '発注待ち' ? 'selected' : '' }}>発注待ち</option>
                             <option value="入荷待ち" {{ $supplyOrder->status === '入荷待ち' ? 'selected' : '' }}>入荷待ち</option>
-                            <option value="否認" {{ $supplyOrder->status === '否認' ? 'selected' : '' }}>否認</option>
+                            <option value="取消" {{ $supplyOrder->status === '取消' ? 'selected' : '' }}>取消</option>
                             <option value="保留" {{ $supplyOrder->status === '保留' ? 'selected' : '' }}>保留</option>
                             <option value="完了" {{ $supplyOrder->status === '完了' ? 'selected' : '' }}>完了</option>
                         </select>
