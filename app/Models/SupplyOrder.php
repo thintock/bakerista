@@ -48,9 +48,10 @@ class SupplyOrder extends Model
 
         $pendingArrivals = static::calculatePendingArrivals($itemId);
         $requiredQuantity = $item->constant_stock - ($item->actual_stock + $pendingArrivals);
+        $orderPointQuantity = $item->order_point - ($item->actual_stock + $pendingArrivals);
         $orderQuantity = 0;
 
-        if ($requiredQuantity > 0) {
+        if ($orderPointQuantity > 0) {
             $orderQuantity = ceil($requiredQuantity / $item->order_lot) * $item->order_lot;
         }
         // orderQuantity = 発注提案数　pendingArrivals = 入荷待ち数

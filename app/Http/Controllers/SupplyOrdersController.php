@@ -491,16 +491,18 @@ class SupplyOrdersController extends Controller
     }
 
     public function store(Request $request)
-    {
-        DB::beginTransaction();
-        try {
-            
-            $validatedData = $request->validate([
-                'item_id' => 'required|integer|exists:supply_items,id',
-                'order_quantity' => 'nullable|integer|min:1',
-                'description' => 'nullable|string|max:255',
-            ]);
-            
+    {  
+        $validatedData = $request->validate([
+            'item_id' => 'required|integer|exists:supply_items,id',
+            'order_quantity' => 'nullable|integer|min:1',
+            'description' => 'nullable|string|max:255',
+        ]);
+        $supplyItem = SupplyItem::findOrFail($request->input('item_id'));
+        if ($supplyItem && $supplyItem->item_status !== '承認済み') {
+            return back()->with('error', 'この資材備品は承認されていません。');
+        }
+            DB::beginTransaction();
+            try {
             // order_quantityがnullまたは未設定の場合、0を代入
             $validatedData['order_quantity'] = $validatedData['order_quantity'] ?? 0;
             

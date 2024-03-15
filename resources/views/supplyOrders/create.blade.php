@@ -25,7 +25,7 @@
             
             <div class="mb-4">
                 <label for="order_quantity" class="form-label">発注数量</label>
-                <input type="number" id="order_quantity" name="order_quantity" class="input input-bordered w-full" placeholder="発注数量を入力">
+                <input type="number" id="order_quantity" name="order_quantity" class="input input-bordered w-full" placeholder="発注数量を入力" min="0" max="100000" required>
             </div>
 
             <div class="mb-4">

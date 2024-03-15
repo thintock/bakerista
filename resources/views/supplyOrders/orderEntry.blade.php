@@ -8,6 +8,7 @@
             発注依頼
         </a>
         <h1 class="text-2xl font-bold">自動発注入力</h1>
+        
         <!-- 新規作成ボタン -->
         <a href="{{ route('supplyOrders.orderExecute') }}" class="btn btn-primary">
             発注実行
@@ -95,14 +96,18 @@
 
 
     <div class="mb-8">
-        <h2 class="text-xl font-semibold mb-2">発注が必要な資材備品</h2>
+        <div class="flex justify-between items-center mb-4">
+            <div></div>
+            <h1 class="text-2xl font-bold">発注が必要な資材備品</h1>
+            
+            <a href="{{ route('supplyOrders.create') }}" class="btn btn-primary">
+                手動発注入力
+            </a>
+        </div>
         @if($itemsCount == 0)
             <div>
                 発注が必要な資材備品はありません。
             </div>
-            <a href="{{ route('supplyOrders.create') }}" class="btn btn-primary">
-                手動発注入力
-            </a>
         @else
             <form action="{{ route('supplyOrders.storeEntry') }}" id="uploadForm" method="POST">
                 @csrf
