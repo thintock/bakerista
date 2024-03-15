@@ -5,7 +5,7 @@
     <div class="flex justify-between items-center mb-4">
         <!-- 戻るボタン -->
         <a href="{{ route('supplyItems.index') }}" class="btn btn-secondary">
-            ← 戻る
+            ← マスタへ
         </a>
     
         <h1 class="text-2xl font-bold">資材備品情報編集</h1>
@@ -267,7 +267,7 @@
                     
                     <div class="form-group mb-4">
                         <label for="delivery_period" class="form-label">通常納期（日数）</label>
-                        <input type="number" id="delivery_period" name="delivery_period" class="input input-bordered w-full" value="{{ $supplyItem->delivery_period }}" placeholder="例：3（３日）、14（2週間）、30（1ヶ月）" min="1" max="100">
+                        <input type="number" id="delivery_period" name="delivery_period" class="input input-bordered w-full" value="{{ $supplyItem->delivery_period }}" placeholder="例：3（３日）、14（2週間）、30（1ヶ月）" min="0" max="200">
                     </div>
                     
                    <div class="form-group mb-4">

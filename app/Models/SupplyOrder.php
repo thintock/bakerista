@@ -16,6 +16,7 @@ class SupplyOrder extends Model
         'request_user',
         'delivery_date',
         'arrival_date',
+        'arrival_user',
         'order_quantity',
         'arrival_quantity',
         'description',
@@ -75,6 +76,11 @@ class SupplyOrder extends Model
     public function requestUser()
     {
         return $this->belongsTo(User::class, 'request_user');
+    }
+    
+    public function arrivalUser()
+    {
+        return $this->belongsTo(User::class, 'arrival_user');
     }
     
     public function location()

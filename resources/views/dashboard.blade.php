@@ -10,7 +10,7 @@
           <p class="mb-5">ログインしているユーザーによって操作履歴をとっています。システムを操作する際は自分のユーザーでログインし直すことを心がけてください。</p>
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
-                <a class="link link-hover" href="#" onclick="event.preventDefault();this.closest('form').submit();" class="btn btn-accent">ログアウト</a>
+                <a class="link link-hover btn btn-accent" href="#" onclick="event.preventDefault();this.closest('form').submit();">ログアウト</a>
             </font>
         </div>
       </div>

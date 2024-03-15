@@ -18,7 +18,7 @@
         <div>対応が必要な発注依頼はありません。</div>
     </div>
     @else
-        <form action="{{ route('supplyOrders.updateEntry') }}" method="POST">
+        <form action="{{ route('supplyOrders.updateEntry') }}" id="uploadForm" method="POST">
         @csrf
             <div class="mb-8">
                 <h2 class="text-xl font-semibold mb-2">発注依頼中の資材備品</h2>
@@ -36,7 +36,7 @@
                                     備考
                                 </th>
                                 <th>実在庫</th>
-                                <th>発注中</th>
+                                <th>入荷待ち</th>
                                 <th>発注点</th>
                                 <th>ロット</th>
                                 <th>在庫定数</th>
@@ -51,7 +51,7 @@
                                     <td><input type="checkbox" name="selected_orders[]" value="{{ $order->id }}" class="checkbox"></td>
                                     <td>
                                         {{ $order->request_date }}　{{ $order->requestUser->name }} {{ $order->requestUser->first_name }}<br>
-                                        {{ $order->supplyItem->item_name }}
+                                        <a href="{{ route('supplyItems.edit', $order->supplyItem->id) }}" class="link" target="_blank">{{ $order->supplyItem->item_name }}</a>
                                     </td>
                                     <td>
                                         {{ $order->supplyItem->location->location_code }} {{ $order->supplyItem->location->location_name }}<br>
@@ -104,20 +104,22 @@
                 手動発注入力
             </a>
         @else
-            <form action="{{ route('supplyOrders.storeEntry') }}" method="POST">
+            <form action="{{ route('supplyOrders.storeEntry') }}" id="uploadForm" method="POST">
                 @csrf
                 <div class="overflow-x-auto">
                     <table class="table table-xs bg-base-100">
                         <thead>
                             <tr>
                                 <th><input type="checkbox" id="select-all-store" class="checkbox"></th>
-                                <th>資材備品名</th>
+                                <th>
+                                    資材備品名<br>
+                                    発注先</th>
                                 <th>
                                     ロケーション<br>
-                                    発注先
+                                    次回発注予定日
                                 </th>
                                 <th>実在庫数</th>
-                                <th>発注中</th>
+                                <th>入荷待ち</th>
                                 <th>発注点</th>
                                 <th>ロット</th>
                                 <th>在庫定数</th>
@@ -132,11 +134,26 @@
                                         <td>
                                             <input type="checkbox" name="selected_stores[]" value="{{ $item->id }}" class="checkbox">
                                         </td>
-                                        <td>{{ $item->item_name }}</td>
                                         <td>
-                                            {{ $item->location->location_code }} {{ $item->location->location_name }}<br>
-                                            {{ $item->company->name }}
+                                            <p>
+                                                @if($item->order_schedule)
+                                                    {{ $item->order_schedule->format('Y年m月d日') }}
+                                                @else
+                                                    未設定
+                                                @endif
+                                                自動発注
+                                            </p>
+                                                <a href="{{ route('supplyItems.edit', $item->id) }}" class="link" target="_blank">{{ $item->item_name }}</a>
+                                            </td>
+                                        <td>
+                                            <p>
+                                                {{ $item->location->location_code }} {{ $item->location->location_name }}
+                                            </p>
+                                            <p>
+                                                {{ $item->company->name }}
+                                            </p>
                                         </td>
+
                                         <td>{{ $item->actual_stock }}</td>
                                         <td>{{ $item->pendingArrivals }}</td>
                                         <td>{{ $item->order_point }}</td>

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->unsignedBigInteger('request_user')->nullable();
             $table->date('delivery_date')->nullable();
             $table->date('arrival_date')->nullable();
+            $table->unsignedBigInteger('arrival_user')->nullable();
             $table->integer('order_quantity')->default(0);
             $table->integer('arrival_quantity')->default(0);
             $table->text('description')->nullable();

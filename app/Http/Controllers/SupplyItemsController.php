@@ -20,7 +20,6 @@ class SupplyItemsController extends Controller
         $supplyItem = SupplyItem::findOrFail($id);
         // supplyItemに基づくorderRequestのURLを構築
         $url = route('supplyOrders.orderRequest', ['item_id' => $id]);
-    
         // QRコードを生成
         $qrCode = QrCode::size(100)->generate($url);
     
@@ -28,7 +27,8 @@ class SupplyItemsController extends Controller
         return view('supplyItems.generateQr', [
             'qrCode' => $qrCode,
             'item_code' => $supplyItem->item_code,
-            'item_name' => $supplyItem->item_name
+            'item_name' => $supplyItem->item_name,
+            'location' => $supplyItem->location->location_name
         ]);
     }
 
@@ -207,7 +207,7 @@ class SupplyItemsController extends Controller
                 'actual_stock' => 'nullable|integer|min:0|max:100000',
                 'order_url' => 'nullable|url',
                 'order_schedule' => 'nullable|date',
-                'delivery_period' => 'nullable|integer|min:1|max:100',
+                'delivery_period' => 'nullable|integer|min:0|max:200',
                 'location_code' => 'nullable|exists:locations,id',
                 'company_id' => 'nullable|exists:companies,id',
             ]);

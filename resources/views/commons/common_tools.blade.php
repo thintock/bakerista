@@ -43,12 +43,28 @@ document.getElementById('menuButton').addEventListener('click', function() {
     @media (min-width: 768px) {
   .content-height {
     height: calc(100vh - 70px);
-  }
-}
+      }
+    }
 
-@media (max-width: 767.98px) {
+    @media (max-width: 767.98px) {
   .content-height {
     height: calc(100vh - 48px);
-  }
-}
+      }
+    }
+    
+    @media print {
+        body {
+            background-color: #FFFFFF;
+        }
+        .no-print {
+            display: none;
+        }
+        header, .order-table, footer {
+            background-color: #FFFFFF; /* 白背景 */
+            color: #000000; /* 黒文字 */
+        }
+        .print {
+            display: block;
+        }
+    }
 </style>

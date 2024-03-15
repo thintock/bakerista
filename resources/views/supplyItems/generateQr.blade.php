@@ -29,6 +29,7 @@
         {!! $qrCode !!}
         <div class="item-info">
             <div>{{ $item_code }}</div>
+            <div>{{ $location }}</div>
             <div>{{ Str::limit($item_name, 25, '...') }}</div>
         </div>
     </div>

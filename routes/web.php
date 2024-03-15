@@ -42,7 +42,8 @@ Route::group(['middleware' => ['auth', 'approved']], function() { // , 'approved
    Route::get('/supplyOrders/orderExecute', [SupplyOrdersController::class, 'orderExecute'])->name('supplyOrders.orderExecute');
    Route::post('/supplyOrders/storeExecute', [SupplyOrdersController::class, 'storeExecute'])->name('supplyOrders.storeExecute');
    Route::get('/supplyOrders/cancel/{id}', [SupplyOrdersController::class, 'cancel'])->name('supplyOrders.cancel');
-   Route::post('/supplyOrders/createOrderForm', [SupplyOrdersController::class, 'createOrderForm'])->name('supplyOrders.createOrderForm');
+   Route::get('/supplyOrders/orderArrival', [SupplyOrdersController::class, 'orderArrival'])->name('supplyOrders.orderArrival');
+   Route::post('/supplyOrders/storeArrival', [SupplyOrdersController::class, 'storeArrival'])->name('supplyOrders.storeArrival');
    // 以下resource
    Route::resource('users', UsersController::class, ['only' => ['index', 'show', 'edit', 'update']]); 
    Route::resource('materials', MaterialsController::class)->except(['show']);

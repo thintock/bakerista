@@ -24,7 +24,7 @@
                         </td>
                         <td>
                             <div class="form-control">
-                                <input type="text" id="location_name" name="location_name" class="input input-bordered" placeholder="ロケーション名称" required>
+                                <input type="text" id="location_name" name="location_name" class="input input-bordered" placeholder="社屋名：場所名（例）母恋本社：１F２０４ラック" required>
                             </div>
                         </td>
                         <td>
@@ -41,7 +41,7 @@
                         @method('PUT')
                         <td>
                             <div class="form-control">
-                                <input type="number" name="location_code"  name="location_code" value="{{ $location->location_code }}" min="100" max="999" step="1" class="input input-bordered"  required>
+                                <input type="number" name="location_code"  name="location_code" value="{{ $location->location_code }}" min="100" max="999" step="1" class="input input-bordered"  required readonly>
                             </div>
                         </td>
                         <td>

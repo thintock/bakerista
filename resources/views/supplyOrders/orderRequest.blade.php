@@ -15,7 +15,7 @@
         </div>
     </div>
     @if (is_null($selectedItem))
-        <form action="{{ route('supplyOrders.orderRequest') }}" method="GET">
+        <form action="{{ route('supplyOrders.orderRequest') }}" id="uploadForm" method="GET">
             <div class="mb-4">
                 <label for="item_id" class="form-label">資材備品</label>
                 <select id="item_id" name="item_id" class="select select-bordered w-full" required>
@@ -42,7 +42,7 @@
                 </div>
                 <div class="collapse-content bg-base-200">
                     <div class="w-full mx-auto">
-                        <form action="{{ route('supplyOrders.storeRequest') }}" method="POST">
+                        <form action="{{ route('supplyOrders.storeRequest') }}" id="uploadForm" method="POST">
                             @csrf
                             <div class="mb-4">
                                     <label for="actual_stock" class="form-label">実在庫数</label>
@@ -66,7 +66,7 @@
                 </div>
                 <div class="collapse-content bg-base-200">
                     <div class="w-full mx-auto">
-                        <form action="{{ route('supplyOrders.storeRequest') }}" method="POST">
+                        <form action="{{ route('supplyOrders.storeRequest') }}" id="uploadForm" method="POST">
                             @csrf
                 
                             @if ($selectedItem)

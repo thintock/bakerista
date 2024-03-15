@@ -5,7 +5,7 @@
     <div class="flex justify-between items-center mb-4">
         <!-- 戻るボタン -->
         <a href="{{ route('supplyOrders.index') }}" class="btn btn-secondary">
-            ← 戻る
+            ← 一覧へ
         </a>
         <h1 class="text-2xl font-bold">発注情報編集</h1>
         <!-- 新規作成ボタン -->
@@ -42,10 +42,10 @@
                     
                     <div class="form-group mb-4">
                         <label for="request_user" class="form-label">依頼担当者</label>
-                        @if($supplyOrder->requestUser) {{-- requestUser メソッドを使用して関連付けられたユーザーの存在を確認 --}}
+                        @if($supplyOrder->requestUser)
                             <input id="request_user" class="input input-bordered w-full" value="{{ $supplyOrder->requestUser->name }} {{ $supplyOrder->requestUser->first_name }}" readonly> {{-- 存在する場合はユーザー名を表示 --}}
                         @else
-                            <input id="request_user" class="input input-bordered w-full" value="-" readonly> {{-- 存在しない場合は「未指定」と表示 --}}
+                            <input id="request_user" class="input input-bordered w-full" value="-" readonly>
                         @endif
                     </div>
                     
