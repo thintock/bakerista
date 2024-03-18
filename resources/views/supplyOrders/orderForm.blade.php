@@ -84,6 +84,30 @@
                             @endif
                         </td>
                     </tr>
+                    <tr>
+                        <td class="border border-black">
+                            <p>
+                                母恋倉庫
+                            </p>
+                            <p>
+                                〒051-0003 北海道室蘭市母恋南町二丁目４番１５号
+                            </p>
+                            <p>
+                                TEL:050-1808-4227
+                            </p>
+                        </td>
+                        <td class="border border-black">
+                            <p>
+                                製粉工場
+                            </p>
+                            <p>
+                                〒051-0025 北海道室蘭市常盤町６番１７号
+                            </p>
+                            <p>
+                                TEL:050-1808-4227（共通）
+                            </p>
+                        </td>
+                    </tr>
                 </table>
             </footer>
          @else

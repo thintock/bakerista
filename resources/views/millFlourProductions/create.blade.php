@@ -9,6 +9,7 @@
         </a>
         <h1 class="text-2xl font-semibold">製粉登録</h1>
         <div></div>
+    </div>
     <form action="{{ route('millFlourProductions.store') }}" id="uploadForm" method="POST">
         <div class="lg:flex lg:gap-10 text-left">
             @csrf

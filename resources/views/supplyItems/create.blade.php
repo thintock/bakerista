@@ -150,6 +150,7 @@
                     <div class="form-group mb-4">
                         <label for="location_code" class="form-label">保管場所</label>
                         <select id="location_code" name="location_code" class="select select-bordered w-full">
+                                <option disabled selected>保管場所を選択してください</option>
                             @foreach ($locations as $location)
                                 <option value="{{ $location->id }}">{{ $location->location_code }}-{{ $location->location_name }}</option>
                             @endforeach
@@ -159,6 +160,7 @@
                     <div class="form-group mb-4">
                         <label for="company_id" class="form-label">発注先</label>
                         <select id="company_id" name="company_id" class="select select-bordered w-full">
+                                <option disabled selected>発注先を選択してください</option>
                             @foreach ($companies as $company)
                                 <option value="{{ $company->id }}">{{ $company->name }}</option>
                             @endforeach
