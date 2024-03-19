@@ -38,6 +38,9 @@
                             <p class="text-xs break-words">
                                 入荷予定日：{{ $order->delivery_date }}　備考：{{ $order->description }}
                             </p>
+                            <p class="text-xs break-words">
+                                保管場所：{{ $order->location->location_name }}
+                            </p>
                         </div>
                     </div>
                     <div class="xl:w-1/6 md:w-1/2 w-full p-2">

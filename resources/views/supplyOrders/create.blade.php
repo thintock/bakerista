@@ -18,7 +18,7 @@
                 <select id="item_id" name="item_id" class="select select-bordered w-full" required>
                     <option value="">選択してください</option>
                     @foreach ($supplyItems as $item)
-                        <option value="{{ $item->id }}">{{ $item->item_name }}</option>
+                        <option value="{{ $item->id }}">{{ $item->item_name }}-{{ $item->standard }}</option>
                     @endforeach
                 </select>
             </div>

@@ -21,7 +21,7 @@
                 <select id="item_id" name="item_id" class="select select-bordered w-full" required>
                     <option value="">選択してください</option>
                     @foreach ($supplyItems as $item)
-                        <option value="{{ $item->id }}">{{ $item->item_name }}</option>
+                        <option value="{{ $item->id }}">{{ $item->item_name }} {{ $item->standard }}</option>
                     @endforeach
                 </select>
             </div>
@@ -32,7 +32,27 @@
             <label for="item_name" class="form-label">資材備品名</label>
             <input type="text" id="item_name" name="item_name" class="input input-bordered w-full" value="{{ $selectedItem->item_name }}" readonly>
         </div>
+            <img src="{{ Storage::url($selectedItem->thumbnail) }}" alt="サムネイル" class="p-3 w-full aspect-square object-cover rounded-lg cursor-pointer" onclick="showModal('{{ Storage::url($selectedItem->thumbnail) }}')">
+        <!-- モーダル -->
+        <div id="imageModal" class="modal flex items-center justify-center">
+            <div class="modal-box flex flex-col items-center justify-center">
+                <img id="fullSizeImage" src="" alt="サムネイル" class="max-w-full h-auto mx-auto">
+                <div class="modal-action w-full flex justify-center">
+                    <a href="#" class="btn btn-error w-full" onclick="closeModal()">閉じる</a>
+                </div>
+            </div>
+        </div>
         
+        <script>
+        function showModal(imageUrl) {
+            document.getElementById('fullSizeImage').src = imageUrl;
+            document.getElementById('imageModal').classList.add('modal-open');
+        }
+        
+        function closeModal() {
+            document.getElementById('imageModal').classList.remove('modal-open');
+        }
+        </script>
         <!--在庫管理-->
         <div class="join join-vertical w-full">
             <div class="collapse collapse-arrow join-item bg-base-100 border border-base-100">
