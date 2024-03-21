@@ -32,7 +32,9 @@
             <label for="item_name" class="form-label">資材備品名</label>
             <input type="text" id="item_name" name="item_name" class="input input-bordered w-full" value="{{ $selectedItem->item_name }}" readonly>
         </div>
-            <img src="{{ Storage::url($selectedItem->thumbnail) }}" alt="サムネイル" class="p-3 w-full aspect-square object-cover rounded-lg cursor-pointer" onclick="showModal('{{ Storage::url($selectedItem->thumbnail) }}')">
+            @if($order->supplyItem && $order->supplyItem->thumbnail)
+                <img src="{{ Storage::url($slelectedItem->thumbnail) }}" alt="サムネイル" class="p-3 w-full aspect-square object-cover rounded-lg cursor-pointer" onclick="showModal('{{ Storage::url($selectedItem->thumbnail) }}')">
+            @endif
         <!-- モーダル -->
         <div id="imageModal" class="modal flex items-center justify-center">
             <div class="modal-box flex flex-col items-center justify-center">

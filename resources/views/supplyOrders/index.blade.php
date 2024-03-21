@@ -8,18 +8,47 @@
     </div>
     <div class="flex mb-4">
         <form action="{{ route('supplyOrders.index') }}" method="GET" class="flex flex-wrap gap-4">
-            <!--発注番号での検索-->
-            <input type="text" name="id" value="{{ request('id') }}" placeholder="発注番号"  class="input input-bordered text-xs">
+            <div class="flex">
+                <div class="stat">
+                    <div class="stat-title">発注日</div>
+                    <div class="stat-value">
+                        <!--注文日での検索（始まり） -->
+                        <input type="date" name="order_date_start" value="{{ request('order_date_start') }}" class="input input-bordered text-xs">
+                        <!-- 注文日での検索（終わり） -->
+                        <input type="date" name="order_date_end" value="{{ request('order_date_end') }}" class="input input-bordered text-xs">
+                    </div>
+                </div>
+                <div class="stat">
+                    <div class="stat-title">納品予定日</div>
+                    <div class="stat-value">
+                        <!-- 納品予定日での検索（始まり） -->
+                        <input type="date" name="delivery_date_start" value="{{ request('delivery_date_start') }}" class="input input-bordered text-xs">
+                        <!-- 納品予定日での検索（終わり） -->
+                        <input type="date" name="delivery_date_end" value="{{ request('delivery_date_end') }}" class="input input-bordered text-xs">
+                    </div>
+                </div>
+                <div class="stat">
+                    <div class="stat-title">入荷日</div>
+                    <div class="stat-value">
+                        <!-- 入荷日での検索（始まり） -->
+                        <input type="date" name="arrival_date_start" value="{{ request('arrival_date_start') }}" class="input input-bordered text-xs">
+                        <!-- 入荷日での検索（終わり） -->
+                        <input type="date" name="arrival_date_end" value="{{ request('arrival_date_end') }}" class="input input-bordered text-xs">
+                    </div>
+                </div>
+            </div>
+            <!--資材名称での検索-->
+            <input type="text" name="id" value="{{ request('item_name') }}" placeholder="資材商品名"  class="input input-bordered text-xs">
             <!-- ステータスでの検索 -->
-            <select name="status" class="select select-bordered text-xs">
-                <option value="">全てのステータス</option>
-                <option value="発注依頼中" {{ request('status') == '発注依頼中' ? 'selected' : '' }}>発注依頼中</option>
-                <option value="発注待ち" {{ request('status') == '発注待ち' ? 'selected' : '' }}>発注待ち</option>
-                <option value="入荷待ち" {{ request('status') == '入荷待ち' ? 'selected' : '' }}>入荷待ち</option>
-                <option value="保留" {{ request('status') == '保留' ? 'selected' : '' }}>保留</option>
-                <option value="取消" {{ request('status') == '取消' ? 'selected' : '' }}>取消</option>
-                <option value="完了" {{ request('status') == '完了' ? 'selected' : '' }}>完了</option>
-                </select>
+            <select name="status[]" class="select select-bordered text-xs" multiple>
+                <option value="発注依頼中" {{ in_array('発注依頼中', (array) request('status', ['完了'])) ? 'selected' : '' }}>発注依頼中</option>
+                <option value="発注待ち" {{ in_array('発注待ち', (array) request('status', ['完了'])) ? 'selected' : '' }}>発注待ち</option>
+                <option value="入荷待ち" {{ in_array('入荷待ち', (array) request('status', ['完了'])) ? 'selected' : '' }}>入荷待ち</option>
+                <option value="保留" {{ in_array('保留', (array) request('status', ['完了'])) ? 'selected' : '' }}>保留</option>
+                <option value="取消" {{ in_array('取消', (array) request('status', ['完了'])) ? 'selected' : '' }}>取消</option>
+                <option value="完了" {{ in_array('完了', (array) request('status', ['完了'])) ? 'selected' : '' }}>完了</option>
+            </select>
+
             <!-- 発注先での検索 -->
             <select name="company_id" class="select select-bordered text-xs">
                 <option value="">全ての発注先</option>

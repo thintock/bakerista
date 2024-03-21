@@ -19,22 +19,51 @@ class SupplyOrdersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        // 発注先のリストを取得
         $companies = Company::orderBy('name', 'asc')->get();
-        
-        // ロケーションのリストを取得
         $locations = Location::orderBy('location_code', 'asc')->get();
-        
-        // 資材備品のリストを取得
         $supplyItems = SupplyItem::orderBy('item_name', 'asc')->get();
+    
+        $query = SupplyOrder::with(['supplyItem', 'company', 'location']);
+    
+        // 注文日の期間で絞り込み
+        if ($request->filled('order_date_start')) {
+            $query->whereDate('order_date', '>=', $request->order_date_start);
+        }
+        if ($request->filled('order_date_end')) {
+            $query->whereDate('order_date', '<=', $request->order_date_end);
+        }
+        // 納品予定日の期間で絞り込み
+        if ($request->filled('delivery_date_start')) {
+            $query->whereDate('delivery_date', '>=', $request->delivery_date_start);
+        }
+        if ($request->filled('delivery_date_end')) {
+            $query->whereDate('delivery_date', '<=', $request->delivery_date_end);
+        }
+        // 入荷日の期間で絞り込み
+        if ($request->filled('arrival_date_start')) {
+            $query->whereDate('arrival_date', '>=', $request->arrival_date_start);
+        }
+        if ($request->filled('arrival_date_end')) {
+            $query->whereDate('arrival_date', '<=', $request->arrival_date_end);
+        }
         
-        $supplyOrders = SupplyOrder::with(['supplyItem', 'company', 'location'])->paginate(15);
+        // ステータスの絞り込み条件
+         $defaultSelectedStatuses = ['発注依頼中', '発注待ち', '入荷待ち', '保留', '取消'];
+    
+        // リクエストからステータスを取得し、ない場合は$defaultSelectedStatusesを使用
+        $selectedStatuses = $request->has('status') ? $request->status : $defaultSelectedStatuses;
+
+        if (!empty($selectedStatuses)) {
+            $query->whereIn('status', $selectedStatuses);
+        }
         
+        $supplyOrders = $query->orderBy('order_date', 'desc')->paginate(15);
+    
         return view('supplyOrders.index', compact('supplyOrders', 'companies', 'locations', 'supplyItems'));
     }
-    
+
     // 発注依頼画面
     public function orderRequest()
     {
