@@ -32,8 +32,8 @@
             <label for="item_name" class="form-label">資材備品名</label>
             <input type="text" id="item_name" name="item_name" class="input input-bordered w-full" value="{{ $selectedItem->item_name }}" readonly>
         </div>
-            @if($order->supplyItem && $order->supplyItem->thumbnail)
-                <img src="{{ Storage::url($slelectedItem->thumbnail) }}" alt="サムネイル" class="p-3 w-full aspect-square object-cover rounded-lg cursor-pointer" onclick="showModal('{{ Storage::url($selectedItem->thumbnail) }}')">
+            @if(!is_null($selectedItem->thumbnail))
+                <img src="{{ Storage::url($selectedItem->thumbnail) }}" alt="サムネイル" class="p-3 w-full aspect-square object-cover rounded-lg cursor-pointer" onclick="showModal('{{ Storage::url($selectedItem->thumbnail) }}')">
             @endif
         <!-- モーダル -->
         <div id="imageModal" class="modal flex items-center justify-center">
@@ -95,7 +95,15 @@
                 
                             <div class="mb-4">
                                 <p>次回発注予定日: {{ $selectedItem->order_schedule ? $selectedItem->order_schedule->format('Y年m月d日') : '未設定' }} 納期: {{ $selectedItem->delivery_period }} 日</p>
-                                <p>ロケーション：{{ $selectedItem->location->location_code }} {{ $selectedItem->location->location_name }}　発注先：{{ $selectedItem->company->name }}</p>
+                                <p>ロケーション：
+                                @if(!is_null($selectedItem->location))
+                                    {{ $selectedItem->location->location_code }} {{ $selectedItem->location->location_name }}
+                                @endif
+                                発注先：
+                                @if(!is_null($selectedItem->company))
+                                    {{ $selectedItem->company->name }}
+                                @endif
+                                </p>
                                 <p>
                                     <div class="p-1 border">
                                     （実在庫: {{ $selectedItem->actual_stock }} 個＋入荷待ち: {{ $pendingArrivalsQuantity }} 個）＝フリー在庫: {{ $selectedItem->actual_stock + $pendingArrivalsQuantity }} 個　発注点: {{ $selectedItem->order_point }} 個　＝＞

@@ -40,8 +40,10 @@
                                     <th>
                                         <input type="checkbox" id="{{ $selectAllCheckboxId }}" class="checkbox">
                                     </th>
-                                    @if($company->how_to_order === 'WEB')
-                                    <th>注文URL</th>
+                                    @if(!is_null($company->how_to_order))
+                                        @if($company->how_to_order === 'WEB')
+                                            <th>注文URL</th>
+                                        @endif
                                     @endif
                                     <th>資材備品名</th>
                                     <th>

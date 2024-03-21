@@ -55,8 +55,12 @@
                                         <a href="{{ route('supplyItems.edit', $order->supplyItem->id) }}" class="link" target="_blank">{{ $order->supplyItem->item_name }}</a>
                                     </td>
                                     <td>
-                                        {{ $order->supplyItem->location->location_code }} {{ $order->supplyItem->location->location_name }}<br>
-                                        {{ $order->supplyItem->company->name }}<br>
+                                        @if(!is_null($order->supplyItem->location))
+                                            {{ $order->supplyItem->location->location_code }} {{ $order->supplyItem->location->location_name }}<br>
+                                        @endif
+                                        @if(!is_null($order->supplyItem->company))
+                                            {{ $order->supplyItem->company->name }}<br>
+                                        @endif
                                         {{ $order->description }}
                                     </td>
                                     <td>{{ $order->supplyItem->actual_stock }}</td>
@@ -152,10 +156,14 @@
                                             </td>
                                         <td>
                                             <p>
-                                                {{ $item->location->location_code }} {{ $item->location->location_name }}
+                                                @if(!is_null($item->location))
+                                                    {{ $item->location->location_code }} {{ $item->location->location_name }}
+                                                @endif
                                             </p>
                                             <p>
-                                                {{ $item->company->name }}
+                                                @if(!is_null($item->company))
+                                                    {{ $item->company->name }}
+                                                @endif
                                             </p>
                                         </td>
 
