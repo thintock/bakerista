@@ -41,7 +41,7 @@
                         <label for="thumbnail" class="form-label">資材備品画像を登録してください。</label>
                         <input type="file" id="thumbnail" name="thumbnail" class="file-input file-input-bordered file-input-sm w-full" accept="image/jpeg,image/jpg,image/png">
                     </div>
-                     <div class="form-control w-1/2 mr-3">
+                     <div class="form-control w-full mb-6">
                         <input type="hidden" name="item_id" value="{{ $selectedItem->id }}">
                         <button type="submit" class="btn btn-primary">更新</button>
                     </div>
