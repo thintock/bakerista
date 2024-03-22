@@ -34,6 +34,18 @@
         </div>
             @if(!is_null($selectedItem->thumbnail))
                 <img src="{{ Storage::url($selectedItem->thumbnail) }}" alt="サムネイル" class="p-3 w-full aspect-square object-cover rounded-lg cursor-pointer" onclick="showModal('{{ Storage::url($selectedItem->thumbnail) }}')">
+            @else
+                <form action="{{ route('supplyItems.imageUpdate', $selectedItem->id) }}" id="uploadForm" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="form-group mb-4">
+                        <label for="thumbnail" class="form-label">資材備品画像を登録してください。</label>
+                        <input type="file" id="thumbnail" name="thumbnail" class="file-input file-input-bordered file-input-sm w-full" accept="image/jpeg,image/jpg,image/png">
+                    </div>
+                     <div class="form-control w-1/2 mr-3">
+                        <input type="hidden" name="item_id" value="{{ $selectedItem->id }}">
+                        <button type="submit" class="btn btn-primary">更新</button>
+                    </div>
+                </form>    
             @endif
         <!-- モーダル -->
         <div id="imageModal" class="modal flex items-center justify-center">

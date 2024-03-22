@@ -32,7 +32,24 @@ class SupplyItemsController extends Controller
         ]);
     }
 
-
+    public function imageUpdate(Request $request, SupplyItem $supplyItem)
+    {
+        $request->validate([
+            'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+        
+        $itemId = $request->input('item_id'); 
+        $supplyItem = SupplyItem::find($itemId);
+        // サムネイル画像のアップロード処理
+        if ($request->hasFile('thumbnail')) {
+            // 新しいサムネイルの保存
+            $path = $request->thumbnail->store('thumbnails');
+            $supplyItem->thumbnail =  $path;
+        }
+        $supplyItem->save();
+        
+        return redirect()->route('supplyOrders.orderRequest', ['item_id' => $supplyItem->id])->with('success', '資材備品画像を登録しました。');
+    }
     
     public function index(Request $request)
     {
@@ -293,7 +310,7 @@ class SupplyItemsController extends Controller
         return back()->withErrors('エラーが発生しました：' . $e->getMessage());
     }
     }
-
+    
     // 削除処理
     public function destroy(SupplyItem $supplyItem)
     {

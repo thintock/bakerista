@@ -55,7 +55,7 @@
 
             <div class="form-control mb-4">
                 <label for="how_to_order" class="label">注文方法</label>
-                <select id="how_to_order" name="how_to_order" class="select select-bordered">
+                <select id="how_to_order" name="how_to_order" class="select select-bordered" required>
                     <option value="">選択してください</option>
                     <option value="WEB" @if ($company->how_to_order == 'WEB') selected @endif>WEB</option>
                     <option value="FAX" @if ($company->how_to_order == 'FAX') selected @endif>FAX</option>

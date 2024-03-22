@@ -21,6 +21,9 @@ use Illuminate\Http\Request;
 // Authルーティング定義読み込み
 require __DIR__.'/auth.php';
 
+// テスト用ルーティング
+Route::get('/test', function () {return view('test');})->name('test');
+
 // auth認証のみ。管理者承認なしで表示させる。
 Route::group(['middleware' => ['auth']],function() {
    Route::delete('/users/{user}',[UsersController::class,'destroy'])->name('users.destroy');
@@ -34,6 +37,7 @@ Route::group(['middleware' => ['auth', 'approved']], function() { // , 'approved
    Route::get('/users/manage', [UsersController::class, 'manage'])->name('users.manage');
    Route::patch('/users/{user}/updateStatus', [UsersController::class, 'updateStatus'])->name('users.updateStatus');
    Route::get('/supplyItems/{id}/generateQr', [SupplyItemsController::class, 'generateQr'])->name('supplyItems.generateQr');
+   Route::post('/supplyItems/imageUpdate', [SupplyItemsController::class, 'imageUpdate'])->name('supplyItems.imageUpdate');
    Route::get('/supplyOrders/orderRequest', [SupplyOrdersController::class, 'orderRequest'])->name('supplyOrders.orderRequest');
    Route::post('/supplyOrders/storeRequest', [SupplyOrdersController::class, 'storeRequest'])->name('supplyOrders.storeRequest');
    Route::get('/supplyOrders/orderEntry', [SupplyOrdersController::class, 'orderEntry'])->name('supplyOrders.orderEntry');
