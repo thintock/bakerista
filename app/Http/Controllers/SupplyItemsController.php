@@ -34,9 +34,15 @@ class SupplyItemsController extends Controller
 
     public function imageUpdate(Request $request, SupplyItem $supplyItem)
     {
-        $request->validate([
-            'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-        ]);
+        $messages = [
+            'thumbnail.image' => 'アップロードファイルは画像でなければなりません。',
+            'thumbnail.mimes' => '対応していない画像フォーマットです。',
+            'thumbnail.max' => '画像ファイルが大きすぎます。10MB以下にしてください。',
+        ];
+    
+        $validatedData = $request->validate([
+            'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg|max:10240', 
+        ], $messages);
         
         $itemId = $request->input('item_id'); 
         $supplyItem = SupplyItem::find($itemId);
