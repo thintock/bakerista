@@ -67,10 +67,20 @@ class CompaniesController extends Controller
         return redirect()->route('companies.edit', $company->id)->with('success', '企業情報が更新されました。');
     }
 
-    public function destroy(Company $company)
+    public function destroy($id)
     {
+        $company = Company::findOrFail($id);
+        // `supply_items` テーブルに関連付けられたレコードがあるかをチェック
+        if ($company->supplyItems()->exists()) {
+            // 関連付けられたレコードが存在する場合は、削除を中止しエラーメッセージを返す
+            return redirect()->route('companies.edit', $id)->with('error', '会社情報を使用している資材備品が存在するため、削除できません。');
+        }
+    
+        // 関連付けられたレコードがなければ、企業情報を削除
         $company->delete();
-
+    
+        // 削除に成功したら、成功メッセージをセッションにフラッシュしてリダイレクト
         return redirect()->route('companies.index')->with('success', '企業情報が削除されました。');
     }
+
 }

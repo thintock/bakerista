@@ -13,4 +13,9 @@ class Location extends Model
         'location_code',
         'location_name',
     ];
+    
+    public function supplyItems()
+    {
+        return $this->hasMany(SupplyItem::class, 'location_code', 'id');
+    }
 }

@@ -28,7 +28,15 @@
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="text-xl font-semibold mb-2"><a href="{{ route('companies.edit',$company_id) }}" target="_blank" class="link">{{ $company->name ?? '未登録'; }}への発注</a>
                     <div class="badge badge-info">{{ $company->how_to_order ?? '未登録'; }}</div></h2>
-                    <div></div>
+                    <div>
+                        @if($company && $company->how_to_order === '電話')
+                            @if($company->phone_number)
+                                <div>電話番号: <a href="tel:{{ $company->phone_number }}">{{ $company->phone_number }}</a></div>
+                            @else
+                                <div>電話番号: 設定されていません</div>
+                            @endif
+                        @endif
+                    </div>
                 </div>
                 
                 <form action="{{ route('supplyOrders.storeExecute') }}" id="uploadForm" method="POST">

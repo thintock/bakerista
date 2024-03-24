@@ -22,4 +22,9 @@ class Company extends Model
         'staff_name',
         'staff_phone',
     ];
+    
+    public function supplyItems()
+    {
+        return $this->hasMany(SupplyItem::class, 'company_id', 'id');
+    }
 }

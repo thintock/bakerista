@@ -42,9 +42,19 @@ class LocationsController extends Controller
         return redirect()->route('locations.index')->with('success','ロケーションを更新しました。');
     }
 
-    public function destroy(location $location)
+    public function destroy(Location $location)
     {
+        // `supply_items`テーブルに関連付けられたレコードがあるかをチェック
+        if ($location->supplyItems()->exists()) {
+            // 関連付けられたレコードが存在する場合は、削除を中止しエラーメッセージを返す
+            return redirect()->route('locations.index')->with('error', 'ロケーションを使用している資材があるため削除できません。');
+        }
+    
+        // 関連付けられたレコードがなければ、ロケーションを削除
         $location->delete();
-        return redirect()->route('locations.index')->with('success','ロケーションが削除されました。');
+    
+        // 削除に成功したら、成功メッセージをセッションにフラッシュしてリダイレクト
+        return redirect()->route('locations.index')->with('success', 'ロケーションを削除しました。');
     }
+
 }

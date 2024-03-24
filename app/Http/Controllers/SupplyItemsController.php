@@ -90,7 +90,7 @@ class SupplyItemsController extends Controller
             $query->where('location_code', $request->location_code);
         }
     
-        $supplyItems = $query->paginate(15)->withQueryString();
+        $supplyItems = $query->orderBy('updated_at', 'desc')->paginate(50)->withQueryString();
         
         return view('supplyItems.index', compact('supplyItems', 'companies', 'locations'));
     }
