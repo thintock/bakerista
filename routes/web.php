@@ -14,6 +14,8 @@ use App\Http\Controllers\LocationsController;
 use App\Http\Controllers\CompaniesController;
 use App\Http\Controllers\SupplyItemsController;
 use App\Http\Controllers\SupplyOrdersController;
+use App\Http\Controllers\ProductItemsController;
+use App\Http\Controllers\PrintHistoriesController;
 
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
@@ -61,4 +63,7 @@ Route::group(['middleware' => ['auth', 'approved']], function() { // , 'approved
    Route::resource('companies', CompaniesController::class)->except(['show']);
    Route::resource('supplyItems', SupplyItemsController::class)->except(['show']);
    Route::resource('supplyOrders', SupplyOrdersController::class);
+   Route::resource('productItems', ProductItemsController::class)->except(['show']);
+   Route::resource('printHistories', PrintHistoriesController::class, ['only' => ['show','create','store']]);
+
 });
