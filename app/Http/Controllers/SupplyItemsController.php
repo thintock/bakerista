@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Response;
 use App\Models\SupplyOrder;
 use App\Models\SupplyItem;
 use App\Models\Location;
@@ -55,6 +56,49 @@ class SupplyItemsController extends Controller
         $supplyItem->save();
         
         return redirect()->route('supplyOrders.orderRequest', ['item_id' => $supplyItem->id])->with('success', '資材備品画像を登録しました。');
+    }
+    
+    public function downloadCsv(Request $request)
+    {
+        $fileName = 'supply_items.csv';
+        // リクエストにIDが含まれている場合、単一のSupplyItemを取得
+        if ($request->has('id')) {
+            $supplyItems = SupplyItem::where('id', $request->id)->with(['location', 'company'])->get();
+        } else {
+            // IDが含まれていない場合、全てのSupplyItemを取得
+            $supplyItems = SupplyItem::with(['location', 'company'])->get();
+        }
+    
+        $headers = [
+            "Content-type" => "text/csv",
+            "Content-Disposition" => "attachment; filename=$fileName",
+            "Pragma" => "no-cache",
+            "Cache-Control" => "must-revalidate, post-check=0, pre-check=0",
+            "Expires" => "0"
+        ];
+    
+        $callback = function() use ($supplyItems) {
+            $file = fopen('php://output', 'w');
+            // CSVヘッダー
+            fputcsv($file, ['ID', '商品名', 'URL', 'ロケーション', '会社名']);
+    
+            foreach ($supplyItems as $item) {
+                $url = route('supplyOrders.orderRequest', ['item_id' => $item->id]);
+                fputcsv($file, [
+                    $item->id,
+                    mb_substr($item->item_name, 0, 22), // 日本語20文字まで
+                    $url,
+                    $item->location ? $item->location->location_name : '',
+                    $item->company ? $item->company->name : '',
+                ]);
+            }
+            // 各カラムがnullのレコードを1行追加
+            fputcsv($file, ['', '', '', '', '']);
+            
+            fclose($file);
+        };
+    
+        return response()->stream($callback, 200, $headers);
     }
     
     public function index(Request $request)

@@ -243,6 +243,7 @@
         }
         body {
             margin: 0;
+            overflow: hidden;
         }
         .label-container {
             border: none; /* 印刷時には境界線を非表示にする */

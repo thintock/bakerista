@@ -33,6 +33,7 @@
                             <option value="使用終了" {{ $supplyItem->item_status === '使用終了' ? 'selected' : '' }}>使用終了</option>
                         </select>
                         <a href="{{ route('supplyItems.generateQr', $supplyItem->id) }}" class="btn btn-primary" target="_blanc">QRコード生成</a>
+                        <a href="{{ route('supplyItems.downloadCsv', ['id' => $supplyItem->id]) }}" class="btn btn-secondary">CSVダウンロード</a>
                     </div>
                     
                     <div class="form-group mb-4">

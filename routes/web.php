@@ -39,6 +39,7 @@ Route::group(['middleware' => ['auth', 'approved']], function() { // , 'approved
    Route::get('/users/manage', [UsersController::class, 'manage'])->name('users.manage');
    Route::patch('/users/{user}/updateStatus', [UsersController::class, 'updateStatus'])->name('users.updateStatus');
    Route::get('/supplyItems/{id}/generateQr', [SupplyItemsController::class, 'generateQr'])->name('supplyItems.generateQr');
+   Route::get('/supplyItems/downloadCsv', [SupplyItemsController::class, 'downloadCsv'])->name('supplyItems.downloadCsv');
    Route::post('/supplyItems/imageUpdate', [SupplyItemsController::class, 'imageUpdate'])->name('supplyItems.imageUpdate');
    Route::get('/supplyOrders/orderRequest', [SupplyOrdersController::class, 'orderRequest'])->name('supplyOrders.orderRequest');
    Route::post('/supplyOrders/storeRequest', [SupplyOrdersController::class, 'storeRequest'])->name('supplyOrders.storeRequest');

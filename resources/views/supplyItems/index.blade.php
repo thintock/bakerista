@@ -46,6 +46,7 @@
             <button type="submit" class="btn btn-secondary text-xs">検索</button>
             <a href="{{ route('supplyItems.index') }}" class="btn btn-info text-xs">クリア</a>
             <a href="{{ route('supplyItems.create') }}" class="btn btn-primary">新規資材・備品登録</a>
+            <a href="{{ route('supplyItems.downloadCsv') }}" class="btn btn-secondary">QR用CSV全件ダウンロード</a>
         </form>
     </div>
     <div class="overflow-x-auto">
